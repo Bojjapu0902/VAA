@@ -1,0 +1,2648 @@
+/*==========================================================================
+  VAA — Vasantha Ad Agency
+  Custom layer for VAA_Index.html
+  --------------------------------------------------------------------------
+  Loads AFTER theme.css / responsive.css. Nothing in the base template is
+  modified — every rule here is additive or a scoped override, so the
+  original Boozy pages keep working untouched.
+
+  01. Tokens & brand accent
+  02. Wordmark logo
+  03. Hero capability bar
+  04. Service grid (12 services)
+  05. Process band
+  06. Small utilities & copy tweaks
+  07. Responsive
+==========================================================================*/
+
+
+/*--------------------------------------------------------------------------
+  01. Tokens & brand accent
+--------------------------------------------------------------------------*/
+:root{
+    /* Brand accent */
+    --primary-color: #FF5100;
+    --secondary-color: #FFFFFF;
+
+    /* Display type: geometric, thin, wide — Futura-lineage (Jost) */
+    --secondary-font: 'Jost', sans-serif;
+    --secondary-font-weight: 300;
+
+    /* VAA surface scale */
+    --vaa-ink:        #0A0A0A;
+    --vaa-surface:    #111111;
+    --vaa-surface-2:  #161616;
+    --vaa-line:       rgba(255, 255, 255, 0.14);
+    --vaa-line-soft:  rgba(255, 255, 255, 0.08);
+    --vaa-muted:      rgba(255, 255, 255, 0.62);
+
+    /* Accent scale. #FF5100 clears AA on the dark ground (5.9:1), so it can
+       carry small labels as well as display type. It is bright enough that
+       anything sitting ON an accent fill takes ink, not white (6.1:1 vs 3.2:1). */
+    --vaa-accent:     #FF5100;
+    --vaa-accent-lt:  #FF7A3D;
+    --vaa-accent-dim: rgba(255, 81, 0, 0.32);
+
+    /* Height of the sticky header and the fixed legal rail — anything that
+       touches the top or bottom of the viewport reserves this much room */
+    --vaa-header-h: 136px;
+    --vaa-rail-h: 60px;
+
+    /* Spacing scale */
+    --vaa-gap:   24px;
+    --vaa-gap-l: 40px;
+
+    --vaa-ease:  cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Nav and footer links warm to the accent on hover */
+.mainMenu > ul > li > a:hover,
+.footerInfoNav a:hover,
+.aboutFooterNav a:hover{
+    color: var(--vaa-accent-lt);
+}
+
+/* Highlighted word inside the about heading */
+.abMark{ color: var(--vaa-accent); }
+
+/* The accent line of the hero headline */
+.vaaAccent{ color: var(--vaa-accent); font-weight: 700; }
+
+
+/* The Revolution Slider's caption wrappers and the owl stage both spill a
+   little past the viewport, which lets the whole page jiggle sideways on
+   phones. `clip` stops it without creating a scroll container, so it does not
+   interfere with ScrollTrigger's pinning the way overflow:hidden would. */
+.main.myScroller{ overflow-x: clip; }
+
+
+/*--------------------------------------------------------------------------
+  02. Wordmark logo
+--------------------------------------------------------------------------*/
+.header02 .logo{
+    width: auto;
+    min-width: 190px;
+}
+.vaaLogo{
+    display: block;
+    line-height: 1;
+    color: #FFFFFF;
+}
+.vaaLogo:hover{ color: #FFFFFF; opacity: 0.75; }
+
+.vaaLogoMark{
+    display: block;
+    font-family: var(--secondary-font);
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 1;
+    text-transform: uppercase;
+}
+.vaaLogoSub{
+    display: block;
+    margin-top: 6px;
+    font-family: var(--primary-font);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2.4px;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--vaa-muted);
+}
+
+/* Sidebar variant sits on the same scale, one step larger */
+.wd_logo .vaaLogoMark{ font-size: 40px; }
+
+
+/*--------------------------------------------------------------------------
+  03. Hero service bar — pinned to the bottom of the banner
+--------------------------------------------------------------------------*/
+/* The bar sits at the foot of the hero now rather than floating over the
+   footage, so it needs no scrim and no backdrop blur. */
+.vaaHeroBar{
+    position: relative;
+    flex: none;
+    padding: clamp(18px, 3vh, 32px) 0 0;
+    border-top: 1px solid var(--vaa-line);
+}
+
+.vaaHeroBarGrid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.vaaHeroBarItem{
+    position: relative;
+    padding: 4px 34px 4px 0;
+}
+.vaaHeroBarItem + .vaaHeroBarItem{
+    padding-left: 34px;
+    border-left: 1px solid var(--vaa-line-soft);
+}
+
+.vaaHeroBarItem .vhbLabel{
+    display: block;
+    margin-bottom: 10px;
+    font-family: var(--primary-font);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    transition: color 350ms var(--vaa-ease);
+}
+
+.vaaHeroBarItem .vhbTitle{
+    margin: 0;
+    font-family: var(--primary-font);
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 28px;
+    letter-spacing: -0.2px;
+    color: #FFFFFF;
+}
+.vaaHeroBarItem .vhbTitle a{
+    color: inherit;
+    font-weight: inherit;
+    display: inline;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0 1px;
+    transition: background-size 500ms var(--vaa-ease);
+}
+.vaaHeroBarItem:hover .vhbTitle a{ background-size: 100% 1px; }
+.vaaHeroBarItem:hover .vhbLabel{ color: #FFFFFF; }
+
+/* The cue is positioned against the grid, not the viewport edge */
+.vaaHeroBar > .container{ position: relative; }
+
+/* Scroll cue, bottom-right of the bar */
+.vaaScrollCue{
+    position: absolute;
+    right: 15px;
+    bottom: 100%;
+    margin-bottom: 26px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--primary-font);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+}
+.vaaScrollCue:hover{ color: #FFFFFF; }
+.vaaScrollCue i{ animation: vaaCue 1.9s var(--vaa-ease) infinite; }
+
+@keyframes vaaCue{
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    50%      { transform: translateY(6px); opacity: 0.5; }
+}
+
+
+/*--------------------------------------------------------------------------
+  04. Service cards
+  Outline icon top-left, hollow accent numeral top-right, then the title and
+  the copy. Nothing filled — the card reads as a drawing, not a badge.
+--------------------------------------------------------------------------*/
+.vaaServices .secHeading{ margin-bottom: 18px; }
+
+.vaaServicesIntro{
+    max-width: 640px;
+    margin: 0 0 54px;
+    font-size: 18px;
+    line-height: 32px;
+    color: var(--vaa-muted);
+}
+
+.vaaServiceCard{
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 34px 30px 36px;
+    background: var(--vaa-surface);
+    transition: color 450ms var(--vaa-ease);
+}
+
+/* The accent sweeps up over the card on hover */
+.vaaServiceCard::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--vaa-accent);
+    transform: translateY(101%);
+    transition: transform 600ms var(--vaa-ease);
+}
+.vaaServiceCard:hover::before,
+.vaaServiceCard:focus-within::before{ transform: translateY(0); }
+
+.vaaServiceCardTop{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+.vaaServiceIcon{
+    display: block;
+    width: 54px;
+    height: 54px;
+    flex: none;
+    color: rgba(255, 255, 255, 0.5);
+    transition: color 450ms var(--vaa-ease), transform 450ms var(--vaa-ease);
+}
+.vaaServiceIcon svg{ display: block; width: 100%; height: 100%; }
+
+/* Hollow numeral — stroke only, no fill */
+.vaaServiceNum{
+    font-family: var(--secondary-font);
+    font-size: 68px;
+    font-weight: 500;
+    line-height: 0.78;
+    letter-spacing: -1px;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 1.4px var(--vaa-accent);
+    transition: -webkit-text-stroke-color 450ms var(--vaa-ease);
+}
+
+.vaaServiceCard h3{
+    margin: 0 0 14px;
+    font-size: 27px;
+    font-weight: 400;
+    line-height: 1.24;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+.vaaServiceCard h3 a{
+    color: #FFFFFF;
+    transition: color 450ms var(--vaa-ease);
+}
+.vaaServiceCard p{
+    margin: 0;
+    font-size: 16px;
+    line-height: 28px;
+    color: var(--vaa-muted);
+    transition: color 450ms var(--vaa-ease);
+}
+
+.vaaServiceCard:hover .vaaServiceIcon{
+    color: var(--vaa-ink);
+    transform: translateY(-3px);
+}
+.vaaServiceCard:hover .vaaServiceNum{ -webkit-text-stroke-color: rgba(10, 10, 10, 0.65); }
+.vaaServiceCard:hover h3 a{ color: var(--vaa-ink); }
+.vaaServiceCard:hover p{ color: rgba(10, 10, 10, 0.86); }
+
+.vaaServicesFoot{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 46px;
+}
+.vaaServicesFoot p{
+    margin: 0;
+    font-size: 16px;
+    line-height: 28px;
+    color: var(--vaa-muted);
+}
+
+
+/*--------------------------------------------------------------------------
+  05. Process band
+--------------------------------------------------------------------------*/
+.vaaProcess{ padding: 0 0 120px; }
+
+.vaaProcessGrid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--vaa-gap-l);
+    margin-top: 54px;
+}
+
+.vaaProcessStep{
+    padding-top: 28px;
+    border-top: 1px solid var(--vaa-line);
+}
+.vaaProcessStep .vpsNum{
+    display: block;
+    margin-bottom: 22px;
+    font-family: var(--secondary-font);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2.4px;
+    color: rgba(255, 255, 255, 0.45);
+}
+.vaaProcessStep h3{
+    margin: 0 0 14px;
+    font-size: 30px;
+    line-height: 38px;
+    text-transform: uppercase;
+}
+.vaaProcessStep p{
+    margin: 0;
+    font-size: 16px;
+    line-height: 30px;
+    color: var(--vaa-muted);
+}
+
+
+/*--------------------------------------------------------------------------
+  06. Small utilities & copy tweaks
+--------------------------------------------------------------------------*/
+.vaaEyebrow{
+    display: inline-block;
+    margin-bottom: 16px;
+    font-family: var(--primary-font);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.testimonialAuthor h3 span{
+    display: block;
+    margin-top: 4px;
+    font-family: var(--primary-font);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.6px;
+    text-transform: none;
+    color: var(--vaa-muted);
+}
+
+/* Keep the focus ring visible now that the accent colour is white */
+a:focus-visible,
+button:focus-visible{
+    outline: 2px solid #FFFFFF;
+    outline-offset: 3px;
+}
+
+
+/*--------------------------------------------------------------------------
+  07. Responsive
+--------------------------------------------------------------------------*/
+@media (max-width: 1199px){
+    .vaaHeroBarItem{ padding-right: 24px; }
+    .vaaHeroBarItem + .vaaHeroBarItem{ padding-left: 24px; }
+    .vaaHeroBarItem .vhbTitle{ font-size: 17px; line-height: 26px; }
+    .vaaServiceCard{ padding: 38px 30px 34px; }
+    .vaaServiceCard h3{ font-size: 21px; line-height: 29px; }
+    .secHeading h3{ font-size: 38px; }
+}
+
+@media (max-width: 991px){
+    /* The banner shrinks on tablet — unpin the bar so nothing overlaps */
+    .vaaHeroBar{
+        position: relative;
+        bottom: auto;
+        background: var(--vaa-ink);
+        -webkit-backdrop-filter: none;
+                backdrop-filter: none;
+        padding: 40px 0 44px;
+    }
+    .vaaScrollCue{ display: none; }
+
+    .vaaHeroBarGrid{ grid-template-columns: repeat(2, 1fr); }
+    .vaaHeroBarItem{ padding: 22px 24px 22px 0; }
+    .vaaHeroBarItem + .vaaHeroBarItem{ padding-left: 0; border-left: 0; }
+    .vaaHeroBarItem:nth-child(2n){ padding-left: 24px; border-left: 1px solid var(--vaa-line-soft); }
+    .vaaHeroBarItem:nth-child(n + 3){ border-top: 1px solid var(--vaa-line-soft); }
+
+    .vaaProcessGrid{ grid-template-columns: 1fr; gap: 32px; }
+    .vaaProcess{ padding-bottom: 90px; }
+}
+
+@media (max-width: 575px){
+    .vaaLogoMark{ font-size: 28px; }
+    .vaaLogoSub{ font-size: 9px; letter-spacing: 1.8px; }
+    .header02 .logo{ min-width: 0; }
+
+    .vaaHeroBarGrid{ grid-template-columns: 1fr; }
+    .vaaHeroBarItem,
+    .vaaHeroBarItem:nth-child(2n){
+        padding: 20px 0;
+        border-left: 0;
+    }
+    .vaaHeroBarItem + .vaaHeroBarItem{ border-top: 1px solid var(--vaa-line-soft); }
+    .vaaHeroBarItem .vhbTitle{ font-size: 18px; line-height: 27px; }
+
+    .vaaServiceCard{ padding: 34px 26px 30px; }
+    .vaaServicesIntro{ margin-bottom: 40px; font-size: 16px; line-height: 30px; }
+    .vaaProcessStep h3{ font-size: 26px; line-height: 34px; }
+}
+
+/*--------------------------------------------------------------------------
+  08. Accent behaviour
+  The template fills its active states with --primary-color and sets the
+  label to #FFF. White on #FF5100 is only 3.2:1, so every filled state flips
+  its content to ink instead — 6.1:1, and a sharper look besides.
+--------------------------------------------------------------------------*/
+
+/* Anything sitting on an accent fill takes ink, not white */
+.boozyBTN:hover,
+.boozyBTN:hover i,
+.aboutContent .boozyBTN:hover i,
+.vaaServicesFoot .boozyBTN:hover i,
+#backtotop,
+#backtotop i,
+.playBTn01:hover,
+.playBTn01:hover i,
+.solidBTn:hover,
+.normalBTN:hover,
+.boozyPagination .nav-links span.current,
+.boozyPagination .nav-links a:hover{ color: var(--vaa-ink); }
+
+/* Work filters — dim the inactive so "active" reads at a glance */
+.projectCat_area ul li{
+    color: rgba(255, 255, 255, 0.3);
+    transition: color 350ms var(--vaa-ease);
+}
+.projectCat_area ul li:hover{ color: rgba(255, 255, 255, 0.62); }
+.projectCat_area ul li.pjFilterItem.current a,
+.projectCat_area ul li.filterBTN.active a{ color: var(--vaa-accent); }
+
+/* Accent tint on the small uppercase labels */
+.vaaHeroBarItem .vhbLabel,
+.vaaEyebrow,
+.vaaProcessStep .vpsNum,
+.vaaLogoSub{ color: var(--vaa-accent-lt); }
+.vaaHeroBarItem:hover .vhbLabel{ color: #FFFFFF; }
+.vaaScrollCue:hover{ color: var(--vaa-accent-lt); }
+
+/* Tighten the gap the intro paragraph inherits from .serviceHd02Row */
+.vaaServices .serviceHd02Row{ margin-bottom: 0; }
+
+/* In-page nav: ease the jump and keep targets clear of the sticky header */
+html{ scroll-behavior: smooth; }
+#about, #services, #contact{ scroll-margin-top: 132px; }
+#heroTop{ scroll-margin-top: 0; }
+
+@media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+}
+
+
+/*--------------------------------------------------------------------------
+  09. Display typography
+  Headings move from the condensed face to Jost — a Futura-lineage geometric
+  sans — set light and wide, so the page reads the way the reference does.
+--------------------------------------------------------------------------*/
+h1, h2, h3, h4, h5, h6{
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+/* Hero headline. The template indents any <span> in this layer by 103px and
+   clamps the tracking negative — both fight the wide, thin reference look. */
+.boozyBH1.textLayer{
+    font-weight: 300 !important;
+    letter-spacing: 0.5px !important;
+}
+.boozyBH1.textLayer .vaaAccent{ padding-left: 0; }
+
+/* Section headings — a modest title on a hairline, led by an accent tick.
+   The old 46px display size shouted over the content it was introducing. */
+.secHeading{
+    align-items: baseline;
+    border-bottom-color: var(--vaa-line);
+    padding-bottom: 16px;
+}
+.secHeading h3{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: clamp(19px, 2.9vh, 30px);
+    font-weight: 300;
+    letter-spacing: 2.6px;
+    line-height: 1.2;
+}
+.secHeading h3::before{
+    content: "";
+    flex: none;
+    width: clamp(18px, 2.6vh, 30px);
+    height: 1px;
+    background: var(--vaa-accent);
+}
+.secHeadingAside{
+    font-family: var(--primary-font);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.38);
+    white-space: nowrap;
+}
+.secHeading .button-text span{ letter-spacing: 1.6px; }
+
+/* Large editorial type */
+.aboutContent h2,
+.testimonial_items h2{
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+.about_cusWidget h3{ font-weight: 300; letter-spacing: 2px; }
+.projectCat_area ul li{ font-weight: 300; letter-spacing: 2px; }
+.ps_item_name{ font-weight: 400; letter-spacing: 1.4px; }
+.vaaProcessStep h3{ font-weight: 300; letter-spacing: 1.6px; }
+
+/* Small headings need a touch more weight to hold at these sizes */
+.vaaServiceCard h3,
+.testimonialAuthor h3,
+.icon_box_2 h4,
+.ps_auth_name{ font-weight: 400; }
+
+/* The wordmark stays the one place with real weight */
+.vaaLogoMark{ font-weight: 400; letter-spacing: 4px; }
+
+/* Respect users who ask for less motion */
+@media (prefers-reduced-motion: reduce){
+    .vaaScrollCue i{ animation: none; }
+    .vaaServiceCard::before,
+    .vaaServiceIcon,
+    .vaaHeroBarItem .vhbTitle a{ transition: none; }
+}
+
+
+/* AOS keys off vertical scroll position, so it never fires inside the stage.
+   Nothing in there should start invisible. */
+@media (min-width: 992px){
+    .is-stack .vaaStageTrack [data-aos]{
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
+
+/* A pinned sideways stage cannot be driven by the keyboard the way a vertical
+   page can, so reduced motion gets the ordinary stacked page. */
+@media (prefers-reduced-motion: reduce){
+    .is-stack .vaaStageTrack{ display: block; width: auto; }
+    .is-stack .vaaStagePanel{ width: auto; flex-basis: auto; height: auto; }
+}
+
+
+/*==========================================================================
+  12. Fixed legal rail
+  The counterpart to the sticky header: copyright left, social right, pinned
+  to the bottom of the viewport at every breakpoint. It sits outside .main so
+  no ancestor's overflow or transform can capture its fixed positioning.
+==========================================================================*/
+.vaaFootRail{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9990;
+    height: var(--vaa-rail-h);
+    display: flex;
+    align-items: center;
+    padding: 0;
+    background: var(--vaa-ink);
+    border-top: 1px solid var(--vaa-line-soft);
+}
+.vaaFootRail > .container{ width: 100%; }
+
+.vaaFootRailInner{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.vaaFootRail .siteInfo{
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--vaa-muted);
+    white-space: nowrap;
+}
+.vaaFootRail .siteInfo a{ color: #FFFFFF; font-weight: 500; }
+.vaaFootRail .siteInfo a:hover{ color: var(--vaa-accent-lt); }
+
+.vaaFootRail .footerInfoNav ul{
+    display: flex;
+    align-items: center;
+    gap: 34px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.vaaFootRail .footerInfoNav a{
+    font-family: var(--primary-font);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--vaa-muted);
+}
+.vaaFootRail .footerInfoNav a:hover{ color: var(--vaa-accent-lt); }
+
+/* Everything that reaches the bottom of the viewport keeps clear of the rail */
+.main{ padding-bottom: var(--vaa-rail-h); }
+#backtotop{ bottom: calc(28px + var(--vaa-rail-h)); }
+.vaaHeroBar{ padding-bottom: calc(16px + var(--vaa-rail-h)); }
+
+@media (max-width: 767px){
+    :root{ --vaa-rail-h: 52px; }
+    .vaaFootRailInner{ gap: 14px; }
+    .vaaFootRail .siteInfo{ font-size: 11px; white-space: normal; }
+    .vaaFootRail .footerInfoNav ul{ gap: 16px; }
+    .vaaFootRail .footerInfoNav a{ font-size: 10px; letter-spacing: 1px; }
+}
+@media (max-width: 479px){
+    /* Four social labels and a copyright line will not share 320px — the
+       copyright is the one that can be dropped without losing a link. */
+    .vaaFootRail .siteInfo{ display: none; }
+    .vaaFootRailInner{ justify-content: center; }
+}
+
+
+/*==========================================================================
+  13. About — editorial split
+  A tall image column with an inset overlap, against a copy column carrying
+  the statement, the four pillars and the link. Replaces the template's
+  two-thumbnail row, which read as cramped once the section became a panel.
+==========================================================================*/
+.vaaAbout{ background: var(--vaa-surface); }
+
+.vaaAboutHead{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 20px;
+    margin-bottom: clamp(26px, 5vh, 56px);
+    border-bottom: 1px solid var(--vaa-line);
+}
+.vaaAboutHead .vaaEyebrow{ margin-bottom: 0; }
+.vaaAboutIndex{
+    font-family: var(--primary-font);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.vaaAboutGrid{
+    display: grid;
+    grid-template-columns: minmax(0, 0.86fr) minmax(0, 1fr);
+    gap: clamp(40px, 7vw, 110px);
+    align-items: center;
+}
+
+/* --- media ------------------------------------------------------------ */
+.vaaAboutMedia{
+    position: relative;
+    padding-bottom: 64px;
+}
+.vaaAboutImg{
+    margin: 0;
+    overflow: hidden;
+}
+.vaaAboutImg img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.vaaAboutImg--tall{
+    aspect-ratio: 4 / 5;
+    margin-left: auto;
+    width: 84%;
+}
+.vaaAboutImg--inset{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 46%;
+    aspect-ratio: 1 / 1;
+    border: 8px solid var(--vaa-surface);
+}
+/* A single accent hairline ties the two frames together */
+.vaaAboutMedia::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 12%;
+    width: 2px;
+    height: 34%;
+    background: var(--vaa-accent);
+}
+
+/* --- copy ------------------------------------------------------------- */
+.vaaAboutBody h2{
+    margin: 0 0 clamp(14px, 2.4vh, 24px);
+    font-size: clamp(28px, 4.4vh, 48px);
+    font-weight: 300;
+    line-height: 1.24;
+    letter-spacing: 0.5px;
+}
+.vaaAboutBody > p{
+    margin: 0 0 clamp(22px, 4vh, 40px);
+    max-width: 46em;
+    font-size: clamp(14px, 2vh, 17px);
+    line-height: 1.8;
+    color: var(--vaa-muted);
+}
+
+.vaaAboutPillars{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    margin: 0 0 clamp(22px, 4vh, 40px);
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--vaa-line-soft);
+    border-bottom: 1px solid var(--vaa-line-soft);
+}
+.vaaAboutPillars li{
+    flex: 1 1 0;
+    min-width: 108px;
+    padding: clamp(12px, 2.2vh, 20px) 14px clamp(12px, 2.2vh, 20px) 0;
+    font-family: var(--secondary-font);
+    font-size: clamp(15px, 2.2vh, 19px);
+    font-weight: 300;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+}
+.vaaAboutPillars li + li{
+    padding-left: 20px;
+    border-left: 1px solid var(--vaa-line-soft);
+}
+.vaaAboutPillars .vapNum{
+    display: block;
+    margin-bottom: 6px;
+    font-family: var(--primary-font);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    color: var(--vaa-accent-lt);
+}
+
+.vaaTextLink{
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 8px;
+    font-family: var(--secondary-font);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    border-bottom: 1px solid var(--vaa-line);
+    transition: color 350ms var(--vaa-ease), border-color 350ms var(--vaa-ease);
+}
+.vaaTextLink i{
+    font-size: 26px;
+    line-height: 1;
+    transform: rotate(-46.97deg);
+    transition: transform 400ms var(--vaa-ease);
+}
+.vaaTextLink:hover{
+    color: var(--vaa-accent);
+    border-color: var(--vaa-accent);
+}
+.vaaTextLink:hover i{ transform: rotate(-46.97deg) translateX(5px); }
+
+@media (max-width: 991px){
+    .vaaAbout{ padding: 90px 0; }
+    .vaaAboutGrid{
+        grid-template-columns: 1fr;
+        gap: 44px;
+    }
+    .vaaAboutMedia{ max-width: 520px; }
+}
+@media (max-width: 575px){
+    .vaaAboutImg--tall{ width: 100%; }
+    .vaaAboutImg--inset{ display: none; }
+    .vaaAboutMedia{ padding-bottom: 0; }
+    .vaaAboutMedia::before{ display: none; }
+    .vaaAboutPillars li{ flex: 1 1 46%; }
+    .vaaAboutPillars li:nth-child(3){ padding-left: 0; border-left: 0; }
+    .vaaAboutPillars li:nth-child(n + 3){ border-top: 1px solid var(--vaa-line-soft); }
+}
+
+
+/*==========================================================================
+  14. Services stack
+  Three rows of four cards. On desktop the section pins and each row slides up
+  over the one before it, centred in the viewport; the horizontal track picks
+  up once the last row has landed. Without the script the rows are just three
+  ordinary grids stacked down the page.
+==========================================================================*/
+.vaaStackRow{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--vaa-line-soft);
+    border: 1px solid var(--vaa-line-soft);
+}
+.vaaStackRow + .vaaStackRow{ margin-top: 1px; }
+
+/* Four across is the stack's whole shape, so it holds down to 992px and only
+   breaks apart once the stack itself is switched off. */
+@media (max-width: 991px){
+    .vaaStackRow{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 575px){
+    .vaaStackRow{ grid-template-columns: 1fr; }
+}
+
+@media (min-width: 992px){
+
+    /* The stage holds About and Services side by side and is the thing that
+       pins. One transform drives the horizontal move; the rows animate with y
+       inside it, so nothing needs position:fixed under a transformed parent. */
+    .is-stack .vaaStage{
+        position: relative;
+        height: 100vh;
+        overflow: hidden;
+    }
+    .is-stack .vaaStageTrack{
+        display: flex;
+        flex-wrap: nowrap;
+        /* the script counts the panels and sets --vaa-stage-panels */
+        width: calc(100vw * var(--vaa-stage-panels, 2));
+        height: 100%;
+        will-change: transform;
+    }
+    .is-stack .vaaStagePanel{
+        flex: 0 0 100vw;
+        width: 100vw;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding: 148px 0 calc(30px + var(--vaa-rail-h));
+        overflow: hidden;
+    }
+    .is-stack .vaaStagePanel > .container{ width: 100%; }
+
+    /* Services needs its heading pinned to the top and the rows centred in
+       whatever height is left, so it stretches rather than centres. */
+    .is-stack .vaaStack.vaaStagePanel{
+        align-items: stretch;
+        padding: 132px 0 calc(24px + var(--vaa-rail-h));
+    }
+    .is-stack .vaaStack > .container{
+        display: flex;
+        flex-direction: column;
+    }
+    .is-stack .vaaStack .secHeading{
+        flex: none;
+        padding-bottom: clamp(12px, 2vh, 18px);
+        margin-bottom: 0;
+    }
+
+    /* The rows share one box and are centred in what is left */
+    .is-stack .vaaStackViewport{
+        position: relative;
+        flex: 1;
+        min-height: 0;
+    }
+    .is-stack .vaaStackRow{
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        margin-top: 0;
+        background: var(--vaa-ink);
+    }
+    .is-stack .vaaStackRow[data-stack-row="0"]{ z-index: 1; }
+    .is-stack .vaaStackRow[data-stack-row="1"]{ z-index: 2; }
+    .is-stack .vaaStackRow[data-stack-row="2"]{ z-index: 3; }
+
+    /* Each incoming row casts a shadow onto the one it covers */
+    .is-stack .vaaStackRow[data-stack-row="1"],
+    .is-stack .vaaStackRow[data-stack-row="2"]{
+        box-shadow: 0 -30px 60px rgba(0, 0, 0, 0.65);
+    }
+
+    /* --- About: the media column stretches, the copy centres against it */
+    .is-stack .vaaAbout > .container{
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    /* The media column is a fixed box the images live INSIDE, so neither the
+       tall frame nor the overlapping inset can push past the panel. */
+    .is-stack .vaaAbout .vaaAboutGrid{ flex: 1; min-height: 0; align-items: stretch; }
+    .is-stack .vaaAbout .vaaAboutMedia{
+        position: relative;
+        height: 100%;
+        padding-bottom: 0;
+        overflow: hidden;
+    }
+    .is-stack .vaaAbout .vaaAboutImg--tall{
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 78%;
+        height: auto;
+        aspect-ratio: auto;
+        margin: 0;
+    }
+    .is-stack .vaaAbout .vaaAboutImg--inset{
+        left: 0;
+        bottom: 0;
+        width: 44%;
+        aspect-ratio: 1 / 1;
+        max-height: 46%;
+    }
+    .is-stack .vaaAbout .vaaAboutMedia::before{ top: 8%; height: 30%; }
+    .is-stack .vaaAbout .vaaAboutBody{ align-self: center; }
+    .is-stack .vaaAbout .vaaAboutBody h2{
+        font-size: clamp(26px, 4.4vh, 48px);
+        margin-bottom: clamp(12px, 2.2vh, 24px);
+    }
+    .is-stack .vaaAbout .vaaAboutBody > p{
+        font-size: clamp(13px, 1.9vh, 17px);
+        margin-bottom: clamp(18px, 3.4vh, 40px);
+    }
+    .is-stack .vaaAbout .vaaAboutPillars{ margin-bottom: clamp(18px, 3.4vh, 40px); }
+    .is-stack .vaaAbout .vaaAboutPillars li{
+        padding-top: clamp(10px, 2vh, 20px);
+        padding-bottom: clamp(10px, 2vh, 20px);
+        font-size: clamp(14px, 2vh, 19px);
+    }
+    .is-stack .vaaAbout .vaaAboutHead{ margin-bottom: clamp(18px, 4vh, 56px); }
+
+    /* --- Selected work: a list, centred in the panel ------------------ */
+    .is-stack .vaaWorkPanel > .container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+    }
+    .is-stack .vaaWorkPanel .secHeading{
+        flex: none;
+        margin-bottom: clamp(14px, 3vh, 34px);
+    }
+
+    /* --- Contact: info left, map right ------------------------------- */
+    .is-stack .vaaStageContact{
+        flex-direction: column;
+        justify-content: center;
+        padding: 148px 0 calc(30px + var(--vaa-rail-h));
+    }
+    .is-stack .vaaStageContact > .container{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
+    .is-stack .vaaStageContact .secHeading{ flex: none; margin-bottom: clamp(16px, 3.4vh, 40px); }
+    .is-stack .vaaContactGrid{ flex: 1; min-height: 0; }
+    /* The map takes whatever height is left rather than adding its own */
+    .is-stack .vaaContactMap{ height: 100%; }
+
+    /* Card metrics scale with the viewport — three rows have to share it */
+    .is-stack .vaaServiceCard{ padding: clamp(20px, 3.2vh, 34px) clamp(20px, 1.9vw, 32px); }
+    .is-stack .vaaServiceCardTop{ margin-bottom: clamp(14px, 2.8vh, 30px); }
+    .is-stack .vaaServiceIcon{
+        width:  clamp(44px, 6.6vh, 62px);
+        height: clamp(44px, 6.6vh, 62px);
+    }
+    .is-stack .vaaServiceNum{ font-size: clamp(48px, 7.6vh, 74px); }
+    .is-stack .vaaServiceCard h3{
+        font-size: clamp(19px, 2.7vh, 27px);
+        margin-bottom: clamp(8px, 1.4vh, 14px);
+    }
+    .is-stack .vaaServiceCard p{
+        font-size: clamp(13px, 1.75vh, 16px);
+        line-height: 1.7;
+    }
+}
+
+
+/* Small laptops still get four across, so the cards give up type size */
+@media (min-width: 992px) and (max-width: 1279px){
+    .is-stack .vaaServiceCard{ padding: 20px 18px 22px; }
+    .is-stack .vaaServiceIcon{ width: 40px; height: 40px; }
+    .is-stack .vaaServiceNum{ font-size: 44px; }
+    .is-stack .vaaServiceCard h3{ font-size: 17px; letter-spacing: 0.8px; }
+    .is-stack .vaaServiceCard p{ font-size: 13px; line-height: 1.6; }
+    .is-stack .vaaServiceCardTop{ margin-bottom: 14px; }
+}
+
+
+/*==========================================================================
+  15. Short-viewport trim
+  On a 1366x768 or 1440x720 laptop the three stacked rows are the tightest
+  thing on the page, so the cards give up a little padding there — and only
+  there.
+==========================================================================*/
+@media (min-width: 992px) and (max-height: 800px){
+    .is-stack .vaaServiceCard{ padding: 16px 20px; }
+    .is-stack .vaaServiceCardTop{ margin-bottom: 12px; }
+    .is-stack .vaaServiceCard p{ line-height: 1.6; }
+}
+
+
+/*==========================================================================
+  16. Selected work — list with a cursor preview
+  Rows rather than a grid: title left, category, arrow right, hairline
+  between. Hovering a row floods it with the brand accent and lifts a
+  preview of the project that trails the cursor.
+==========================================================================*/
+.vaaWorkList{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--vaa-line-soft);
+}
+
+.vaaWorkLink{
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: clamp(16px, 3vw, 48px);
+    padding: clamp(10px, 1.9vh, 24px) clamp(16px, 2.4vw, 34px);
+    border-bottom: 1px solid var(--vaa-line-soft);
+    color: inherit;
+    font-weight: 400;
+    transition: color 400ms var(--vaa-ease);
+}
+
+/* The accent floods in from the left */
+.vaaWorkLink::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: var(--vaa-accent);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 620ms var(--vaa-ease);
+}
+.vaaWorkLink:hover::before,
+.vaaWorkLink:focus-visible::before{ transform: scaleX(1); }
+
+.vaaWorkLink > *{ position: relative; z-index: 1; }
+
+.vaaWorkTitle{
+    font-family: var(--secondary-font);
+    font-size: clamp(20px, 3.4vh, 38px);
+    font-weight: 300;
+    line-height: 1.15;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.62);
+    transition: color 400ms var(--vaa-ease);
+}
+.vaaWorkMeta{
+    font-family: var(--primary-font);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: rgba(255, 255, 255, 0.34);
+    transition: color 400ms var(--vaa-ease);
+}
+
+.vaaWorkArrow{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(38px, 5vh, 52px);
+    height: clamp(38px, 5vh, 52px);
+    flex: none;
+    color: rgba(255, 255, 255, 0.42);
+    background: transparent;
+    transition: background 400ms var(--vaa-ease), color 400ms var(--vaa-ease);
+}
+.vaaWorkArrow i{
+    font-size: clamp(24px, 3.4vh, 34px);
+    line-height: 1;
+    transform: rotate(-46.97deg);
+    display: block;
+}
+
+/* Hovered row: ink on accent, and the arrow becomes a solid ink tile */
+.vaaWorkLink:hover .vaaWorkTitle,
+.vaaWorkLink:focus-visible .vaaWorkTitle{ color: var(--vaa-ink); }
+.vaaWorkLink:hover .vaaWorkMeta,
+.vaaWorkLink:focus-visible .vaaWorkMeta{ color: rgba(10, 10, 10, 0.7); }
+.vaaWorkLink:hover .vaaWorkArrow,
+.vaaWorkLink:focus-visible .vaaWorkArrow{
+    background: var(--vaa-ink);
+    color: var(--vaa-accent);
+}
+
+/* Thumbnail rides along on touch layouts, where there is no cursor */
+.vaaWorkThumb{ display: none; }
+.vaaWorkThumb img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/*--- the cursor preview ---------------------------------------------------
+  Fixed to the viewport and parked outside .main, so the horizontal track's
+  transform cannot become its containing block. */
+.vaaWorkPeek{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9985;
+    width: 260px;
+    height: 260px;
+    margin: 0;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -50%) scale(0.86) rotate(-7deg);
+    transition: opacity 420ms var(--vaa-ease), transform 520ms var(--vaa-ease), visibility 0s linear 420ms;
+}
+.vaaWorkPeek.is-on{
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1) rotate(-4deg);
+    transition: opacity 320ms var(--vaa-ease), transform 520ms var(--vaa-ease), visibility 0s;
+}
+.vaaWorkPeek img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* the accent sits just behind, offset — the same trick as the reference */
+    box-shadow: 10px 10px 0 0 var(--vaa-accent);
+}
+
+@media (max-width: 991px){
+    /* No cursor to follow, so each row carries its own thumbnail */
+    .vaaWorkPeek{ display: none; }
+    .vaaWorkLink{
+        grid-template-columns: auto 1fr auto;
+        gap: 18px;
+        padding: 16px 14px;
+    }
+    .vaaWorkThumb{
+        display: block;
+        width: 74px;
+        height: 74px;
+        flex: none;
+        overflow: hidden;
+    }
+    .vaaWorkMeta{ display: none; }
+    .vaaWorkTitle{ font-size: 22px; }
+}
+@media (max-width: 575px){
+    .vaaWorkThumb{ width: 58px; height: 58px; }
+    .vaaWorkTitle{ font-size: 19px; }
+    .vaaWorkArrow{ width: 34px; height: 34px; }
+    .vaaWorkArrow i{ font-size: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .vaaWorkLink::before{ transition: none; }
+    .vaaWorkPeek{ display: none; }
+}
+
+
+/*==========================================================================
+  17. Contact panel
+  A spec-sheet list on the left against a map that fills the column. Stacking
+  the three blocks above a fixed-height map made the panel taller than the
+  viewport; side by side, its height is bounded by the frame.
+==========================================================================*/
+.vaaContactGrid{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(28px, 5vw, 88px);
+    align-items: stretch;
+}
+
+.vaaContactCol{
+    display: flex;
+    flex-direction: column;
+    /* list at the top, the call to action anchored at the foot, so the column
+       reads as deliberate rather than leaving a gap under short content */
+    justify-content: space-between;
+    min-width: 0;
+}
+
+.vaaContactList{
+    margin: 0;
+    border-top: 1px solid var(--vaa-line-soft);
+}
+.vaaContactRow{
+    display: grid;
+    grid-template-columns: minmax(120px, 0.62fr) minmax(0, 1fr);
+    gap: 20px;
+    align-items: baseline;
+    padding: clamp(12px, 2.2vh, 20px) 0;
+    border-bottom: 1px solid var(--vaa-line-soft);
+}
+.vaaContactRow dt{
+    margin: 0;
+    font-family: var(--primary-font);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--vaa-accent-lt);
+}
+.vaaContactRow dd{
+    margin: 0;
+    font-size: clamp(14px, 1.95vh, 17px);
+    line-height: 1.55;
+    color: #FFFFFF;
+}
+.vaaContactRow dd a,
+.vaaContactRow dd span{ display: block; color: inherit; font-weight: 400; }
+.vaaContactRow dd a:hover{ color: var(--vaa-accent-lt); }
+
+.vaaContactCta{ align-self: flex-start; margin-top: clamp(18px, 3.4vh, 38px); }
+@media (max-width: 991px){ .vaaContactCol{ justify-content: flex-start; } }
+
+/* The template gives .contact-googleMap a hard 558px. Rather than fight that
+   with percentage heights — which need a definite parent at every step — the
+   map is pinned to a wrapper whose height the layout controls. */
+.vaaContactMap{
+    position: relative;
+    min-width: 0;
+    min-height: 220px;
+    overflow: hidden;
+    border: 1px solid var(--vaa-line-soft);
+}
+.vaaContactMap .contact-googleMap{
+    position: absolute;
+    inset: 0;
+    width: auto;
+    height: auto;
+    margin: 0;
+}
+.vaaContactMap iframe{
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    /* greyscale keeps the map from fighting the accent */
+    filter: grayscale(1) contrast(0.9) brightness(0.85);
+}
+
+@media (max-width: 991px){
+    .vaaContactGrid{ grid-template-columns: 1fr; gap: 32px; }
+    .vaaContactMap{ height: 280px; }
+}
+@media (max-width: 575px){
+    .vaaContactRow{ grid-template-columns: 1fr; gap: 6px; }
+    .vaaContactMap{ height: 220px; }
+}
+
+
+/*==========================================================================
+  18. Scroll progress
+  Once the sections travel sideways the browser's scrollbar stops describing
+  anything a reader can use. A hairline under the header does.
+==========================================================================*/
+.vaaProgress{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9995;
+    height: 2px;
+    background: transparent;
+    pointer-events: none;
+}
+.vaaProgressBar{
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--vaa-accent);
+    transform: scaleX(0);
+    transform-origin: left center;
+}
+
+
+/*==========================================================================
+  19. Hero
+  The video fills the band between the header and the capability bar, with the
+  title over it. A one-sided scrim darkens only the column the type occupies,
+  so the footage stays clean on the side where nothing covers it.
+==========================================================================*/
+.vaaHero{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: var(--vaa-header-h, 136px);
+    background: var(--vaa-ink);
+    overflow: hidden;
+}
+
+.vaaHeroStage{
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    /* the title sits at the foot of the footage */
+    align-items: flex-end;
+    overflow: hidden;
+    background: #000;
+}
+.vaaHeroStage > .container{
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding-bottom: clamp(26px, 5.4vh, 68px);
+}
+
+.vaaHeroVideo{
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* The title moved to the foot, so the shading follows it: a bottom-up wash
+   that protects the type, plus a light left wash. The upper two thirds of the
+   frame stay untouched. */
+.vaaHeroScrim{
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+        linear-gradient(0deg,
+            rgba(10, 10, 10, 0.88) 0%,
+            rgba(10, 10, 10, 0.62) 18%,
+            rgba(10, 10, 10, 0.20) 38%,
+            rgba(10, 10, 10, 0)    58%),
+        linear-gradient(90deg,
+            rgba(10, 10, 10, 0.42) 0%,
+            rgba(10, 10, 10, 0.12) 40%,
+            rgba(10, 10, 10, 0)    64%);
+}
+
+.vaaHeroTitle{
+    margin: 0;
+    max-width: 16em;
+    font-family: var(--secondary-font);
+    font-size: clamp(32px, 6.4vh, 74px);
+    font-weight: 300;
+    line-height: 1.06;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
+}
+.vaaHeroTitle .vaaAccent{ color: var(--vaa-accent); }
+
+/* Sound toggle — bottom right of the video, where it was.
+   Autoplay is muted by browser policy; this is the gesture allowed to
+   turn it on. */
+.vaaSound{
+    position: absolute;
+    right: clamp(16px, 2.4vw, 40px);
+    bottom: clamp(16px, 2.6vh, 32px);
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 15px 9px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(10, 10, 10, 0.55);
+    -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+    color: #FFFFFF;
+    font-family: var(--primary-font);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 320ms var(--vaa-ease), color 320ms var(--vaa-ease),
+                border-color 320ms var(--vaa-ease);
+}
+.vaaSound:hover{
+    background: var(--vaa-accent);
+    border-color: var(--vaa-accent);
+    color: var(--vaa-ink);
+}
+.vaaSound svg{ display: block; width: 18px; height: 18px; }
+
+/* muted by default: waves hidden, cross shown — and the reverse once on */
+.vaaSoundWaves{ opacity: 0; }
+.vaaSoundCross{ opacity: 1; }
+.vaaSound.is-on .vaaSoundWaves{ opacity: 1; }
+.vaaSound.is-on .vaaSoundCross{ opacity: 0; }
+.vaaSound.is-on{
+    background: var(--vaa-accent);
+    border-color: var(--vaa-accent);
+    color: var(--vaa-ink);
+}
+
+@media (max-width: 991px){
+    :root{ --vaa-header-h: 108px; }
+    /* The capability bar stacks tall on narrow screens; if the stage stays a
+       flex child it gets squeezed to nothing, so give it its own height. */
+    .vaaHero{ min-height: 0; }
+    .vaaHeroStage{
+        flex: none;
+        min-height: 60vh;
+    }
+    /* The title runs the full width once stacked, so the toggle moves to the
+       top of the frame rather than sitting on top of it. */
+    .vaaSound{
+        top: clamp(14px, 2.4vh, 22px);
+        bottom: auto;
+    }
+    .vaaHeroTitle{ font-size: clamp(28px, 7.4vw, 48px); }
+    /* the type needs the whole width once the stage narrows */
+    .vaaHeroScrim{
+        background: linear-gradient(0deg,
+            rgba(10, 10, 10, 0.88) 0%,
+            rgba(10, 10, 10, 0.55) 30%,
+            rgba(10, 10, 10, 0.18) 55%,
+            rgba(10, 10, 10, 0.30) 100%);
+    }
+    .vaaHeroStage > .container{ padding-bottom: 26px; }
+}
+@media (max-width: 575px){
+    .vaaSoundLabel{ display: none; }
+    .vaaSound{ padding: 10px; }
+}
+
+
+/*==========================================================================
+  20. RNO1 design-system layer
+  --------------------------------------------------------------------------
+  Adopted wholesale from rno1.com, measured off the live site rather than
+  eyeballed:
+
+      canvas          #1D1C1F      body background
+      band            #000000      the alternating pure-black section
+      body / heading  #FFFFFF      16px / 26px / +0.32px tracking
+      secondary       #777C81      captions, descriptors, muted copy
+      display ghost   #575B5F      the giant uppercase section titles
+      soft            #D4D5DA      hairline dividers, quiet UI
+      accent          #9747FF      RNO1's purple — see the swap below
+
+  Two typefaces, exactly as RNO1 uses them: a neutral geometric grotesque
+  (Saans there, General Sans here — the closest freely-licensed cut) for
+  every piece of UI and body copy, and one very large uppercase display face
+  for section titles, set at 0.88 line-height in the ghost grey so it reads
+  as architecture rather than as a heading.
+
+  The one deliberate departure: the accent slot keeps VAA's #FF5100 instead
+  of RNO1's purple, so the brand survives the transplant. Swapping the two
+  values on the next block is the whole change if you want the purple.
+==========================================================================*/
+:root{
+    /* --- accent -------------------------------------------------------- */
+    --vaa-accent:      #FF5100;   /* VAA brand — swap for #9747FF for RNO1's purple */
+    --vaa-accent-lt:   #FF7A3D;
+    --vaa-accent-dim:  rgba(255, 81, 0, 0.30);
+    --primary-color:   #FF5100;
+
+    /* --- RNO1 neutral scale -------------------------------------------- */
+    --vaa-ink:         #1D1C1F;
+    --vaa-surface:     #000000;
+    --vaa-surface-2:   #232227;
+    --vaa-ghost:       #575B5F;
+    --vaa-soft:        #D4D5DA;
+    --vaa-muted:       #777C81;
+    --vaa-line:        rgba(255, 255, 255, 0.10);
+    --vaa-line-soft:   rgba(255, 255, 255, 0.06);
+
+    /* --- type ---------------------------------------------------------- */
+    /* The fallbacks matter here: this runs off a local XAMPP root, so the two
+       webfonts come over the network and the stack has to degrade to
+       something with the right proportions if that ever fails — a neutral
+       grotesque for UI, a condensed heavy for display. */
+    --primary-font:    'General Sans', 'Jost', 'Helvetica Neue', Arial, sans-serif;
+    --secondary-font:  'General Sans', 'Jost', 'Helvetica Neue', Arial, sans-serif;
+    --vaa-display:     'Anton', 'Archivo Black', 'Haettenschweiler', Impact, 'Jost', sans-serif;
+    --secondary-font-weight: 400;
+
+    /* RNO1 sets body at 16/26 with 2% tracking — the whole page inherits it */
+    --vaa-body-size:   16px;
+    --vaa-body-lh:     26px;
+    --vaa-body-ls:     0.32px;
+
+    --vaa-radius:      8px;   /* RNO1's single corner radius, buttons included */
+}
+
+body,
+body.page{
+    background: var(--vaa-ink);
+    font-family: var(--primary-font);
+    font-size: var(--vaa-body-size);
+    line-height: var(--vaa-body-lh);
+    letter-spacing: var(--vaa-body-ls);
+    color: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+}
+p{ color: var(--vaa-muted); letter-spacing: var(--vaa-body-ls); }
+
+h1, h2, h3, h4, h5, h6{
+    font-family: var(--primary-font);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: #FFFFFF;
+}
+
+/* Nav sits at body size on RNO1, not at label size */
+.mainMenu > ul > li > a{
+    font-family: var(--primary-font);
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: 0.32px;
+    font-weight: 400;
+    text-transform: none;
+    color: #FFFFFF;
+}
+.mainMenu > ul > li.current-menu-item > a{ color: var(--vaa-accent); }
+
+
+/*--------------------------------------------------------------------------
+  20.1  Giant display titles
+  RNO1 runs section titles at 180-330px in the ghost grey. Inside VAA's
+  100vh horizontal panels that has to be viewport-relative, so the size is
+  driven by vh and capped — the proportions (0.88 leading, uppercase, ghost
+  grey, no rule beneath) are what carry the reference across.
+--------------------------------------------------------------------------*/
+.secHeading{
+    align-items: flex-end;
+    border-bottom: 0;
+    padding-bottom: clamp(10px, 1.6vh, 20px);
+    margin-bottom: clamp(14px, 2.6vh, 34px);
+}
+.secHeading h3{
+    display: block;
+    gap: 0;
+    font-family: var(--vaa-display);
+    font-size: clamp(52px, 13vh, 158px);
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+    color: var(--vaa-ghost);
+}
+.secHeading h3::before{ display: none; }
+
+.secHeadingAside{
+    font-family: var(--primary-font);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+    letter-spacing: 0.32px;
+    text-transform: none;
+    color: var(--vaa-muted);
+}
+
+
+/*--------------------------------------------------------------------------
+  20.2  Hero
+  The video keeps its frame; the title takes the display face so the first
+  thing on the page is the same kind of object as every section title.
+--------------------------------------------------------------------------*/
+.vaaHero{ background: var(--vaa-ink); }
+
+.vaaHeroTitle{
+    max-width: 14em;
+    font-family: var(--vaa-display);
+    font-size: clamp(48px, 13.6vh, 168px);
+    font-weight: 400;
+    line-height: 0.94;
+    letter-spacing: 0.035em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
+}
+.vaaAccent{ color: var(--vaa-accent); font-weight: 400; }
+
+.vaaHeroBar{ border-top: 1px solid var(--vaa-line); }
+.vhbLabel{
+    font-family: var(--primary-font);
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: 0.32px;
+    text-transform: none;
+    color: var(--vaa-accent);
+}
+.vaaHeroBarItem .vhbTitle a{
+    font-family: var(--primary-font);
+    font-weight: 400;
+    letter-spacing: 0.32px;
+    color: var(--vaa-muted);
+}
+.vaaHeroBarItem:hover .vhbTitle a{ color: #FFFFFF; }
+
+
+/*--------------------------------------------------------------------------
+  20.3  Buttons — RNO1's are a single shape: 8px radius, 10/24 padding,
+  body-size label. Filled for the primary, hairline for everything else.
+--------------------------------------------------------------------------*/
+.hdSupportBtn,
+.vaaBtn{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    border: 1px solid transparent;
+    border-radius: var(--vaa-radius);
+    background: var(--vaa-accent);
+    color: var(--vaa-ink);
+    font-family: var(--primary-font);
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: 0.32px;
+    font-weight: 500;
+    text-transform: none;
+    transition: background 320ms var(--vaa-ease), color 320ms var(--vaa-ease), border-color 320ms var(--vaa-ease);
+}
+.hdSupportBtn:hover,
+.vaaBtn:hover{ background: var(--vaa-accent-lt); color: var(--vaa-ink); }
+
+.vaaBtn--ghost{
+    background: transparent;
+    border-color: var(--vaa-line);
+    color: #FFFFFF;
+}
+.vaaBtn--ghost:hover{
+    background: transparent;
+    border-color: #FFFFFF;
+    color: #FFFFFF;
+}
+
+
+/*--------------------------------------------------------------------------
+  20.4  Placeholders in place of photography
+  RNO1's tiles read as flat accent rectangles until their media loads. The
+  brief asked for placeholders, so that state is made permanent: a flat
+  block, a hairline, and the item's own label sitting in the corner.
+--------------------------------------------------------------------------*/
+.vaaPh{
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: var(--vaa-radius);
+    background: var(--vaa-accent);
+    isolation: isolate;
+}
+.vaaPh img{ display: none !important; }
+.vaaPh::after{
+    content: attr(data-ph);
+    position: absolute;
+    left: 16px;
+    bottom: 12px;
+    font-family: var(--primary-font);
+    font-size: 13px;
+    letter-spacing: 0.32px;
+    color: rgba(29, 28, 31, 0.72);
+}
+
+/* About media */
+.vaaAboutImg{ background: var(--vaa-accent); border-radius: var(--vaa-radius); overflow: hidden; }
+.vaaAboutImg img{ display: none; }
+.vaaAboutImg--tall{ min-height: clamp(180px, 34vh, 380px); }
+.vaaAboutImg--inset{ background: var(--vaa-surface-2); border: 1px solid var(--vaa-line); }
+
+/* Work list thumbnails (touch layouts) */
+.vaaWorkThumb{ background: var(--vaa-accent); border-radius: 4px; }
+.vaaWorkThumb img{ display: none; }
+
+/* The cursor preview becomes a flat tile carrying the project name, sized
+   16:9 like RNO1's work grid rather than the old square crop. */
+.vaaWorkPeek{
+    width: 340px;
+    height: 212px;
+    border-radius: var(--vaa-radius);
+    background: var(--vaa-accent);
+    overflow: hidden;
+}
+.vaaWorkPeek img{ display: none; }
+.vaaWorkPeek::after{
+    content: attr(data-label);
+    position: absolute;
+    left: 18px;
+    bottom: 14px;
+    font-family: var(--primary-font);
+    font-size: 15px;
+    letter-spacing: 0.32px;
+    color: rgba(29, 28, 31, 0.78);
+}
+
+
+/*--------------------------------------------------------------------------
+  20.5  Work list, RNO1 cut
+  Name in white, descriptor in the secondary grey, on one line — the caption
+  pattern from their work grid, applied to VAA's row list.
+--------------------------------------------------------------------------*/
+.vaaWorkList{ border-top: 1px solid var(--vaa-line); }
+.vaaWorkLink{ border-bottom: 1px solid var(--vaa-line); }
+.vaaWorkTitle{
+    font-family: var(--primary-font);
+    font-size: clamp(20px, 3.2vh, 34px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: #FFFFFF;
+}
+.vaaWorkMeta{
+    font-family: var(--primary-font);
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 400;
+    letter-spacing: 0.32px;
+    text-transform: none;
+    color: var(--vaa-muted);
+}
+.vaaWorkArrow{ color: var(--vaa-muted); }
+
+
+/*--------------------------------------------------------------------------
+  20.6  Cards, contact and rail on the new neutrals
+--------------------------------------------------------------------------*/
+.vaaAbout{ background: var(--vaa-surface); }
+.vaaServices{ background: var(--vaa-ink); }
+.vaaWorkPanel{ background: var(--vaa-surface); }
+.vaaStageContact{ background: var(--vaa-ink); }
+
+.vaaStackRow{ background: var(--vaa-line-soft); border-color: var(--vaa-line); }
+.vaaServiceCard{ background: var(--vaa-ink); }
+.vaaServiceCard h3 a{ color: #FFFFFF; font-weight: 500; letter-spacing: -0.02em; }
+.vaaServiceCard p{ color: var(--vaa-muted); }
+.vaaServiceNum{ color: var(--vaa-ghost); font-family: var(--vaa-display); }
+.vaaServiceIcon{ color: var(--vaa-muted); }
+.vaaServiceCard:hover .vaaServiceIcon{ color: var(--vaa-accent); }
+
+.vaaAboutBody h2{
+    font-family: var(--primary-font);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: #FFFFFF;
+}
+.vaaAboutBody p{ color: var(--vaa-muted); }
+.vapNum{ color: var(--vaa-ghost); font-family: var(--vaa-display); }
+
+.vaaContactList dt{ color: var(--vaa-muted); letter-spacing: 0.32px; text-transform: none; font-size: 16px; }
+.vaaContactList dd,
+.vaaContactList dd a{ color: #FFFFFF; }
+.vaaFootRail{ background: var(--vaa-ink); border-top: 1px solid var(--vaa-line); }
+.vaaFootRail .siteInfo,
+.footerInfoNav a{ color: var(--vaa-muted); letter-spacing: 0.32px; text-transform: none; font-size: 15px; }
+
+
+/*--------------------------------------------------------------------------
+  20.7  Split-text scaffolding
+  The splitter wraps lines in a clipping mask and words/characters in their
+  own inline blocks, so a transform on one never disturbs the next. Nothing
+  here hides text on its own — the initial state is set from JS, so the copy
+  stays readable if the script never runs.
+--------------------------------------------------------------------------*/
+.vaaLine{
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.08em;   /* descenders would otherwise clip in the mask */
+    margin-bottom: -0.08em;
+}
+.vaaLineIn{ display: block; will-change: transform; }
+.vaaWord,
+.vaaChar{
+    display: inline-block;
+    /* An inline-block sits ON the baseline, so its parent's line box also
+       reserves the descender space beneath it — which at a 140px display
+       size and 0.9 leading made a split heading twice as tall as the same
+       heading unsplit. Aligning to the top removes that reservation. */
+    vertical-align: top;
+    white-space: pre;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+}
+[data-split]{ perspective: 900px; }
+
+/* Fitted by JS to the column width — it can no longer wrap, by construction */
+.vaaFitted{ white-space: nowrap; }
+.vaaSplitDone [data-split]{ perspective: none; }
+
+
+/*--------------------------------------------------------------------------
+  20.8  Responsive
+--------------------------------------------------------------------------*/
+@media (max-width: 991px){
+    .secHeading h3{ font-size: clamp(40px, 11.5vw, 84px); letter-spacing: 0.035em; }
+    .vaaHeroTitle{ font-size: clamp(38px, 12vw, 88px); letter-spacing: 0.028em; }
+    .vaaWorkPeek{ display: none; }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .vaaLine{ overflow: visible; }
+    .vaaWord, .vaaChar{ transform: none !important; opacity: 1 !important; }
+}
+
+
+/*--------------------------------------------------------------------------
+  20.9  Contact panel, re-fitted
+  The RNO1 body size (16/26) is generous, and three spec rows plus a display
+  title at 7vh no longer cleared a 700px-tall panel. Labels drop to RNO1's
+  quiet grey at a smaller step, the rows lose a little air, and the column
+  is allowed to shrink so the map — not the copy — absorbs what is left.
+--------------------------------------------------------------------------*/
+.vaaContactGrid{ align-items: stretch; min-height: 0; }
+.vaaContactCol{ min-height: 0; }
+
+.vaaContactRow{
+    grid-template-columns: minmax(92px, 0.5fr) minmax(0, 1fr);
+    gap: 16px;
+    padding: clamp(7px, 1.4vh, 15px) 0;
+}
+.vaaContactRow dt,
+.vaaContactList dt{
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.32px;
+    text-transform: none;
+    color: var(--vaa-muted);
+}
+.vaaContactRow dd,
+.vaaContactList dd{
+    font-size: clamp(13px, 1.7vh, 16px);
+    line-height: 1.4;
+}
+.vaaContactCta{ margin-top: clamp(12px, 2vh, 26px); }
+
+/* The map is the elastic half of the pair */
+.vaaContactMap{ min-height: 180px; }
+
+/* At RNO1's button size the header CTA no longer fits beside the logo and the
+   menu control on a phone — the hamburger carries it from here down. */
+@media (max-width: 767px){
+    .hdSupportBtn{ display: none; }
+}
+
+/* Six work rows plus a 8.4vh display title is 18px over the frame on a
+   700px-tall laptop — the rows give the difference back. */
+.vaaWorkLink{ padding-top: clamp(8px, 1.65vh, 24px); padding-bottom: clamp(8px, 1.65vh, 24px); }
+
+/* Short laptop screens: the display titles are sized off viewport height, so
+   at 100vh the panel gains title and loses content at the same rate. Below
+   ~820px the title takes a lower cap and the work rows tighten, which is the
+   difference between six rows fitting and six rows not. */
+@media (min-width: 992px) and (max-height: 820px){
+    .secHeading h3{ font-size: clamp(48px, 11.4vh, 96px); }
+    .vaaHeroTitle{ font-size: clamp(44px, 12vh, 104px); }
+    .vaaWorkLink{ padding-top: clamp(7px, 1.45vh, 24px); padding-bottom: clamp(7px, 1.45vh, 24px); }
+}
+
+
+/*==========================================================================
+  21. Services page — the RNO1 /services presentation
+  --------------------------------------------------------------------------
+  Measured off rno1.com/services rather than eyeballed. Their page is three
+  things repeated:
+
+    · a page title at display scale in the ghost grey (362px there), with
+      nothing else competing for the top of the page;
+    · per package, a two-column split — a STICKY card on the left (423px
+      wide: a flat accent tile, a name and a descriptor) that stays put while
+      the right column's capability stack scrolls past it, so the package you
+      are reading is always named on screen;
+    · inside that right column, a giant ghost package name followed by
+      groups of `h3` + a plain list of capability lines set at 20/30 in the
+      secondary grey — no cards, no icons, no rules. The list IS the layout.
+
+  Then a numbered block with the numerals at display scale, and a very large
+  two-word outro. VAA's twelve services regroup into the three packages
+  without changing a word of what each one does.
+
+  Unlike the index this is an ordinary vertical page, so nothing here has to
+  survive a pinned, transformed ancestor — position:sticky works normally.
+==========================================================================*/
+.vaaPage{ background: var(--vaa-ink); }
+.vaaMain{ padding-bottom: calc(40px + var(--vaa-rail-h)); }
+
+
+/*--------------------------------------------------------------------------
+  21.1  Page head
+--------------------------------------------------------------------------*/
+.vaaPageHead{
+    padding-top: calc(var(--vaa-header-h, 136px) + clamp(24px, 6vh, 76px));
+    padding-bottom: clamp(30px, 7vh, 96px);
+}
+.vaaPageTitle{
+    margin: 0;
+    font-family: var(--vaa-display);
+    /* RNO1 runs this at 362px on a 1280 canvas — 22vw lands in the same
+       place and keeps scaling instead of overflowing narrow screens. */
+    font-size: clamp(64px, 22vw, 300px);
+    font-weight: 400;
+    line-height: 0.84;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--vaa-ghost);
+}
+.vaaPageHeadFoot{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: clamp(20px, 4vh, 48px);
+    padding-top: clamp(18px, 3vh, 34px);
+    border-top: 1px solid var(--vaa-line);
+}
+.vaaPageLede{
+    max-width: 46ch;
+    margin: 0;
+    font-size: clamp(17px, 1.6vw, 22px);
+    line-height: 1.55;
+    letter-spacing: -0.01em;
+    color: var(--vaa-soft);
+}
+
+
+/*--------------------------------------------------------------------------
+  21.2  Package — sticky card against a scrolling capability stack
+--------------------------------------------------------------------------*/
+.vaaPkg{
+    display: grid;
+    grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+    gap: clamp(32px, 6vw, 116px);
+    align-items: start;
+    padding: clamp(40px, 8vh, 110px) 0;
+    border-top: 1px solid var(--vaa-line);
+}
+
+.vaaPkgAside{ min-width: 0; }
+.vaaPkgCard{
+    display: block;
+    /* clears the sticky header, and the rail at the foot */
+    position: sticky;
+    top: calc(var(--vaa-header-h, 136px) + 28px);
+}
+.vaaPkgTile{
+    display: block;
+    aspect-ratio: 3 / 2;
+    margin-bottom: 18px;
+}
+.vaaPkgCardName{
+    display: block;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    color: #FFFFFF;
+}
+.vaaPkgCardMeta{
+    display: block;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+    color: var(--vaa-muted);
+}
+
+.vaaPkgBody{ min-width: 0; }
+.vaaPkgName{
+    margin: 0 0 clamp(26px, 5vh, 64px);
+    font-family: var(--vaa-display);
+    font-size: clamp(52px, 11vw, 172px);
+    font-weight: 400;
+    line-height: 0.86;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--vaa-ghost);
+}
+
+
+/*--------------------------------------------------------------------------
+  21.3  Capability groups — a heading and a plain list, nothing else
+--------------------------------------------------------------------------*/
+.vaaSvcGroup + .vaaSvcGroup{ margin-top: clamp(28px, 5vh, 58px); }
+
+.vaaSvcGroup h3{
+    margin: 0 0 14px;
+    font-family: var(--primary-font);
+    font-size: clamp(20px, 1.9vw, 24px);
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+    color: #FFFFFF;
+}
+.vaaSvcCaps{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.vaaSvcCaps li{
+    font-size: clamp(17px, 1.6vw, 20px);
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+    color: var(--vaa-muted);
+    transition: color 260ms var(--vaa-ease);
+}
+/* A quiet hover: the line you are on comes up to white, the rest stay put */
+.vaaSvcGroup:hover .vaaSvcCaps li{ color: var(--vaa-ghost); }
+.vaaSvcCaps li:hover{ color: #FFFFFF; }
+
+
+/*--------------------------------------------------------------------------
+  21.4  How we work — numerals at display scale
+--------------------------------------------------------------------------*/
+.vaaProcess{
+    padding: clamp(44px, 9vh, 120px) 0 clamp(30px, 6vh, 80px);
+    border-top: 1px solid var(--vaa-line);
+}
+.vaaProcGrid{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(30px, 5vw, 88px) clamp(32px, 6vw, 120px);
+    margin: clamp(20px, 4vh, 52px) 0 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: none;
+}
+.vaaProcStep{ min-width: 0; }
+.vaaProcNum{
+    display: block;
+    font-family: var(--vaa-display);
+    font-size: clamp(56px, 9vw, 150px);
+    line-height: 0.86;
+    letter-spacing: 0.02em;
+    color: var(--vaa-ghost);
+}
+.vaaProcStep h4{
+    margin: clamp(10px, 1.6vh, 18px) 0 8px;
+    font-family: var(--primary-font);
+    font-size: clamp(20px, 1.9vw, 24px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: #FFFFFF;
+}
+.vaaProcStep p{
+    margin: 0;
+    max-width: 44ch;
+    font-size: clamp(16px, 1.5vw, 19px);
+    line-height: 1.55;
+    letter-spacing: -0.01em;
+    color: var(--vaa-muted);
+}
+
+
+/*--------------------------------------------------------------------------
+  21.5  Outro — two words, as big as the frame allows
+--------------------------------------------------------------------------*/
+.vaaOutro{
+    padding: clamp(40px, 8vh, 110px) 0 clamp(24px, 5vh, 60px);
+    border-top: 1px solid var(--vaa-line);
+}
+.vaaOutroTitle{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0 clamp(20px, 6vw, 90px);
+    margin: 0;
+    font-family: var(--vaa-display);
+    font-size: clamp(52px, 9.5vw, 152px);
+    font-weight: 400;
+    line-height: 0.86;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--vaa-ghost);
+}
+.vaaOutroFoot{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: clamp(22px, 4vh, 50px);
+    padding-top: clamp(18px, 3vh, 32px);
+    border-top: 1px solid var(--vaa-line);
+}
+.vaaOutroFoot p{ margin: 0; color: var(--vaa-muted); }
+.vaaOutroFoot a[href^="tel"]{ color: #FFFFFF; }
+.vaaOutroFoot a[href^="tel"]:hover{ color: var(--vaa-accent); }
+
+/* Back-to-top only once there is something to go back to */
+.vaaPage #backtotop{ opacity: 0; visibility: hidden; transition: opacity 320ms var(--vaa-ease), visibility 0s linear 320ms; }
+.vaaPage #backtotop.vaaOn{ opacity: 1; visibility: visible; transition: opacity 320ms var(--vaa-ease), visibility 0s; }
+
+
+/*--------------------------------------------------------------------------
+  21.6  Responsive
+  Below 992px the sticky card stops being useful — there is no second column
+  for it to sit beside — so it becomes an ordinary heading block.
+--------------------------------------------------------------------------*/
+@media (max-width: 991px){
+    .vaaPkg{
+        grid-template-columns: 1fr;
+        gap: 26px;
+        padding: clamp(32px, 6vh, 64px) 0;
+    }
+    .vaaPkgCard{ position: static; }
+    .vaaPkgTile{ max-width: 320px; }
+    .vaaPkgName{ font-size: clamp(46px, 15vw, 110px); }
+    .vaaProcGrid{ gap: 34px; }
+}
+
+@media (max-width: 767px){
+    .vaaProcGrid{ grid-template-columns: 1fr; }
+    .vaaPageHeadFoot,
+    .vaaOutroFoot{ flex-direction: column; align-items: flex-start; }
+    .vaaOutroTitle{ justify-content: flex-start; gap: 0 18px; }
+}
+
+/* The ordinary pages do not load the template's theme.js, so they carry no
+   off-canvas panel and no hamburger to open one — the four nav items stay
+   visible and simply wrap. */
+.vaaPage .header02 .mainMenu{ display: block; }
+.vaaPage .header02 .mainMenu ul{ display: flex; flex-wrap: wrap; }
+@media (max-width: 991px){
+    .vaaPage .headerInner02{ flex-wrap: wrap; row-gap: 10px; }
+    .vaaPage .mainMenu > ul > li > a{ font-size: 15px; }
+    .vaaPage .header02 .logo{ min-width: 0; }
+    .vaaPage .header02 .logo img{ margin-left: 0 !important; }
+}
+
+/* The template's sticky header is switched on by theme.js, which these pages
+   do not load — so they pin it themselves. The page head already reserves
+   --vaa-header-h at the top, so taking the header out of flow costs nothing. */
+.vaaPage .header02{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    background: var(--vaa-ink);
+    border-bottom: 1px solid var(--vaa-line);
+}
+
+
+/*==========================================================================
+  22. Selected work — the rno1.com/work tile grid
+  --------------------------------------------------------------------------
+  Card anatomy measured off their grid, not approximated:
+
+      card        585 x 430, no radius of its own
+      media tile  585 x 390  →  exactly 3:2, 8px radius, overflow hidden
+      inner media 649 x 433  →  already scaled ~1.11 inside the tile, which
+                                is where their hover zoom has room to move
+      caption     one row, 8px under the tile: name #FFF 20px, then the
+                  discipline in the secondary grey at the same size
+      grid        2 columns, 32px gutter, 64px between rows
+
+  One deliberate departure. Their /work is a tall scrolling page, so two
+  columns of 430px cards can run as long as they like. This section is a
+  100vh panel on the horizontal stage, so the same six cards run three
+  across instead of two — and the tile is sized from viewport HEIGHT, with
+  the columns derived from it at 3:2, so two rows always clear the frame
+  rather than being cropped by it. Everything else is theirs.
+==========================================================================*/
+.vaaWorkGrid{
+    /* RNO1's own grid: two columns, a 32px gutter, 64px between rows. The
+       tile is width-driven at 3:2 — nothing here is fitted to the frame any
+       more, because the grid is no longer asked to fit it. It runs as tall as
+       it needs and the panel scrolls through it. */
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(32px, 4.4vw, 64px) clamp(18px, 2.4vw, 32px);
+}
+
+.vaaWorkCard{
+    display: block;
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+}
+.vaaWorkCard:hover,
+.vaaWorkCard:focus-visible{ color: inherit; }
+
+.vaaWorkCardMedia{
+    position: relative;
+    display: block;
+    aspect-ratio: 3 / 2;
+    border-radius: var(--vaa-radius);
+    background: var(--vaa-accent);
+    overflow: hidden;
+}
+/* The image is the inner layer, and it is what moves on hover — scaling the
+   tile itself would drag the caption and the grid gap with it. The accent
+   stays behind as the ground the picture loads onto, so a slow image reads
+   as a brand tile rather than a hole. */
+.vaaWorkCardZoom{
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1);
+    transition: transform 760ms var(--vaa-ease);
+}
+.vaaWorkCard:hover .vaaWorkCardZoom,
+.vaaWorkCard:focus-visible .vaaWorkCardZoom{ transform: scale(1.08); }
+
+/* The tiles carry real photography now, so nothing about them is a
+   placeholder: no label, and the .vaaPh rule that hides an <img> must not
+   reach them. The accent remains only as the loading ground. */
+.vaaWorkCardMedia::after{ content: none; }
+.vaaWorkCardMedia img{ display: block !important; }
+
+.vaaWorkCardCap{
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 8px;
+    min-width: 0;
+}
+.vaaWorkCardName{
+    flex: none;
+    font-family: var(--primary-font);
+    font-size: clamp(15px, 1.25vw, 20px);
+    font-weight: 500;
+    line-height: 1.64;
+    letter-spacing: -0.01em;
+    color: #FFFFFF;
+    transition: color 320ms var(--vaa-ease);
+}
+.vaaWorkCardMeta{
+    min-width: 0;
+    font-family: var(--primary-font);
+    font-size: clamp(14px, 1.15vw, 20px);
+    font-weight: 400;
+    line-height: 1.64;
+    letter-spacing: -0.01em;
+    color: var(--vaa-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.vaaWorkCard:hover .vaaWorkCardName,
+.vaaWorkCard:focus-visible .vaaWorkCardName{ color: var(--vaa-accent); }
+
+/* Reveal state — set from JS, but declared here so the intent is readable */
+.vaaWorkGrid > .vaaWorkCard{ will-change: transform, opacity; }
+
+
+/*--------------------------------------------------------------------------
+  22.1  Responsive
+  Off the horizontal stage there is no fixed frame to fit, so the grid drops
+  to RNO1's own two columns and the tile goes back to being width-driven.
+--------------------------------------------------------------------------*/
+@media (max-width: 991px){
+    .vaaWorkGrid{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 34px 22px;
+    }
+    .vaaWorkCardName{ font-size: 17px; }
+    .vaaWorkCardMeta{ font-size: 16px; }
+}
+@media (max-width: 575px){
+    .vaaWorkGrid{ grid-template-columns: 1fr; gap: 26px; }
+    .vaaWorkCardCap{ flex-wrap: wrap; gap: 0 8px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .vaaWorkCardZoom{ transition: none; }
+}
+
+
+/*--------------------------------------------------------------------------
+  22.2  Work intro — the lede and the category pill
+  RNO1 stacks these: the lede under the title, then the filter centred on its
+  own line. Here they share one row. That is not a stylistic preference — the
+  section is a fixed-height panel, and a second stacked row costs about 60px
+  that would otherwise be tile.
+--------------------------------------------------------------------------*/
+.vaaWorkIntro{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 28px;
+    margin: clamp(6px, 1.2vh, 16px) 0 clamp(16px, 2.8vh, 34px);
+}
+
+.vaaWorkLede{
+    margin: 0;
+    max-width: 58ch;
+    font-size: clamp(14px, 1.35vw, 18px);
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    color: var(--vaa-muted);
+}
+/* RNO1's lede leads with a short set of full-stopped words in white, then
+   drops to the secondary grey for the sentence that follows. */
+.vaaWorkLedeLead{ color: #FFFFFF; font-weight: 500; }
+
+/*--- the pill ------------------------------------------------------------*/
+.vaaWorkFilter{ position: relative; flex: none; }
+
+.vaaFilterBtn{
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 168px;
+    justify-content: space-between;
+    padding: 9px 18px;
+    border: 1px solid var(--vaa-line);
+    border-radius: var(--vaa-radius);
+    background: var(--vaa-surface-2);
+    color: #FFFFFF;
+    font-family: var(--primary-font);
+    font-size: clamp(14px, 1.2vw, 16px);
+    line-height: 1.6;
+    letter-spacing: 0.32px;
+    cursor: pointer;
+    transition: border-color 260ms var(--vaa-ease), background 260ms var(--vaa-ease);
+}
+.vaaFilterBtn:hover{ border-color: rgba(255, 255, 255, 0.26); }
+.vaaWorkFilter.is-open .vaaFilterBtn{ border-color: var(--vaa-accent); }
+
+.vaaFilterChev{
+    width: 16px;
+    height: 16px;
+    flex: none;
+    transform: rotate(180deg);
+    transition: transform 280ms var(--vaa-ease);
+}
+.vaaWorkFilter.is-open .vaaFilterChev{ transform: rotate(0deg); }
+
+.vaaFilterMenu{
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 6px);
+    right: 0;
+    min-width: 100%;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    border: 1px solid var(--vaa-line);
+    border-radius: var(--vaa-radius);
+    background: var(--vaa-surface-2);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+}
+.vaaFilterMenu button{
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    border: 0;
+    border-radius: 5px;
+    background: transparent;
+    color: var(--vaa-muted);
+    font-family: var(--primary-font);
+    font-size: clamp(14px, 1.2vw, 16px);
+    line-height: 1.5;
+    letter-spacing: 0.32px;
+    text-align: left;
+    cursor: pointer;
+    transition: background 200ms var(--vaa-ease), color 200ms var(--vaa-ease);
+}
+.vaaFilterMenu button:hover{ background: rgba(255, 255, 255, 0.06); color: #FFFFFF; }
+.vaaFilterMenu button[aria-selected="true"]{ color: var(--vaa-accent); }
+
+@media (max-width: 767px){
+    .vaaWorkIntro{ flex-direction: column; align-items: flex-start; }
+    .vaaFilterBtn{ min-width: 150px; }
+    .vaaFilterMenu{ right: auto; left: 0; }
+}
+
+/* The work panel lays out as a column that fills the frame, so the grid's own
+   box IS the space left for the tiles — which is what lets vaa-work.js size
+   them by measurement instead of by a chain of guessed constants. */
+@media (min-width: 992px){
+    .is-stack .vaaWorkPanel > .container{
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    /* The frame the grid is read through. Its height is whatever the panel
+       has left after the title, the lede and the filter; the scroller inside
+       is as tall as the grid, and the stage timeline translates it. */
+    .is-stack .vaaWorkPanel .vaaWorkViewport{
+        position: relative;
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow: hidden;
+        /* Rows dissolve at both edges of the frame rather than being
+           guillotined by it — which is what reads as "there is more here"
+           instead of "this is cut off". Weighted to the bottom, where the
+           unread rows are. */
+        -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 4%, #000 90%, transparent 100%);
+                mask-image: linear-gradient(180deg, transparent 0%, #000 4%, #000 90%, transparent 100%);
+    }
+    .is-stack .vaaWorkPanel .vaaWorkScroll{ will-change: transform; }
+
+}
+
+/* Off the stage the viewport is just a wrapper — the grid flows down the page
+   like any other section. */
+.vaaWorkViewport,
+.vaaWorkScroll{ min-width: 0; }
+
+@media (max-width: 575px){
+    .vaaWorkGrid{ gap: 26px; }
+}
+
+/* Short frames: a 3:2 tile in a full-width two-column grid is 386px tall, so
+   on a 700px-tall laptop the panel's frame (284px) could not show one whole
+   card — you would scroll past cards you never saw complete. Tying the grid's
+   width to viewport height keeps a card-and-a-half in view at every height,
+   which is what makes the scroll readable rather than a letterbox. */
+@media (min-width: 992px) and (max-height: 900px){
+    .is-stack .vaaWorkPanel .vaaWorkGrid{
+        max-width: min(100%, calc(96vh + 32px));
+    }
+}
+
+
+/*==========================================================================
+  23. Case study page
+  --------------------------------------------------------------------------
+  The template's own case-study order, rebuilt in the VAA system: title, a
+  four-up fact row, the hero frame, the challenge, two supporting frames, the
+  result. Nothing here is hard-coded — every field is filled from
+  data/works.json by vaa-works.js, chosen by the ?id= in the URL.
+==========================================================================*/
+.vaaCasePage .vaaMain{ padding-bottom: calc(40px + var(--vaa-rail-h)); }
+
+.vaaCaseHead{ padding-bottom: clamp(22px, 5vh, 60px); }
+
+.vaaCrumb{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: clamp(14px, 2.6vh, 30px);
+    font-size: 15px;
+    letter-spacing: 0.32px;
+    color: var(--vaa-muted);
+}
+.vaaCrumb a{ color: var(--vaa-muted); }
+.vaaCrumb a:hover{ color: #FFFFFF; }
+.vaaCrumb span[aria-hidden]{ color: var(--vaa-ghost); }
+.vaaCrumb [data-case="crumb"]{ color: #FFFFFF; }
+
+/*--------------------------------------------------------------------------
+  23.1  The four-up fact row
+--------------------------------------------------------------------------*/
+.vaaCaseFacts{
+    padding: clamp(24px, 5vh, 54px) 0;
+    border-top: 1px solid var(--vaa-line);
+    border-bottom: 1px solid var(--vaa-line);
+}
+.vaaCaseFactGrid{
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(20px, 3vw, 48px);
+}
+.vaaCaseFact h3{
+    margin: 0 0 6px;
+    font-family: var(--primary-font);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.32px;
+    color: var(--vaa-muted);
+}
+.vaaCaseFact p{
+    margin: 0;
+    font-size: clamp(16px, 1.5vw, 20px);
+    font-weight: 500;
+    line-height: 1.45;
+    letter-spacing: -0.02em;
+    color: #FFFFFF;
+}
+
+/*--------------------------------------------------------------------------
+  23.2  Frames
+  Every image in the folder is 3:2, so the frames declare it — the picture
+  fills its box with no crop and no letterbox, and the box reserves its space
+  before the file arrives, so nothing jumps as the page loads.
+--------------------------------------------------------------------------*/
+.vaaCaseFrame{
+    display: block;
+    margin: 0;
+    aspect-ratio: 3 / 2;
+    border-radius: var(--vaa-radius);
+    background: var(--vaa-surface-2);
+    overflow: hidden;
+}
+.vaaCaseFrame img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.vaaCaseHero{ padding: clamp(30px, 6vh, 76px) 0 0; }
+
+.vaaCaseGallery{ padding: clamp(24px, 5vh, 60px) 0; }
+.vaaCaseGalleryGrid{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(18px, 2.4vw, 32px);
+}
+
+/*--------------------------------------------------------------------------
+  23.3  Prose — one measured column, as the template has it
+--------------------------------------------------------------------------*/
+.vaaCaseProse{ padding: clamp(28px, 6vh, 76px) 0; }
+.vaaCaseProseInner{ max-width: 62ch; margin: 0 auto; }
+
+.secHeading-plain{
+    margin: 0 0 clamp(12px, 2vh, 22px);
+    font-family: var(--vaa-display);
+    font-size: clamp(30px, 4.4vw, 64px);
+    font-weight: 400;
+    line-height: 0.94;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--vaa-ghost);
+}
+.vaaCaseProseInner p{
+    margin: 0;
+    font-size: clamp(16px, 1.5vw, 20px);
+    line-height: 1.65;
+    letter-spacing: -0.01em;
+    color: var(--vaa-soft);
+}
+.vaaCaseRole{
+    margin-top: clamp(18px, 3vh, 32px) !important;
+    padding-top: clamp(14px, 2.4vh, 24px);
+    border-top: 1px solid var(--vaa-line);
+    font-size: 16px !important;
+    color: var(--vaa-muted) !important;
+}
+.vaaCaseRole span{ color: var(--vaa-muted); }
+.vaaCaseRole em{ font-style: normal; color: #FFFFFF; }
+
+/*--------------------------------------------------------------------------
+  23.4  Next project
+--------------------------------------------------------------------------*/
+.vaaCaseNext{ padding: clamp(20px, 4vh, 48px) 0 0; border-top: 1px solid var(--vaa-line); }
+.vaaCaseNextLink{
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: clamp(14px, 3vw, 40px);
+    padding: clamp(16px, 3vh, 30px) 0;
+    color: inherit;
+}
+.vaaCaseNextLabel{
+    grid-column: 1 / -1;
+    font-size: 15px;
+    letter-spacing: 0.32px;
+    color: var(--vaa-muted);
+}
+.vaaCaseNextTitle{
+    font-family: var(--primary-font);
+    font-size: clamp(22px, 3.4vw, 44px);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: #FFFFFF;
+    transition: color 320ms var(--vaa-ease);
+}
+.vaaCaseNextMeta{
+    font-size: clamp(15px, 1.3vw, 18px);
+    letter-spacing: -0.01em;
+    color: var(--vaa-muted);
+    white-space: nowrap;
+}
+.vaaCaseNextLink:hover .vaaCaseNextTitle{ color: var(--vaa-accent); }
+.vaaCaseNextLink .vaaWorkArrow{ color: var(--vaa-muted); }
+.vaaCaseNextLink:hover .vaaWorkArrow{ color: var(--vaa-accent); }
+
+/*--------------------------------------------------------------------------
+  23.5  Responsive
+--------------------------------------------------------------------------*/
+@media (max-width: 991px){
+    .vaaCaseFactGrid{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 18px; }
+}
+@media (max-width: 575px){
+    .vaaCaseFactGrid{ grid-template-columns: 1fr; }
+    .vaaCaseGalleryGrid{ grid-template-columns: 1fr; }
+    .vaaCaseNextLink{ grid-template-columns: 1fr auto; }
+    .vaaCaseNextMeta{ display: none; }
+}

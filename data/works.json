@@ -1,0 +1,506 @@
+{
+  "$comment": "VAA work index. The grid on VAA_Index.html and every case-studies.html page are both rendered from this file — add, reorder or retitle a project here and both follow. 'challenge' and 'result' ship as placeholder copy written per practice; replace them per project.",
+  "categories": [
+    {
+      "id": "all",
+      "label": "All Work"
+    },
+    {
+      "id": "brand",
+      "label": "Brand"
+    },
+    {
+      "id": "digital",
+      "label": "Digital"
+    },
+    {
+      "id": "media",
+      "label": "Media"
+    }
+  ],
+  "works": [
+    {
+      "id": "outdoor-identity",
+      "title": "Outdoor Identity",
+      "meta": "Billboard & OOH",
+      "category": "media",
+      "image": "assets/images/WORKS/web/01.jpg",
+      "hero": "assets/images/WORKS/web/01.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/03.jpg",
+        "assets/images/WORKS/web/05.jpg"
+      ],
+      "info": {
+        "Discipline": "Billboard & OOH",
+        "Practice": "Media",
+        "Year": "2025",
+        "Scope": "Site survey, artwork, vendor rollout"
+      },
+      "role": "Campaign idea, production, rollout",
+      "challenge": "The category buys the same media in the same places and says roughly the same thing. Outspending it was not an option, so the work had to earn its attention on the frame itself — read in three seconds, from a moving car, at any hour.",
+      "result": "A single idea, extended across every format the plan called for without diluting on the way down. It reads at distance, holds at close range, and the production kit means the next burst costs a fraction of the first."
+    },
+    {
+      "id": "compensation-platform",
+      "title": "Compensation Platform",
+      "meta": "UI/UX Design",
+      "category": "digital",
+      "image": "assets/images/WORKS/web/02.jpg",
+      "hero": "assets/images/WORKS/web/02.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/06.jpg",
+        "assets/images/WORKS/web/08.jpg"
+      ],
+      "info": {
+        "Discipline": "UI/UX Design",
+        "Practice": "Digital",
+        "Year": "2025",
+        "Scope": "Research, design system, build"
+      },
+      "role": "UX, interface design, front-end",
+      "challenge": "The product did the job it was built for, but the interface asked people to understand how it worked before they could use it. Sign-ups were fine; second sessions were not. The brief was to make the first ten minutes explain themselves.",
+      "result": "An interface built on a design system rather than a set of screens, so the patterns hold as the product grows. Fewer steps to the first useful moment, and a front-end the team can extend without redrawing it."
+    },
+    {
+      "id": "screen-campaign",
+      "title": "Screen Campaign",
+      "meta": "Film & Reels",
+      "category": "media",
+      "image": "assets/images/WORKS/web/03.jpg",
+      "hero": "assets/images/WORKS/web/03.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/05.jpg",
+        "assets/images/WORKS/web/07.jpg"
+      ],
+      "info": {
+        "Discipline": "Film & Reels",
+        "Practice": "Media",
+        "Year": "2025",
+        "Scope": "Concept, production, post"
+      },
+      "role": "Campaign idea, production, rollout",
+      "challenge": "The category buys the same media in the same places and says roughly the same thing. Outspending it was not an option, so the work had to earn its attention on the frame itself — read in three seconds, from a moving car, at any hour.",
+      "result": "A single idea, extended across every format the plan called for without diluting on the way down. It reads at distance, holds at close range, and the production kit means the next burst costs a fraction of the first."
+    },
+    {
+      "id": "product-campaign",
+      "title": "Product Campaign",
+      "meta": "Photography",
+      "category": "brand",
+      "image": "assets/images/WORKS/web/04.jpg",
+      "hero": "assets/images/WORKS/web/04.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/13.jpg",
+        "assets/images/WORKS/web/18.jpg"
+      ],
+      "info": {
+        "Discipline": "Photography",
+        "Practice": "Brand",
+        "Year": "2025",
+        "Scope": "Art direction, shoot, retouch"
+      },
+      "role": "Brand identity, art direction",
+      "challenge": "The brand was recognisable to the people already inside it and to almost nobody else. Every touchpoint had been made in isolation, so the same name arrived in a different voice depending on where you met it. We were asked to find the through-line and make it hold.",
+      "result": "One identity system, documented well enough that it survives contact with everyone who has to use it — internal teams, printers, fabricators and agencies alike. The brand now looks like itself in every room it walks into."
+    },
+    {
+      "id": "room-pricing-launch",
+      "title": "Room Pricing Launch",
+      "meta": "Outdoor Campaign",
+      "category": "media",
+      "image": "assets/images/WORKS/web/05.jpg",
+      "hero": "assets/images/WORKS/web/05.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/07.jpg",
+        "assets/images/WORKS/web/10.jpg"
+      ],
+      "info": {
+        "Discipline": "Outdoor Campaign",
+        "Practice": "Media",
+        "Year": "2025",
+        "Scope": "Key visual, media plan, rollout"
+      },
+      "role": "Campaign idea, production, rollout",
+      "challenge": "The category buys the same media in the same places and says roughly the same thing. Outspending it was not an option, so the work had to earn its attention on the frame itself — read in three seconds, from a moving car, at any hour.",
+      "result": "A single idea, extended across every format the plan called for without diluting on the way down. It reads at distance, holds at close range, and the production kit means the next burst costs a fraction of the first."
+    },
+    {
+      "id": "crypto-dashboard",
+      "title": "Crypto Dashboard",
+      "meta": "Web Design",
+      "category": "digital",
+      "image": "assets/images/WORKS/web/06.jpg",
+      "hero": "assets/images/WORKS/web/06.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/08.jpg",
+        "assets/images/WORKS/web/09.jpg"
+      ],
+      "info": {
+        "Discipline": "Web Design",
+        "Practice": "Digital",
+        "Year": "2025",
+        "Scope": "IA, interface design, handoff"
+      },
+      "role": "UX, interface design, front-end",
+      "challenge": "The product did the job it was built for, but the interface asked people to understand how it worked before they could use it. Sign-ups were fine; second sessions were not. The brief was to make the first ten minutes explain themselves.",
+      "result": "An interface built on a design system rather than a set of screens, so the patterns hold as the product grows. Fewer steps to the first useful moment, and a front-end the team can extend without redrawing it."
+    },
+    {
+      "id": "payments-wrap",
+      "title": "Payments Wrap",
+      "meta": "Outdoor Campaign",
+      "category": "media",
+      "image": "assets/images/WORKS/web/07.jpg",
+      "hero": "assets/images/WORKS/web/07.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/10.jpg",
+        "assets/images/WORKS/web/11.jpg"
+      ],
+      "info": {
+        "Discipline": "Outdoor Campaign",
+        "Practice": "Media",
+        "Year": "2025",
+        "Scope": "Concept, artwork, installation"
+      },
+      "role": "Campaign idea, production, rollout",
+      "challenge": "The category buys the same media in the same places and says roughly the same thing. Outspending it was not an option, so the work had to earn its attention on the frame itself — read in three seconds, from a moving car, at any hour.",
+      "result": "A single idea, extended across every format the plan called for without diluting on the way down. It reads at distance, holds at close range, and the production kit means the next burst costs a fraction of the first."
+    },
+    {
+      "id": "retail-experience",
+      "title": "Retail Experience",
+      "meta": "Multi-device UI",
+      "category": "digital",
+      "image": "assets/images/WORKS/web/08.jpg",
+      "hero": "assets/images/WORKS/web/08.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/09.jpg",
+        "assets/images/WORKS/web/12.jpg"
+      ],
+      "info": {
+        "Discipline": "Multi-device UI",
+        "Practice": "Digital",
+        "Year": "2025",
+        "Scope": "Journeys, responsive design, QA"
+      },
+      "role": "UX, interface design, front-end",
+      "challenge": "The product did the job it was built for, but the interface asked people to understand how it worked before they could use it. Sign-ups were fine; second sessions were not. The brief was to make the first ten minutes explain themselves.",
+      "result": "An interface built on a design system rather than a set of screens, so the patterns hold as the product grows. Fewer steps to the first useful moment, and a front-end the team can extend without redrawing it."
+    },
+    {
+      "id": "subscriptions-platform",
+      "title": "Subscriptions Platform",
+      "meta": "Web Design",
+      "category": "digital",
+      "image": "assets/images/WORKS/web/09.jpg",
+      "hero": "assets/images/WORKS/web/09.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/12.jpg",
+        "assets/images/WORKS/web/16.jpg"
+      ],
+      "info": {
+        "Discipline": "Web Design",
+        "Practice": "Digital",
+        "Year": "2025",
+        "Scope": "Positioning, UI, marketing site"
+      },
+      "role": "UX, interface design, front-end",
+      "challenge": "The product did the job it was built for, but the interface asked people to understand how it worked before they could use it. Sign-ups were fine; second sessions were not. The brief was to make the first ten minutes explain themselves.",
+      "result": "An interface built on a design system rather than a set of screens, so the patterns hold as the product grows. Fewer steps to the first useful moment, and a front-end the team can extend without redrawing it."
+    },
+    {
+      "id": "cannabis-data-board",
+      "title": "Cannabis Data Board",
+      "meta": "Billboard & OOH",
+      "category": "media",
+      "image": "assets/images/WORKS/web/10.jpg",
+      "hero": "assets/images/WORKS/web/10.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/11.jpg",
+        "assets/images/WORKS/web/14.jpg"
+      ],
+      "info": {
+        "Discipline": "Billboard & OOH",
+        "Practice": "Media",
+        "Year": "2025",
+        "Scope": "Messaging, artwork, placement"
+      },
+      "role": "Campaign idea, production, rollout",
+      "challenge": "The category buys the same media in the same places and says roughly the same thing. Outspending it was not an option, so the work had to earn its attention on the frame itself — read in three seconds, from a moving car, at any hour.",
+      "result": "A single idea, extended across every format the plan called for without diluting on the way down. It reads at distance, holds at close range, and the production kit means the next burst costs a fraction of the first."
+    },
+    {
+      "id": "transit-campaign",
+      "title": "Transit Campaign",
+      "meta": "Digital OOH",
+      "category": "media",
+      "image": "assets/images/WORKS/web/11.jpg",
+      "hero": "assets/images/WORKS/web/11.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/14.jpg",
+        "assets/images/WORKS/web/15.jpg"
+      ],
+      "info": {
+        "Discipline": "Digital OOH",
+        "Practice": "Media",
+        "Year": "2025",
+        "Scope": "Motion key visual, screen kit"
+      },
+      "role": "Campaign idea, production, rollout",
+      "challenge": "The category buys the same media in the same places and says roughly the same thing. Outspending it was not an option, so the work had to earn its attention on the frame itself — read in three seconds, from a moving car, at any hour.",
+      "result": "A single idea, extended across every format the plan called for without diluting on the way down. It reads at distance, holds at close range, and the production kit means the next burst costs a fraction of the first."
+    },
+    {
+      "id": "marketing-site",
+      "title": "Marketing Site",
+      "meta": "Web Design",
+      "category": "digital",
+      "image": "assets/images/WORKS/web/12.jpg",
+      "hero": "assets/images/WORKS/web/12.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/16.jpg",
+        "assets/images/WORKS/web/17.jpg"
+      ],
+      "info": {
+        "Discipline": "Web Design",
+        "Practice": "Digital",
+        "Year": "2025",
+        "Scope": "Content model, design, build"
+      },
+      "role": "UX, interface design, front-end",
+      "challenge": "The product did the job it was built for, but the interface asked people to understand how it worked before they could use it. Sign-ups were fine; second sessions were not. The brief was to make the first ten minutes explain themselves.",
+      "result": "An interface built on a design system rather than a set of screens, so the patterns hold as the product grows. Fewer steps to the first useful moment, and a front-end the team can extend without redrawing it."
+    },
+    {
+      "id": "storefront-identity",
+      "title": "Storefront Identity",
+      "meta": "Retail Branding",
+      "category": "brand",
+      "image": "assets/images/WORKS/web/13.jpg",
+      "hero": "assets/images/WORKS/web/13.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/18.jpg",
+        "assets/images/WORKS/web/19.jpg"
+      ],
+      "info": {
+        "Discipline": "Retail Branding",
+        "Practice": "Brand",
+        "Year": "2025",
+        "Scope": "Identity, signage, fit-out kit"
+      },
+      "role": "Brand identity, art direction",
+      "challenge": "The brand was recognisable to the people already inside it and to almost nobody else. Every touchpoint had been made in isolation, so the same name arrived in a different voice depending on where you met it. We were asked to find the through-line and make it hold.",
+      "result": "One identity system, documented well enough that it survives contact with everyone who has to use it — internal teams, printers, fabricators and agencies alike. The brand now looks like itself in every room it walks into."
+    },
+    {
+      "id": "investor-campaign",
+      "title": "Investor Campaign",
+      "meta": "Building Banner",
+      "category": "media",
+      "image": "assets/images/WORKS/web/14.jpg",
+      "hero": "assets/images/WORKS/web/14.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/15.jpg",
+        "assets/images/WORKS/web/23.jpg"
+      ],
+      "info": {
+        "Discipline": "Building Banner",
+        "Practice": "Media",
+        "Year": "2025",
+        "Scope": "Line, key visual, production"
+      },
+      "role": "Campaign idea, production, rollout",
+      "challenge": "The category buys the same media in the same places and says roughly the same thing. Outspending it was not an option, so the work had to earn its attention on the frame itself — read in three seconds, from a moving car, at any hour.",
+      "result": "A single idea, extended across every format the plan called for without diluting on the way down. It reads at distance, holds at close range, and the production kit means the next burst costs a fraction of the first."
+    },
+    {
+      "id": "highway-board",
+      "title": "Highway Board",
+      "meta": "Billboard & OOH",
+      "category": "media",
+      "image": "assets/images/WORKS/web/15.jpg",
+      "hero": "assets/images/WORKS/web/15.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/23.jpg",
+        "assets/images/WORKS/web/01.jpg"
+      ],
+      "info": {
+        "Discipline": "Billboard & OOH",
+        "Practice": "Media",
+        "Year": "2025",
+        "Scope": "Single-frame idea, artwork"
+      },
+      "role": "Campaign idea, production, rollout",
+      "challenge": "The category buys the same media in the same places and says roughly the same thing. Outspending it was not an option, so the work had to earn its attention on the frame itself — read in three seconds, from a moving car, at any hour.",
+      "result": "A single idea, extended across every format the plan called for without diluting on the way down. It reads at distance, holds at close range, and the production kit means the next burst costs a fraction of the first."
+    },
+    {
+      "id": "consensus-website",
+      "title": "Consensus Website",
+      "meta": "Web Design",
+      "category": "digital",
+      "image": "assets/images/WORKS/web/16.jpg",
+      "hero": "assets/images/WORKS/web/16.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/17.jpg",
+        "assets/images/WORKS/web/20.jpg"
+      ],
+      "info": {
+        "Discipline": "Web Design",
+        "Practice": "Digital",
+        "Year": "2025",
+        "Scope": "Narrative, design, motion"
+      },
+      "role": "UX, interface design, front-end",
+      "challenge": "The product did the job it was built for, but the interface asked people to understand how it worked before they could use it. Sign-ups were fine; second sessions were not. The brief was to make the first ten minutes explain themselves.",
+      "result": "An interface built on a design system rather than a set of screens, so the patterns hold as the product grows. Fewer steps to the first useful moment, and a front-end the team can extend without redrawing it."
+    },
+    {
+      "id": "service-app",
+      "title": "Service App",
+      "meta": "App Experience",
+      "category": "digital",
+      "image": "assets/images/WORKS/web/17.jpg",
+      "hero": "assets/images/WORKS/web/17.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/20.jpg",
+        "assets/images/WORKS/web/22.jpg"
+      ],
+      "info": {
+        "Discipline": "App Experience",
+        "Practice": "Digital",
+        "Year": "2025",
+        "Scope": "Flows, UI kit, prototype"
+      },
+      "role": "UX, interface design, front-end",
+      "challenge": "The product did the job it was built for, but the interface asked people to understand how it worked before they could use it. Sign-ups were fine; second sessions were not. The brief was to make the first ten minutes explain themselves.",
+      "result": "An interface built on a design system rather than a set of screens, so the patterns hold as the product grows. Fewer steps to the first useful moment, and a front-end the team can extend without redrawing it."
+    },
+    {
+      "id": "logistics-livery",
+      "title": "Logistics Livery",
+      "meta": "Brand Identity",
+      "category": "brand",
+      "image": "assets/images/WORKS/web/18.jpg",
+      "hero": "assets/images/WORKS/web/18.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/19.jpg",
+        "assets/images/WORKS/web/21.jpg"
+      ],
+      "info": {
+        "Discipline": "Brand Identity",
+        "Practice": "Brand",
+        "Year": "2025",
+        "Scope": "Wordmark, livery, guidelines"
+      },
+      "role": "Brand identity, art direction",
+      "challenge": "The brand was recognisable to the people already inside it and to almost nobody else. Every touchpoint had been made in isolation, so the same name arrived in a different voice depending on where you met it. We were asked to find the through-line and make it hold.",
+      "result": "One identity system, documented well enough that it survives contact with everyone who has to use it — internal teams, printers, fabricators and agencies alike. The brand now looks like itself in every room it walks into."
+    },
+    {
+      "id": "data-illustration",
+      "title": "Data Illustration",
+      "meta": "Creative Design",
+      "category": "brand",
+      "image": "assets/images/WORKS/web/19.jpg",
+      "hero": "assets/images/WORKS/web/19.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/21.jpg",
+        "assets/images/WORKS/web/04.jpg"
+      ],
+      "info": {
+        "Discipline": "Creative Design",
+        "Practice": "Brand",
+        "Year": "2025",
+        "Scope": "Illustration system, assets"
+      },
+      "role": "Brand identity, art direction",
+      "challenge": "The brand was recognisable to the people already inside it and to almost nobody else. Every touchpoint had been made in isolation, so the same name arrived in a different voice depending on where you met it. We were asked to find the through-line and make it hold.",
+      "result": "One identity system, documented well enough that it survives contact with everyone who has to use it — internal teams, printers, fabricators and agencies alike. The brand now looks like itself in every room it walks into."
+    },
+    {
+      "id": "property-app",
+      "title": "Property App",
+      "meta": "App Experience",
+      "category": "digital",
+      "image": "assets/images/WORKS/web/20.jpg",
+      "hero": "assets/images/WORKS/web/20.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/22.jpg",
+        "assets/images/WORKS/web/02.jpg"
+      ],
+      "info": {
+        "Discipline": "App Experience",
+        "Practice": "Digital",
+        "Year": "2025",
+        "Scope": "Search UX, UI, design system"
+      },
+      "role": "UX, interface design, front-end",
+      "challenge": "The product did the job it was built for, but the interface asked people to understand how it worked before they could use it. Sign-ups were fine; second sessions were not. The brief was to make the first ten minutes explain themselves.",
+      "result": "An interface built on a design system rather than a set of screens, so the patterns hold as the product grows. Fewer steps to the first useful moment, and a front-end the team can extend without redrawing it."
+    },
+    {
+      "id": "bottle-campaign",
+      "title": "Bottle Campaign",
+      "meta": "Product Photography",
+      "category": "brand",
+      "image": "assets/images/WORKS/web/21.jpg",
+      "hero": "assets/images/WORKS/web/21.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/04.jpg",
+        "assets/images/WORKS/web/13.jpg"
+      ],
+      "info": {
+        "Discipline": "Product Photography",
+        "Practice": "Brand",
+        "Year": "2025",
+        "Scope": "Set design, shoot, grade"
+      },
+      "role": "Brand identity, art direction",
+      "challenge": "The brand was recognisable to the people already inside it and to almost nobody else. Every touchpoint had been made in isolation, so the same name arrived in a different voice depending on where you met it. We were asked to find the through-line and make it hold.",
+      "result": "One identity system, documented well enough that it survives contact with everyone who has to use it — internal teams, printers, fabricators and agencies alike. The brand now looks like itself in every room it walks into."
+    },
+    {
+      "id": "analytics-platform",
+      "title": "Analytics Platform",
+      "meta": "UI/UX Design",
+      "category": "digital",
+      "image": "assets/images/WORKS/web/22.jpg",
+      "hero": "assets/images/WORKS/web/22.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/02.jpg",
+        "assets/images/WORKS/web/06.jpg"
+      ],
+      "info": {
+        "Discipline": "UI/UX Design",
+        "Practice": "Digital",
+        "Year": "2025",
+        "Scope": "Dashboards, data viz, build"
+      },
+      "role": "UX, interface design, front-end",
+      "challenge": "The product did the job it was built for, but the interface asked people to understand how it worked before they could use it. Sign-ups were fine; second sessions were not. The brief was to make the first ten minutes explain themselves.",
+      "result": "An interface built on a design system rather than a set of screens, so the patterns hold as the product grows. Fewer steps to the first useful moment, and a front-end the team can extend without redrawing it."
+    },
+    {
+      "id": "talent-signage",
+      "title": "Talent Signage",
+      "meta": "Environmental",
+      "category": "media",
+      "image": "assets/images/WORKS/web/23.jpg",
+      "hero": "assets/images/WORKS/web/23.jpg",
+      "gallery": [
+        "assets/images/WORKS/web/01.jpg",
+        "assets/images/WORKS/web/03.jpg"
+      ],
+      "info": {
+        "Discipline": "Environmental",
+        "Practice": "Media",
+        "Year": "2025",
+        "Scope": "Environmental graphics, artwork"
+      },
+      "role": "Campaign idea, production, rollout",
+      "challenge": "The category buys the same media in the same places and says roughly the same thing. Outspending it was not an option, so the work had to earn its attention on the frame itself — read in three seconds, from a moving car, at any hour.",
+      "result": "A single idea, extended across every format the plan called for without diluting on the way down. It reads at distance, holds at close range, and the production kit means the next burst costs a fraction of the first."
+    }
+  ]
+}
