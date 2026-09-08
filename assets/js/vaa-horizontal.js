@@ -44,11 +44,30 @@
     var workView  = workPanel ? workPanel.querySelector('.vaaWorkViewport') : null;
     var workScroll= workPanel ? workPanel.querySelector('.vaaWorkScroll') : null;
     var hero      = document.querySelector('#heroTop');
+    var heroTitleTrack = hero ? hero.querySelector('.vaaHeroTitleTrack') : null;
     var navLinks  = Array.prototype.slice.call(document.querySelectorAll('.mainMenu > ul > li > a[href^="#"]'));
     var reduced   = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (!panels.length) return;
     stageTrack.style.setProperty('--vaa-stage-panels', panels.length);
+
+    if (hero && heroTitleTrack && !reduced) {
+        gsap.fromTo(heroTitleTrack,
+            { x: function () { return window.innerWidth; } },
+            {
+                xPercent: -50,
+                ease: 'none',
+                scrollTrigger: {
+                    id: 'vaa-hero-title',
+                    trigger: hero,
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: 0.6,
+                    invalidateOnRefresh: true
+                }
+            }
+        );
+    }
 
     /* How long each panel rests once it has arrived, in beats. */
     var HOLD = {

@@ -21,27 +21,26 @@
 --------------------------------------------------------------------------*/
 :root{
     /* Brand accent */
-    --primary-color: #FF5100;
-    --secondary-color: #FFFFFF;
+    --primary-color: #c9a96e;
+    --secondary-color: #F4FAFF;
 
     /* Display type: geometric, thin, wide — Futura-lineage (Jost) */
     --secondary-font: 'Jost', sans-serif;
     --secondary-font-weight: 300;
 
     /* VAA surface scale */
-    --vaa-ink:        #0A0A0A;
-    --vaa-surface:    #111111;
-    --vaa-surface-2:  #161616;
-    --vaa-line:       rgba(255, 255, 255, 0.14);
-    --vaa-line-soft:  rgba(255, 255, 255, 0.08);
-    --vaa-muted:      rgba(255, 255, 255, 0.62);
+    --vaa-ink:        #0B1220;
+    --vaa-surface:    #111D2E;
+    --vaa-surface-2:  #18263A;
+    --vaa-line:       rgba(171, 218, 245, 0.18);
+    --vaa-line-soft:  rgba(171, 218, 245, 0.10);
+    --vaa-muted:      #A9B8CB;
 
-    /* Accent scale. #FF5100 clears AA on the dark ground (5.9:1), so it can
-       carry small labels as well as display type. It is bright enough that
-       anything sitting ON an accent fill takes ink, not white (6.1:1 vs 3.2:1). */
-    --vaa-accent:     #FF5100;
-    --vaa-accent-lt:  #FF7A3D;
-    --vaa-accent-dim: rgba(255, 81, 0, 0.32);
+    /* Accent scale. The warm gold adds contrast and character to the
+       blue-slate ground while filled states still use ink for readability. */
+    --vaa-accent:     #c9a96e;
+    --vaa-accent-lt:  #e1c58f;
+    --vaa-accent-dim: rgba(201, 169, 110, 0.28);
 
     /* Height of the sticky header and the fixed legal rail — anything that
        touches the top or bottom of the viewport reserves this much room */
@@ -82,6 +81,18 @@
 .header02 .logo{
     width: auto;
     min-width: 190px;
+    padding: 6px 0;
+}
+@media (min-width: 1200px){
+    .header02 .mainMenu{
+        padding: 6px 0 0;
+    }
+    .header02 .mainMenu ul li{
+        padding-bottom: 6px;
+    }
+}
+.header02 .boozyGridMenu{
+    margin: 6px 0;
 }
 .vaaLogo{
     display: block;
@@ -448,7 +459,7 @@ button:focus-visible{
 /*--------------------------------------------------------------------------
   08. Accent behaviour
   The template fills its active states with --primary-color and sets the
-  label to #FFF. White on #FF5100 is only 3.2:1, so every filled state flips
+    label to #FFF. White on the accent is less readable, so every filled state flips
   its content to ink instead — 6.1:1, and a sharper look besides.
 --------------------------------------------------------------------------*/
 
@@ -1347,6 +1358,7 @@ h1, h2, h3, h4, h5, h6{
     position: relative;
     display: flex;
     flex-direction: column;
+    height: 100vh;
     min-height: 100vh;
     padding-top: var(--vaa-header-h, 136px);
     background: var(--vaa-ink);
@@ -1354,8 +1366,11 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .vaaHeroStage{
-    position: relative;
-    flex: 1;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    flex: none;
     min-height: 0;
     display: flex;
     /* the title sits at the foot of the footage */
@@ -1401,7 +1416,8 @@ h1, h2, h3, h4, h5, h6{
 
 .vaaHeroTitle{
     margin: 0;
-    max-width: 16em;
+    max-width: none;
+    overflow: hidden;
     font-family: var(--secondary-font);
     font-size: clamp(32px, 6.4vh, 74px);
     font-weight: 300;
@@ -1410,6 +1426,22 @@ h1, h2, h3, h4, h5, h6{
     text-transform: uppercase;
     color: #FFFFFF;
     text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
+}
+.vaaHeroTitleViewport{
+    display: block;
+    width: 100vw;
+    margin-left: calc((100% - 100vw) / 2);
+    overflow: hidden;
+}
+.vaaHeroTitleTrack{
+    display: inline-flex;
+    width: max-content;
+    will-change: transform;
+}
+.vaaHeroTitleTrack > span{
+    display: block;
+    padding-right: 1.5em;
+    white-space: nowrap;
 }
 .vaaHeroTitle .vaaAccent{ color: var(--vaa-accent); }
 
@@ -1461,10 +1493,13 @@ h1, h2, h3, h4, h5, h6{
     :root{ --vaa-header-h: 108px; }
     /* The capability bar stacks tall on narrow screens; if the stage stays a
        flex child it gets squeezed to nothing, so give it its own height. */
-    .vaaHero{ min-height: 0; }
+    .vaaHero{
+        height: 100vh;
+        min-height: 100vh;
+    }
     .vaaHeroStage{
         flex: none;
-        min-height: 60vh;
+        min-height: 0;
     }
     /* The title runs the full width once stacked, so the toggle moves to the
        top of the frame rather than sitting on top of it. */
@@ -1495,13 +1530,13 @@ h1, h2, h3, h4, h5, h6{
   Adopted wholesale from rno1.com, measured off the live site rather than
   eyeballed:
 
-      canvas          #1D1C1F      body background
-      band            #000000      the alternating pure-black section
+    canvas          #0B1220      body background
+    band            #111D2E      the alternating deep-blue section
       body / heading  #FFFFFF      16px / 26px / +0.32px tracking
-      secondary       #777C81      captions, descriptors, muted copy
-      display ghost   #575B5F      the giant uppercase section titles
-      soft            #D4D5DA      hairline dividers, quiet UI
-      accent          #9747FF      RNO1's purple — see the swap below
+    secondary       #A9B8CB      captions, descriptors, muted copy
+    display ghost   #CBBFA9      the giant uppercase section titles
+    soft            #DCE8F5      hairline dividers, quiet UI
+    accent          #c9a96e      the VAA accent
 
   Two typefaces, exactly as RNO1 uses them: a neutral geometric grotesque
   (Saans there, General Sans here — the closest freely-licensed cut) for
@@ -1509,26 +1544,25 @@ h1, h2, h3, h4, h5, h6{
   for section titles, set at 0.88 line-height in the ghost grey so it reads
   as architecture rather than as a heading.
 
-  The one deliberate departure: the accent slot keeps VAA's #FF5100 instead
-  of RNO1's purple, so the brand survives the transplant. Swapping the two
-  values on the next block is the whole change if you want the purple.
+    The VAA accent is intentionally cool rather than warm, so the brand system
+    stays energetic without making the dark surfaces feel heavy.
 ==========================================================================*/
 :root{
     /* --- accent -------------------------------------------------------- */
-    --vaa-accent:      #FF5100;   /* VAA brand — swap for #9747FF for RNO1's purple */
-    --vaa-accent-lt:   #FF7A3D;
-    --vaa-accent-dim:  rgba(255, 81, 0, 0.30);
-    --primary-color:   #FF5100;
+    --vaa-accent:      #c9a96e;
+    --vaa-accent-lt:   #e1c58f;
+    --vaa-accent-dim:  rgba(201, 169, 110, 0.28);
+    --primary-color:   #c9a96e;
 
     /* --- RNO1 neutral scale -------------------------------------------- */
-    --vaa-ink:         #1D1C1F;
-    --vaa-surface:     #000000;
-    --vaa-surface-2:   #232227;
-    --vaa-ghost:       #575B5F;
-    --vaa-soft:        #D4D5DA;
-    --vaa-muted:       #777C81;
-    --vaa-line:        rgba(255, 255, 255, 0.10);
-    --vaa-line-soft:   rgba(255, 255, 255, 0.06);
+    --vaa-ink:         #0B1220;
+    --vaa-surface:     #111D2E;
+    --vaa-surface-2:   #18263A;
+    --vaa-ghost:       #cbbfa9;
+    --vaa-soft:        #DCE8F5;
+    --vaa-muted:       #A9B8CB;
+    --vaa-line:        rgba(171, 218, 245, 0.18);
+    --vaa-line-soft:   rgba(171, 218, 245, 0.10);
 
     /* --- type ---------------------------------------------------------- */
     /* The fallbacks matter here: this runs off a local XAMPP root, so the two
@@ -1661,14 +1695,12 @@ h1, h2, h3, h4, h5, h6{
 --------------------------------------------------------------------------*/
 .hdSupportBtn,
 .vaaBtn{
-    display: inline-flex;
+    display: none;
     align-items: center;
     gap: 8px;
     padding: 10px 24px;
     border: 1px solid transparent;
     border-radius: var(--vaa-radius);
-    background: var(--vaa-accent);
-    color: var(--vaa-ink);
     font-family: var(--primary-font);
     font-size: 16px;
     line-height: 26px;
@@ -1715,7 +1747,7 @@ h1, h2, h3, h4, h5, h6{
     font-family: var(--primary-font);
     font-size: 13px;
     letter-spacing: 0.32px;
-    color: rgba(29, 28, 31, 0.72);
+    color: rgba(11, 18, 32, 0.78);
 }
 
 /* About media */
@@ -1746,7 +1778,7 @@ h1, h2, h3, h4, h5, h6{
     font-family: var(--primary-font);
     font-size: 15px;
     letter-spacing: 0.32px;
-    color: rgba(29, 28, 31, 0.78);
+    color: rgba(11, 18, 32, 0.78);
 }
 
 

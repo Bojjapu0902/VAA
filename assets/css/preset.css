@@ -39,11 +39,11 @@ License URI:
     --body-line-height: 36px;
     --body-font-weight: 400;
     --secondary-font-weight: 700;
-    --body-color: #d0d0d0;
-    --heading-color: #FFFFFF;
-    --primary-color: #ff5100;
-    --secondary-color: #FFFFFF;
-    --dark-color: #000000;
+    --body-color: #A9B8CB;
+    --heading-color: #F4FAFF;
+    --primary-color: #c9a96e;
+    --secondary-color: #F4FAFF;
+    --dark-color: #0B1220;
 }
 /*------------------------------------------------------
 /  03. Basic Typography
@@ -60,7 +60,7 @@ body{
     color: var(--body-color);
     height: 100%;
     height: 100%;
-    background: #111111;
+    background: #0B1220;
 }
 p{
     margin: 0 0 15px;
