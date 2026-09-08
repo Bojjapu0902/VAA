@@ -44,7 +44,7 @@
 
     /* Height of the sticky header and the fixed legal rail — anything that
        touches the top or bottom of the viewport reserves this much room */
-    --vaa-header-h: 136px;
+    --vaa-header-h: 88px;
     --vaa-rail-h: 60px;
 
     /* Spacing scale */
@@ -81,23 +81,28 @@
 .header02 .logo{
     width: auto;
     min-width: 190px;
-    padding: 6px 0;
-}
-@media (min-width: 1200px){
-    .header02 .mainMenu{
-        padding: 6px 0 0;
-    }
-    .header02 .mainMenu ul li{
-        padding-bottom: 6px;
-    }
-}
-.header02 .boozyGridMenu{
-    margin: 6px 0;
 }
 .vaaLogo{
     display: block;
     line-height: 1;
     color: #FFFFFF;
+}
+.vaaLogo img{
+    margin-left: 0 !important;
+}
+.header02 .mainMenu{
+    padding-top: 8px;
+}
+.header02 .mainMenu ul li{
+    padding-bottom: 8px;
+}
+.header02 .hdSupportBtn{
+    padding: 6px 16px;
+    margin-right: 20px;
+}
+.header02 .boozyGridMenu a{
+    width: 44px;
+    height: 44px;
 }
 .vaaLogo:hover{ color: #FFFFFF; opacity: 0.75; }
 
@@ -134,7 +139,7 @@
 .vaaHeroBar{
     position: relative;
     flex: none;
-    padding: clamp(18px, 3vh, 32px) 0 0;
+    padding: 12px 0 0;
     border-top: 1px solid var(--vaa-line);
 }
 
@@ -143,13 +148,13 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 0;
     margin: 0;
-    padding: 0;
+    padding: 16px 32px;
     list-style: none;
 }
 
 .vaaHeroBarItem{
     position: relative;
-    padding: 4px 34px 4px 0;
+    padding: 2px 34px 2px 0;
 }
 .vaaHeroBarItem + .vaaHeroBarItem{
     padding-left: 34px;
@@ -158,7 +163,7 @@
 
 .vaaHeroBarItem .vhbLabel{
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     font-family: var(--primary-font);
     font-size: 11px;
     font-weight: 600;
@@ -172,9 +177,9 @@
 .vaaHeroBarItem .vhbTitle{
     margin: 0;
     font-family: var(--primary-font);
-    font-size: 19px;
+    font-size: 16px;
     font-weight: 400;
-    line-height: 28px;
+    line-height: 22px;
     letter-spacing: -0.2px;
     color: #FFFFFF;
 }
@@ -423,12 +428,12 @@ button:focus-visible{
         background: var(--vaa-ink);
         -webkit-backdrop-filter: none;
                 backdrop-filter: none;
-        padding: 40px 0 44px;
+        padding: 24px 0 28px;
     }
     .vaaScrollCue{ display: none; }
 
     .vaaHeroBarGrid{ grid-template-columns: repeat(2, 1fr); }
-    .vaaHeroBarItem{ padding: 22px 24px 22px 0; }
+    .vaaHeroBarItem{ padding: 14px 24px 14px 0; }
     .vaaHeroBarItem + .vaaHeroBarItem{ padding-left: 0; border-left: 0; }
     .vaaHeroBarItem:nth-child(2n){ padding-left: 24px; border-left: 1px solid var(--vaa-line-soft); }
     .vaaHeroBarItem:nth-child(n + 3){ border-top: 1px solid var(--vaa-line-soft); }
@@ -445,7 +450,7 @@ button:focus-visible{
     .vaaHeroBarGrid{ grid-template-columns: 1fr; }
     .vaaHeroBarItem,
     .vaaHeroBarItem:nth-child(2n){
-        padding: 20px 0;
+        padding: 12px 0;
         border-left: 0;
     }
     .vaaHeroBarItem + .vaaHeroBarItem{ border-top: 1px solid var(--vaa-line-soft); }
@@ -613,10 +618,9 @@ h1, h2, h3, h4, h5, h6{
   no ancestor's overflow or transform can capture its fixed positioning.
 ==========================================================================*/
 .vaaFootRail{
-    position: fixed;
+    position: relative;
     left: 0;
     right: 0;
-    bottom: 0;
     z-index: 9990;
     height: var(--vaa-rail-h);
     display: flex;
@@ -662,10 +666,10 @@ h1, h2, h3, h4, h5, h6{
 }
 .vaaFootRail .footerInfoNav a:hover{ color: var(--vaa-accent-lt); }
 
-/* Everything that reaches the bottom of the viewport keeps clear of the rail */
-.main{ padding-bottom: var(--vaa-rail-h); }
+/* The footer stays in normal document flow now that it is no longer pinned. */
+.main{ padding-bottom: 0; }
 #backtotop{ bottom: calc(28px + var(--vaa-rail-h)); }
-.vaaHeroBar{ padding-bottom: calc(16px + var(--vaa-rail-h)); }
+.vaaHeroBar{ padding-bottom: 0; }
 
 @media (max-width: 767px){
     :root{ --vaa-rail-h: 52px; }
@@ -1360,17 +1364,14 @@ h1, h2, h3, h4, h5, h6{
     flex-direction: column;
     height: 100vh;
     min-height: 100vh;
-    padding-top: var(--vaa-header-h, 136px);
+    padding-top: var(--vaa-header-h, 0px);
     background: var(--vaa-ink);
     overflow: hidden;
 }
 
 .vaaHeroStage{
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    flex: none;
+    position: relative;
+    flex: 1;
     min-height: 0;
     display: flex;
     /* the title sits at the foot of the footage */
@@ -1701,6 +1702,8 @@ h1, h2, h3, h4, h5, h6{
     padding: 10px 24px;
     border: 1px solid transparent;
     border-radius: var(--vaa-radius);
+    background: var(--vaa-accent);
+    color: var(--vaa-ink);
     font-family: var(--primary-font);
     font-size: 16px;
     line-height: 26px;
@@ -2226,6 +2229,17 @@ h1, h2, h3, h4, h5, h6{
     z-index: 999;
     background: var(--vaa-ink);
     border-bottom: 1px solid var(--vaa-line);
+}
+
+/* Keep the landing-page header pinned while the footer remains in flow. */
+.page > .main > .header02,
+.page > .header02{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    background: var(--vaa-ink);
 }
 
 
