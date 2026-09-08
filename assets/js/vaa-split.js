@@ -41,7 +41,6 @@
       What gets split, and how
     ----------------------------------------------------------------------*/
     var RECIPES = [
-        { sel: '.vaaHeroTitle',        type: 'chars',  anim: 'letters' },
         { sel: '.secHeading h3',       type: 'chars',  anim: 'letters' },
         { sel: '.vaaAboutBody h2',     type: 'lines',  anim: 'lines'   },
         { sel: '.vaaAboutBody > p',    type: 'lines',  anim: 'fade'    },

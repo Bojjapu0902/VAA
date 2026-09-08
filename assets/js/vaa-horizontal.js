@@ -44,30 +44,11 @@
     var workView  = workPanel ? workPanel.querySelector('.vaaWorkViewport') : null;
     var workScroll= workPanel ? workPanel.querySelector('.vaaWorkScroll') : null;
     var hero      = document.querySelector('#heroTop');
-    var heroTitleTrack = hero ? hero.querySelector('.vaaHeroTitleTrack') : null;
     var navLinks  = Array.prototype.slice.call(document.querySelectorAll('.mainMenu > ul > li > a[href^="#"]'));
     var reduced   = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (!panels.length) return;
     stageTrack.style.setProperty('--vaa-stage-panels', panels.length);
-
-    if (hero && heroTitleTrack && !reduced) {
-        gsap.fromTo(heroTitleTrack,
-            { x: function () { return window.innerWidth; } },
-            {
-                xPercent: -50,
-                ease: 'none',
-                scrollTrigger: {
-                    id: 'vaa-hero-title',
-                    trigger: hero,
-                    start: 'top top',
-                    end: 'bottom top',
-                    scrub: 0.6,
-                    invalidateOnRefresh: true
-                }
-            }
-        );
-    }
 
     /* How long each panel rests once it has arrived, in beats. */
     var HOLD = {
@@ -361,42 +342,6 @@
         /* the logo is an image; its height is not known until it decodes */
         var logo = header.querySelector('img');
         if (logo && !logo.complete) logo.addEventListener('load', measure);
-    }());
-
-    /*----------------------------------------------------------------------
-      Hero video sound
-
-      Every browser refuses to autoplay audio, so the video has to start muted
-      — that is policy, not a setting we can turn off. The only thing that can
-      unmute it is a real click, which is what this button is for.
-    ----------------------------------------------------------------------*/
-    (function heroSound() {
-        var video = document.getElementById('vaaHeroVideo');
-        var btn   = document.querySelector('[data-sound-toggle]');
-        if (!video || !btn) return;
-
-        var label = btn.querySelector('.vaaSoundLabel');
-
-        function paint() {
-            var on = !video.muted;
-            btn.classList.toggle('is-on', on);
-            btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-            if (label) label.textContent = on ? 'Sound on' : 'Sound off';
-            btn.setAttribute('aria-label', on ? 'Mute the showreel' : 'Play the showreel with sound');
-        }
-
-        btn.addEventListener('click', function () {
-            video.muted = !video.muted;
-            if (!video.muted) {
-                video.volume = 1;
-                /* Safari can leave it paused after an unmute */
-                var played = video.play();
-                if (played && played.catch) played.catch(function () {});
-            }
-            paint();
-        });
-
-        paint();
     }());
 
     /*----------------------------------------------------------------------

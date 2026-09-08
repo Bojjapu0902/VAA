@@ -17,7 +17,7 @@
         <!-- END: Social share -->
 
         <title>VAA — Vasantha Ads &amp; Arts | Branding, Digital &amp; Advertising</title>
-
+"https://www.added.digital/"
         <!-- BEGIN: CSS -->
         <link rel="stylesheet" href="assets/css/bootstrap.css">
         <link rel="stylesheet" href="assets/css/animate.css">
@@ -112,47 +112,102 @@
             <!-- END: Header -->
 
             <!-- BEGIN: Hero
-                 The video fills everything between the header and the capability
-                 bar, with the title over it and a one-sided scrim so the type is
-                 legible without dulling the whole frame. Autoplay has to start
-                 muted — every browser blocks sound until a real click — so the
-                 stage carries its own sound toggle. -->
+                 added.digital's pattern: a centered display headline with a
+                 handful of work-sample thumbnails scattered around it. The
+                 whole thing plays once on load (assets/js/vaa-hero.js) — the
+                 headline lines rise out of a mask, the cards settle in from a
+                 tilt, then idle-float gently forever after. Vertical and
+                 self-contained; the horizontal stage only begins at the
+                 capability bar below. -->
             <section class="vaaHero" id="heroTop">
-                <div class="vaaHeroStage">
+                <div class="vaaHeroInner">
 
-                    <video class="vaaHeroVideo" id="vaaHeroVideo"
-                           poster="assets/images/slider/home-poster.jpg"
-                           autoplay muted loop playsinline preload="metadata">
-                        <source src="assets/images/slider/home-web.mp4" type="video/mp4">
-                    </video>
-
-                    <!-- Darkens only the side the type sits on, so the footage
-                         stays clean where there is nothing over it -->
-                    <div class="vaaHeroScrim" aria-hidden="true"></div>
-
-                    <div class="container">
-                        <h1 class="vaaHeroTitle">
-                            <span class="vaaHeroTitleViewport">
-                                <span class="vaaHeroTitleTrack">
-                                    <span>VAA Create Top Brands that <span class="vaaAccent">Grow</span></span>
-                                    
-                                </span>
-                            </span>
+                    <div class="vaaHeroCopy">
+                        <h1 class="vaaHeroHeadline">
+                            <span class="vaaHeroLine"><span class="vaaHeroLineIn">We build brands</span></span>
+                            <span class="vaaHeroLine"><span class="vaaHeroLineIn">that <span class="vaaHeroAccent">grow</span></span></span>
                         </h1>
+                        <p class="vaaHeroSub">Branding, digital, media and growth — one team, one idea, shipped.</p>
                     </div>
 
-                    <button class="vaaSound" type="button" data-sound-toggle aria-pressed="false">
-                        <span class="vaaSoundIcon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path class="vaaSoundBody" d="M4 9v6h4l5 4V5L8 9H4Z"/>
-                                <path class="vaaSoundWaves" d="M16.5 8.8a4.5 4.5 0 0 1 0 6.4M19 6.3a8 8 0 0 1 0 11.4"/>
-                                <path class="vaaSoundCross" d="m17 9.5 4 5m0-5-4 5"/>
-                            </svg>
-                        </span>
-                        <span class="vaaSoundLabel">Sound off</span>
-                    </button>
+                    <div class="vaaHeroCards">
+                        <a class="vaaHeroCard" data-card="0" href="case-studies.html?id=outdoor-identity">
+                            <span class="vaaHeroCardFrame">
+                                <img src="assets/images/WORKS/web/01.jpg" alt="Outdoor Identity — billboard and out-of-home campaign" loading="eager">
+                            </span>
+                            <span class="vaaHeroCardLabel">Outdoor Identity</span>
+                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
+                        </a>
+                        <a class="vaaHeroCard" data-card="1" href="case-studies.html?id=compensation-platform">
+                            <span class="vaaHeroCardFrame">
+                                <img src="assets/images/WORKS/web/02.jpg" alt="Compensation Platform — UI/UX design for a payroll product" loading="eager">
+                            </span>
+                            <span class="vaaHeroCardLabel">Compensation Platform</span>
+                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
+                        </a>
+                        <a class="vaaHeroCard" data-card="2" href="case-studies.html?id=product-campaign">
+                            <span class="vaaHeroCardFrame">
+                                <img src="assets/images/WORKS/web/04.jpg" alt="Product Campaign — brand photography and art direction" loading="eager">
+                            </span>
+                            <span class="vaaHeroCardLabel">Product Campaign</span>
+                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
+                        </a>
+                        <a class="vaaHeroCard" data-card="3" href="case-studies.html?id=crypto-dashboard">
+                            <span class="vaaHeroCardFrame">
+                                <img src="assets/images/WORKS/web/06.jpg" alt="Crypto Dashboard — web design for a trading product" loading="lazy">
+                            </span>
+                            <span class="vaaHeroCardLabel">Crypto Dashboard</span>
+                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
+                        </a>
+                        <a class="vaaHeroCard" data-card="4" href="case-studies.html?id=storefront-identity">
+                            <span class="vaaHeroCardFrame">
+                                <img src="assets/images/WORKS/web/13.jpg" alt="Storefront Identity — retail branding and signage" loading="lazy">
+                            </span>
+                            <span class="vaaHeroCardLabel">Storefront Identity</span>
+                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
+                        </a>
+                        <a class="vaaHeroCard" data-card="8" href="case-studies.html?id=subscriptions-platform">
+                            <span class="vaaHeroCardFrame">
+                                <img src="assets/images/WORKS/web/09.jpg" alt="Subscriptions Platform — web design and marketing site" loading="lazy">
+                            </span>
+                            <span class="vaaHeroCardLabel">Subscriptions Platform</span>
+                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
+                        </a>
+                        <a class="vaaHeroCard" data-card="9" href="case-studies.html?id=service-app">
+                            <span class="vaaHeroCardFrame">
+                                <img src="assets/images/WORKS/web/17.jpg" alt="Service App — app experience design" loading="lazy">
+                            </span>
+                            <span class="vaaHeroCardLabel">Service App</span>
+                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
+                        </a>
 
-                                </div>
+                        <!-- Ghost cards — tucked in close around the headline itself,
+                             invisible until the cursor happens to pass over them.
+                             Desktop only: a hover secret needs a hover to find it. -->
+                        <a class="vaaHeroCard vaaHeroCardGhost" data-card="5" href="case-studies.html?id=retail-experience">
+                            <span class="vaaHeroCardFrame">
+                                <img src="assets/images/WORKS/web/08.jpg" alt="Retail Experience — multi-device UI design" loading="lazy">
+                            </span>
+                            <span class="vaaHeroCardLabel">Retail Experience</span>
+                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
+                        </a>
+                        <a class="vaaHeroCard vaaHeroCardGhost" data-card="6" href="case-studies.html?id=consensus-website">
+                            <span class="vaaHeroCardFrame">
+                                <img src="assets/images/WORKS/web/16.jpg" alt="Consensus Website — web design and motion" loading="lazy">
+                            </span>
+                            <span class="vaaHeroCardLabel">Consensus Website</span>
+                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
+                        </a>
+                        <a class="vaaHeroCard vaaHeroCardGhost" data-card="7" href="case-studies.html?id=bottle-campaign">
+                            <span class="vaaHeroCardFrame">
+                                <img src="assets/images/WORKS/web/21.jpg" alt="Bottle Campaign — product photography" loading="lazy">
+                            </span>
+                            <span class="vaaHeroCardLabel">Bottle Campaign</span>
+                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
+                        </a>
+                    </div>
+
+                </div>
             </section>
             <!-- END: Hero  -->
 
@@ -589,6 +644,10 @@
         <script src="assets/js/vaa-works.js"></script>
         <!-- VAA horizontal scroll + scrollspy (GSAP ScrollTrigger) -->
         <script src="assets/js/vaa-horizontal.js"></script>
+        <!-- VAA hero — page-load reveal for the headline + scattered work
+             cards, plus their idle float and hover/parallax interactions.
+             Runs once, independently of the horizontal stage above. -->
+        <script src="assets/js/vaa-hero.js"></script>
         <!-- VAA split-text motion — masked line reveals + the 3D character
              rotation on the display titles. Uses GSAP SplitText if the
              licensed plugin is present, and its own splitter if not. -->

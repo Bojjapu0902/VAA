@@ -80,7 +80,11 @@
 --------------------------------------------------------------------------*/
 .header02 .logo{
     width: auto;
-    min-width: 190px;
+    min-width: 130px;
+    padding: 8px 0;
+}
+.header02 .headerInner02{
+    align-items: center;
 }
 .vaaLogo{
     display: block;
@@ -91,7 +95,11 @@
     margin-left: 0 !important;
 }
 .header02 .mainMenu{
+    margin-left: auto;
     padding-top: 8px;
+}
+.header02 .headerOniAccess02{
+    margin-left: 24px;
 }
 .header02 .mainMenu ul li{
     padding-bottom: 8px;
@@ -1354,174 +1362,210 @@ h1, h2, h3, h4, h5, h6{
 
 /*==========================================================================
   19. Hero
-  The video fills the band between the header and the capability bar, with the
-  title over it. A one-sided scrim darkens only the column the type occupies,
-  so the footage stays clean on the side where nothing covers it.
+  added.digital's pattern: a centered display headline with a handful of
+  work-sample thumbnails scattered around it, not a neat grid. Mobile-first —
+  the cards are an ordinary row by default, and only pulled into scattered
+  absolute positions once the viewport is wide enough to carry it (992px+).
+
+  The load-in reveal (line-mask headline, tilted cards settling into place,
+  then a slow idle float) lives entirely in assets/js/vaa-hero.js. This file
+  only supplies the resting geometry each card animates in from CSS variables
+  (--vc-top / --vc-left / --vc-w), per data-card index, so the JS never has
+  to know a single pixel value.
 ==========================================================================*/
 .vaaHero{
+    --vaa-hero-accent: #FF5100;
     position: relative;
     display: flex;
-    flex-direction: column;
-    height: 100vh;
-    min-height: 100vh;
+    align-items: center;
     padding-top: var(--vaa-header-h, 0px);
+    min-height: 100vh;
     background: var(--vaa-ink);
-    overflow: hidden;
 }
 
-.vaaHeroStage{
+.vaaHeroInner{
     position: relative;
-    flex: 1;
-    min-height: 0;
-    display: flex;
-    /* the title sits at the foot of the footage */
-    align-items: flex-end;
-    overflow: hidden;
-    background: #000;
+    width: 100%;
+    padding: clamp(56px, 9vh, 96px) clamp(20px, 5vw, 72px) clamp(40px, 7vh, 72px);
 }
-.vaaHeroStage > .container{
+
+.vaaHeroCopy{
+    position: relative;
+    z-index: 3;
+    max-width: 34em;
+    margin: 0 auto;
+    text-align: center;
+    /* Plain display text, nothing interactive inside it — letting clicks and
+       hovers fall through is what lets the ghost cards tucked behind/around
+       it (below) actually be found by the cursor. */
+    pointer-events: none;
+}
+
+.vaaHeroHeadline{
+    margin: 0;
+    font-family: var(--primary-font);
+    font-weight: 300;
+    font-size: clamp(34px, 7.2vw, 104px);
+    line-height: 1.04;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+}
+/* The clipping box the line rises out of, and the span GSAP actually moves */
+.vaaHeroLine{ display: block; overflow: hidden; }
+.vaaHeroLineIn{ display: block; }
+.vaaHeroAccent{ color: var(--vaa-hero-accent); }
+
+.vaaHeroSub{
+    max-width: 30em;
+    margin: clamp(14px, 2.2vh, 24px) auto 0;
+    font-family: var(--primary-font);
+    font-size: clamp(14px, 1.6vw, 17px);
+    line-height: 1.6;
+    letter-spacing: 0.32px;
+    color: var(--vaa-muted);
+}
+
+/* ---- work-sample cards --------------------------------------------------
+   Mobile-first: a plain scrollable row beneath the copy. Real <a> elements
+   throughout, so keyboard focus and screen readers see a normal link list
+   regardless of how the viewport arranges them. */
+.vaaHeroCards{
     position: relative;
     z-index: 2;
-    width: 100%;
-    padding-bottom: clamp(26px, 5.4vh, 68px);
+    display: flex;
+    gap: 14px;
+    margin-top: 32px;
+    padding: 0 2px 4px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
 }
+.vaaHeroCards::-webkit-scrollbar{ display: none; }
 
-.vaaHeroVideo{
+.vaaHeroCard{
+    position: static;
+    flex: 0 0 auto;
+    width: 132px;
+    display: block;
+}
+.vaaHeroCardFrame{
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 6px;
+    background: var(--vaa-surface-2);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+.vaaHeroCardFrame img{
     position: absolute;
     inset: 0;
-    z-index: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-
-/* The title moved to the foot, so the shading follows it: a bottom-up wash
-   that protects the type, plus a light left wash. The upper two thirds of the
-   frame stay untouched. */
-.vaaHeroScrim{
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background:
-        linear-gradient(0deg,
-            rgba(10, 10, 10, 0.88) 0%,
-            rgba(10, 10, 10, 0.62) 18%,
-            rgba(10, 10, 10, 0.20) 38%,
-            rgba(10, 10, 10, 0)    58%),
-        linear-gradient(90deg,
-            rgba(10, 10, 10, 0.42) 0%,
-            rgba(10, 10, 10, 0.12) 40%,
-            rgba(10, 10, 10, 0)    64%);
-}
-
-.vaaHeroTitle{
-    margin: 0;
-    max-width: none;
-    overflow: hidden;
-    font-family: var(--secondary-font);
-    font-size: clamp(32px, 6.4vh, 74px);
-    font-weight: 300;
-    line-height: 1.06;
-    letter-spacing: 0.5px;
+.vaaHeroCardLabel{
+    display: block;
+    margin-top: 8px;
+    font-family: var(--primary-font);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #FFFFFF;
-    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
+    color: var(--vaa-muted);
 }
-.vaaHeroTitleViewport{
-    display: block;
-    width: 100vw;
-    margin-left: calc((100% - 100vw) / 2);
-    overflow: hidden;
-}
-.vaaHeroTitleTrack{
-    display: inline-flex;
-    width: max-content;
-    will-change: transform;
-}
-.vaaHeroTitleTrack > span{
-    display: block;
-    padding-right: 1.5em;
-    white-space: nowrap;
-}
-.vaaHeroTitle .vaaAccent{ color: var(--vaa-accent); }
-
-/* Sound toggle — bottom right of the video, where it was.
-   Autoplay is muted by browser policy; this is the gesture allowed to
-   turn it on. */
-.vaaSound{
-    position: absolute;
-    right: clamp(16px, 2.4vw, 40px);
-    bottom: clamp(16px, 2.6vh, 32px);
-    z-index: 3;
-    display: inline-flex;
+/* Hidden by default; the reveal is a hover/focus affordance on desktop
+   pointers only — see the media query below. */
+.vaaHeroCardView{
+    display: none;
     align-items: center;
-    gap: 10px;
-    padding: 9px 15px 9px 12px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    background: rgba(10, 10, 10, 0.55);
-    -webkit-backdrop-filter: blur(8px);
-            backdrop-filter: blur(8px);
-    color: #FFFFFF;
+    gap: 6px;
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background: rgba(11, 18, 32, 0.82);
     font-family: var(--primary-font);
     font-size: 10px;
     font-weight: 600;
-    letter-spacing: 1.8px;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    cursor: pointer;
-    transition: background 320ms var(--vaa-ease), color 320ms var(--vaa-ease),
-                border-color 320ms var(--vaa-ease);
+    color: #FFFFFF;
+    opacity: 0;
+    pointer-events: none;
 }
-.vaaSound:hover{
-    background: var(--vaa-accent);
-    border-color: var(--vaa-accent);
-    color: var(--vaa-ink);
-}
-.vaaSound svg{ display: block; width: 18px; height: 18px; }
+.vaaHeroCardView i{ font-size: 11px; }
 
-/* muted by default: waves hidden, cross shown — and the reverse once on */
-.vaaSoundWaves{ opacity: 0; }
-.vaaSoundCross{ opacity: 1; }
-.vaaSound.is-on .vaaSoundWaves{ opacity: 1; }
-.vaaSound.is-on .vaaSoundCross{ opacity: 0; }
-.vaaSound.is-on{
-    background: var(--vaa-accent);
-    border-color: var(--vaa-accent);
-    color: var(--vaa-ink);
+/* A visible focus state that does not depend on the hover-only label — the
+   keyboard/AT path always gets this, whatever JS is or isn't doing. */
+.vaaHeroCard:focus-visible{
+    outline: 2px solid var(--vaa-hero-accent);
+    outline-offset: 4px;
+    border-radius: 8px;
+}
+
+/* ---- ghost cards ---------------------------------------------------------
+   Tucked in close around the headline, invisible until the cursor finds
+   them — a plain CSS crossfade rather than the GSAP hover treatment above,
+   so discovering one costs nothing to build and nothing to reduce-motion
+   around. Positioned and hidden on mobile alongside the rest below; see the
+   desktop and mobile media queries. */
+.vaaHeroCardGhost{
+    opacity: 0;
+    transform: scale(0.9) rotate(var(--vc-tilt, -3deg));
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.vaaHeroCardGhost .vaaHeroCardView{ transition: opacity 0.25s ease; }
+.vaaHeroCardGhost:hover,
+.vaaHeroCardGhost:focus-visible{
+    opacity: 1;
+    transform: scale(1.05) rotate(0deg);
+}
+.vaaHeroCardGhost:hover .vaaHeroCardView,
+.vaaHeroCardGhost:focus-visible .vaaHeroCardView{ opacity: 1; }
+
+@media (min-width: 992px){
+    /* Free-floating layout only kicks in once there is room to scatter
+       cards without them colliding with the headline's reading column. */
+    .vaaHeroInner{ min-height: clamp(600px, 82vh, 840px); display: flex; align-items: center; }
+    .vaaHeroCards{
+        display: contents;              /* the wrapper drops out; each card
+                                            positions against .vaaHeroInner */
+        overflow: visible;
+        margin: 0;
+        padding: 0;
+    }
+    .vaaHeroCard{
+        position: absolute;
+        top: var(--vc-top);
+        left: var(--vc-left);
+        width: var(--vc-w);
+        z-index: 1;
+    }
+    .vaaHeroCardFrame{ aspect-ratio: var(--vc-ratio, 4 / 3); }
+    .vaaHeroCardView{ display: inline-flex; }
+
+    .vaaHeroCard[data-card="0"]{ --vc-top: 9%;  --vc-left: 4%;  --vc-w: clamp(120px, 11vw, 190px); }
+    .vaaHeroCard[data-card="1"]{ --vc-top: 3%;  --vc-left: 69%; --vc-w: clamp(140px, 12vw, 210px); --vc-ratio: 4 / 3; }
+    .vaaHeroCard[data-card="2"]{ --vc-top: 57%; --vc-left: 3%;  --vc-w: clamp(110px, 10vw, 168px); --vc-ratio: 3 / 4; }
+    .vaaHeroCard[data-card="3"]{ --vc-top: 61%; --vc-left: 74%; --vc-w: clamp(120px, 11vw, 188px); }
+    .vaaHeroCard[data-card="4"]{ --vc-top: 82%; --vc-left: 20%; --vc-w: clamp(90px, 7.5vw, 132px); }
+
+    /* The ghosts sit inside the headline's own column, in the whitespace
+       around its lines — reachable because .vaaHeroCopy ignores the pointer. */
+    .vaaHeroCard[data-card="5"]{ --vc-top: 12%; --vc-left: 37%; --vc-w: clamp(78px, 6.6vw, 114px); --vc-tilt: -4deg; }
+    .vaaHeroCard[data-card="6"]{ --vc-top: 40%; --vc-left: 61%; --vc-w: clamp(82px, 7vw, 120px);  --vc-tilt: 3deg; --vc-ratio: 3 / 4; }
+    .vaaHeroCard[data-card="7"]{ --vc-top: 67%; --vc-left: 55%; --vc-w: clamp(76px, 6.4vw, 108px); --vc-tilt: -2deg; }
 }
 
 @media (max-width: 991px){
     :root{ --vaa-header-h: 108px; }
-    /* The capability bar stacks tall on narrow screens; if the stage stays a
-       flex child it gets squeezed to nothing, so give it its own height. */
-    .vaaHero{
-        height: 100vh;
-        min-height: 100vh;
-    }
-    .vaaHeroStage{
-        flex: none;
-        min-height: 0;
-    }
-    /* The title runs the full width once stacked, so the toggle moves to the
-       top of the frame rather than sitting on top of it. */
-    .vaaSound{
-        top: clamp(14px, 2.4vh, 22px);
-        bottom: auto;
-    }
-    .vaaHeroTitle{ font-size: clamp(28px, 7.4vw, 48px); }
-    /* the type needs the whole width once the stage narrows */
-    .vaaHeroScrim{
-        background: linear-gradient(0deg,
-            rgba(10, 10, 10, 0.88) 0%,
-            rgba(10, 10, 10, 0.55) 30%,
-            rgba(10, 10, 10, 0.18) 55%,
-            rgba(10, 10, 10, 0.30) 100%);
-    }
-    .vaaHeroStage > .container{ padding-bottom: 26px; }
-}
-@media (max-width: 575px){
-    .vaaSoundLabel{ display: none; }
-    .vaaSound{ padding: 10px; }
+    .vaaHero{ min-height: 0; padding-bottom: clamp(40px, 7vh, 64px); }
+    /* No hover on a touch screen to find them with — the ghosts simply
+       don't join the mobile row. */
+    .vaaHeroCardGhost{ display: none; }
 }
 
 
@@ -1654,22 +1698,9 @@ h1, h2, h3, h4, h5, h6{
 
 /*--------------------------------------------------------------------------
   20.2  Hero
-  The video keeps its frame; the title takes the display face so the first
-  thing on the page is the same kind of object as every section title.
+  Layout and type live in section 19 now (the added.digital-style headline
+  + scattered work cards). Only the capability bar beneath it is styled here.
 --------------------------------------------------------------------------*/
-.vaaHero{ background: var(--vaa-ink); }
-
-.vaaHeroTitle{
-    max-width: 14em;
-    font-family: var(--vaa-display);
-    font-size: clamp(48px, 13.6vh, 168px);
-    font-weight: 400;
-    line-height: 0.94;
-    letter-spacing: 0.035em;
-    text-transform: uppercase;
-    color: #FFFFFF;
-    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
-}
 .vaaAccent{ color: var(--vaa-accent); font-weight: 400; }
 
 .vaaHeroBar{ border-top: 1px solid var(--vaa-line); }
@@ -1882,13 +1913,15 @@ h1, h2, h3, h4, h5, h6{
 --------------------------------------------------------------------------*/
 @media (max-width: 991px){
     .secHeading h3{ font-size: clamp(40px, 11.5vw, 84px); letter-spacing: 0.035em; }
-    .vaaHeroTitle{ font-size: clamp(38px, 12vw, 88px); letter-spacing: 0.028em; }
     .vaaWorkPeek{ display: none; }
 }
 
 @media (prefers-reduced-motion: reduce){
     .vaaLine{ overflow: visible; }
     .vaaWord, .vaaChar{ transform: none !important; opacity: 1 !important; }
+    /* Keep the reveal — it's just a crossfade — but drop the scale/rotate. */
+    .vaaHeroCardGhost{ transition: opacity 0.3s ease; transform: none; }
+    .vaaHeroCardGhost:hover, .vaaHeroCardGhost:focus-visible{ transform: none; }
 }
 
 
@@ -1942,7 +1975,6 @@ h1, h2, h3, h4, h5, h6{
    difference between six rows fitting and six rows not. */
 @media (min-width: 992px) and (max-height: 820px){
     .secHeading h3{ font-size: clamp(48px, 11.4vh, 96px); }
-    .vaaHeroTitle{ font-size: clamp(44px, 12vh, 104px); }
     .vaaWorkLink{ padding-top: clamp(7px, 1.45vh, 24px); padding-bottom: clamp(7px, 1.45vh, 24px); }
 }
 
