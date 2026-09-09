@@ -415,6 +415,12 @@ button:focus-visible{
     outline-offset: 3px;
 }
 
+/* <vaa-site-header> is an autonomous custom element, so it has no implicit
+   display — give it the block box .header02's own rules assume. */
+vaa-site-header{
+    display: block;
+}
+
 
 /*--------------------------------------------------------------------------
   07. Responsive
@@ -2723,4 +2729,450 @@ h1, h2, h3, h4, h5, h6{
     .vaaCaseGalleryGrid{ grid-template-columns: 1fr; }
     .vaaCaseNextLink{ grid-template-columns: 1fr auto; }
     .vaaCaseNextMeta{ display: none; }
+}
+
+
+/*==========================================================================
+  24. VAA_Index — hero intro, preloader & About reveal
+  --------------------------------------------------------------------------
+  Was VAA_Index.html's own inline <style> block. Moved here so it draws every
+  color and font from the tokens in section 20 instead of redeclaring its
+  own — no bespoke hex values, no ad-hoc font-family stacks. Every selector
+  is scoped under .vaaPage (that page's own body class) since this file is
+  shared with about.html, case-studies.html, index.html and services.html —
+  several of those still run the stock theme preloader (#precent included),
+  so an unscoped rule here would have bled into them.
+==========================================================================*/
+.vaaPage{
+    --vaa-gap-edge: clamp(20px, 4vw, 56px);
+}
+
+.vaaPage, .vaaPage *{ margin: 0; padding: 0; box-sizing: border-box; }
+
+body.vaaPage{
+    width: 100%;
+    background: var(--vaa-ink); /* beats .vaaPage's own theme background rule (this wins on specificity) */
+    font-family: var(--primary-font);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* No overflow-x:hidden here: setting only one axis on html/body makes the
+   other compute to auto per spec, which turns body into its own nested
+   scroll container and breaks position:sticky further down the page. */
+
+/* The hero stays put — pinned to the viewport — while Selected work
+   scrolls up over it and fades it out as it goes. Fixed elements take up
+   no document space, so .heroSpacer holds its place in the flow. */
+.vaaPage .scene{
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background: var(--vaa-ink);
+    overflow: hidden;
+}
+
+.vaaPage .heroSpacer{
+    height: 100vh;
+}
+
+/* ---------- Logo group (intro, then docked bottom-right) ---------- */
+.vaaPage .logoGroup{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(10px, 1.6vh, 18px);
+    z-index: 5;
+    will-change: transform;
+}
+
+.vaaPage .logoGroup.isFinal{
+    top: auto;
+    left: auto;
+    bottom: var(--vaa-gap-edge);
+    right: var(--vaa-gap-edge);
+    transform: none;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+.vaaPage .vaaLogoSvg{
+    width: clamp(150px, 19vw, 230px);
+    height: auto;
+    display: block;
+    overflow: visible;
+}
+
+.vaaPage .logoGroup.isFinal .vaaLogoSvg{
+    width: clamp(46px, 5.5vw, 68px);
+}
+
+.vaaPage #vaaLogoPath{
+    fill: none;
+    stroke: #fff;
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.vaaPage #vaaGlow{
+    fill: #fff;
+    opacity: 0;
+    filter: url(#vaaGlowBlur);
+}
+
+.vaaPage .wordmark{
+    font-weight: 300;
+    letter-spacing: 0.22em;
+    text-transform: capitalize;
+    color: var(--vaa-accent);
+    font-size: clamp(13px, 1.35vw, 19px);
+    white-space: nowrap;
+    perspective: 500px;
+}
+
+.vaaPage .logoGroup.isFinal .wordmark{
+    font-size: clamp(8.5px, 0.85vw, 11px);
+    letter-spacing: 0.16em;
+}
+
+.vaaPage .wordmark .char{
+    display: inline-block;
+}
+
+/* ---------- Headline ---------- */
+.vaaPage .headlineWrap{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 6vw;
+    z-index: 3;
+}
+
+.vaaPage #headline{
+    perspective: 1000px;
+    font-weight: 400;
+    line-height: 1.15;
+    font-size: clamp(28px, 5.6vw, 62px);
+    letter-spacing: -0.01em;
+}
+
+.vaaPage #headline .hl-white{ color: #fff; }
+.vaaPage #headline .hl-gold{ color: var(--vaa-accent); }
+
+.vaaPage #headline .char{
+    display: inline-block;
+    will-change: transform, opacity;
+}
+
+/* ---------- Description (bottom-left) ---------- */
+.vaaPage .description{
+    position: absolute;
+    left: var(--vaa-gap-edge);
+    bottom: var(--vaa-gap-edge);
+    z-index: 4;
+    color: var(--vaa-muted);
+    opacity: 0;
+    font-weight: 300;
+    font-size: clamp(11px, 1vw, 13px);
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+    max-width: 52vw;
+}
+
+@media (max-width: 640px){
+    .vaaPage .logoGroup.isFinal{
+        align-items: flex-end;
+    }
+    .vaaPage .description{
+        max-width: 80vw;
+    }
+}
+
+/* ---------- Mouse-trail gallery thumbnails ---------- */
+.vaaPage .cursorTrail{
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.vaaPage .trailThumb{
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    background-size: cover;
+    background-position: center;
+    border-radius: 6px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+    opacity: 0;
+    pointer-events: auto;
+    cursor: pointer;
+    will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce){
+    .vaaPage #vaaLogoPath, .vaaPage #vaaGlow, .vaaPage .wordmark .char, .vaaPage #headline .char{
+        transition: none !important;
+    }
+}
+
+/* ---------- Selected work — pinned stack ---------- */
+.vaaPage .vaaStackWork{
+    position: relative;
+    z-index: 2; /* above the fixed .scene (z-index:1), so it scrolls over it */
+}
+
+.vaaPage .vaaStackIntro{
+    padding-bottom: clamp(40px, 8vh, 90px);
+}
+
+.vaaPage .vaaStackHeading{
+    margin-top: 14px;
+    max-width: 14ch;
+    color: #fff;
+    font-weight: 400;
+    line-height: 1.15;
+    font-size: clamp(26px, 4.4vw, 48px);
+    letter-spacing: -0.01em;
+}
+
+.vaaPage .vaaStackTrack{
+    position: relative;
+    /* height is set by vaa-work-stack.js once the work items are known */
+}
+
+.vaaPage .vaaStackViewport{
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+}
+
+.vaaPage .vaaStackItem{
+    grid-area: 1 / 1;
+    display: block;
+    position: relative;
+    width: min(1100px, 86vw);
+    height: min(640px, 76vh);
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--vaa-surface);
+    box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55);
+    will-change: transform, opacity;
+}
+
+.vaaPage .vaaStackFrame{
+    position: absolute;
+    inset: 0;
+    display: block;
+}
+
+.vaaPage .vaaStackFrame img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.vaaPage .vaaStackFrame:after{
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 55%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0));
+    pointer-events: none;
+}
+
+.vaaPage .vaaStackCaption{
+    position: absolute;
+    left: 28px;
+    bottom: 24px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: #fff;
+    pointer-events: none;
+}
+
+.vaaPage .vaaStackIndex{
+    font-family: var(--primary-font);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: var(--vaa-accent);
+    margin-bottom: 6px;
+}
+
+.vaaPage .vaaStackTitle{
+    display: block;
+    font-size: clamp(19px, 2.4vw, 26px);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+.vaaPage .vaaStackMeta{
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: var(--vaa-muted);
+}
+
+@media (max-width: 640px){
+    .vaaPage .vaaStackItem{ width: 92vw; height: 64vh; border-radius: 14px; }
+    .vaaPage .vaaStackCaption{ left: 20px; right: 20px; }
+}
+
+/* ---------- About — letter-by-letter scroll reveal ---------- */
+.vaaPage .vaaAbout{
+    position: relative;
+    z-index: 2; /* same level as #work — the fixed hero is long gone by here */
+    background: var(--vaa-ink);
+}
+
+.vaaPage .vaaAboutTrack{
+    position: relative;
+    height: 320vh; /* scroll runway the reveal is scrubbed against */
+}
+
+.vaaPage .vaaAboutViewport{
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.vaaPage .vaaAboutViewport .vaaEyebrow{
+    display: block;
+    margin-bottom: clamp(20px, 3.5vh, 36px);
+}
+
+.vaaPage .vaaAboutText{
+    max-width: 1180px;
+    font-family: var(--primary-font);
+    font-weight: 300; /* thin */
+    font-size: clamp(20px, 3.1vw, 40px);
+    line-height: 1.45;
+    letter-spacing: -0.02em; /* sharp — tighter than the rest of the page's type */
+}
+
+/* Shared by every [data-reveal-track]/[data-reveal-text] pair vaa-text-
+   reveal.js wires up — About's paragraph and the Services intro's title
+   both get these via SplitText's generated word/char spans. */
+.vaaPage .vaaRevealWord{
+    will-change: transform, opacity;
+}
+
+.vaaPage .vaaRevealChar{
+    color: var(--vaa-muted); /* the dim state a word settles at once it's in; vaa-text-reveal.js then lights it white (or accent) per letter */
+}
+
+/* ---------- Services intro — one viewport, big three-line statement ---------- */
+.vaaPage .vaaServicesStatement{
+    position: relative;
+    z-index: 2; /* same level as #about/#work — the fixed hero is long gone by here */
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: var(--vaa-ink);
+}
+
+.vaaPage .vaaServicesStatement .vaaEyebrow{
+    display: block;
+    margin-bottom: clamp(20px, 3.5vh, 36px);
+}
+
+.vaaPage .vaaServicesTitle{
+    font-weight: 400;
+    line-height: 1.15;
+    font-size: clamp(34px, 6.4vw, 92px);
+    letter-spacing: -0.01em;
+}
+
+/* ---------- Preloader ---------- */
+/* Big centered "VAA" watermark. Shrink-wraps to the text itself (no set
+   width) so the accent copy stacked on top of it — same text, absolutely
+   positioned to exactly cover it — can clip-path itself by percentage of
+   its OWN box. That makes the inset % in the script below a direct
+   0-100 load-progress -> fill-of-the-letters mapping, not a sweep across
+   the viewport. */
+.vaaPage .vaaPreloadWord{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    font-family: var(--primary-font);
+    font-weight: 300; /* thin — the site's sharp grotesque, not a blocky display cut */
+    font-size: clamp(70px, 22vw, 340px);
+    letter-spacing: -0.01em;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.vaaPage .vaaPreloadWord-black{
+    display: block;
+    color: var(--vaa-ink);
+}
+
+.vaaPage .vaaPreloadWord-orange{
+    position: absolute;
+    inset: 0;
+    color: var(--vaa-accent);
+    clip-path: inset(0 100% 0 0);
+}
+
+/* Percentage counter: corner readout instead of the theme default's
+   center placement; mix-blend-mode (from preset.css) keeps it legible
+   over the white ground. Scoped to .vaaPage — about.html and index.html
+   still run the stock theme preloader with the same #precent id. */
+.vaaPage #precent{
+    left: auto;
+    top: auto;
+    right: var(--vaa-gap-edge);
+    bottom: var(--vaa-gap-edge);
+    transform: none;
+    font-size: clamp(18px, 2.4vw, 32px);
+    z-index: 4;
+}
+
+
+/*==========================================================================
+  25. Image scroll reveal — scale + pan, GSAP ScrollTrigger driven
+  --------------------------------------------------------------------------
+  Drop .vaaImgReveal on any <img>. It starts zoomed in and nudged right;
+  vaa-img-reveal.js adds .is-inview via ScrollTrigger the instant the image
+  crosses into the viewport, and this transition eases it back to its
+  resting scale/position. Give the image's ancestor overflow:hidden (the
+  Selected-work stack's .vaaStackItem already does) so the zoomed-in state
+  never peeks past the frame's edges. Not scoped to .vaaPage — this is a
+  general-purpose utility any page in the project can use.
+==========================================================================*/
+.vaaImgReveal{
+    transform: scale(1.2) translateX(10px);
+    transition: transform 1.1s var(--vaa-ease);
+    will-change: transform;
+}
+.vaaImgReveal.is-inview{
+    transform: scale(1) translateX(0);
+}
+@media (prefers-reduced-motion: reduce){
+    .vaaImgReveal{ transition: none; transform: none; }
 }

@@ -1,659 +1,476 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="description" content="VAA — Vasantha Ads &amp; Arts. A full-service advertising agency building brands through identity, digital, media and growth. Branding, UI/UX, digital marketing, campaigns, film and print.">
-        <meta name="keywords" content="Vasantha Ads &amp; Arts, VAA, ad agency, advertising agency, branding, identity design, UI UX design, website design, digital marketing, social media, performance marketing, creative design, video production, print advertising, outdoor advertising, events and promotions">
-        <meta name="author" content="Vasantha Ads &amp; Arts">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+<title>VAA — Vasantha Ads &amp; Arts</title>
+<meta name="description" content="VAA — Vasantha Ads &amp; Arts. We build brands that grow.">
 
-        <meta name="theme-color" content="#0B1220">
+<!-- BEGIN: CSS for <vaa-site-header> — same stack case-studies.html loads it with -->
+<link rel="stylesheet" href="assets/css/bootstrap.css">
+<link rel="stylesheet" href="assets/css/fontawesome-all.css">
+<link rel="stylesheet" href="assets/css/boozy-icons.css">
 
-        <!-- BEGIN: Social share -->
-        <meta property="og:type" content="website">
-        <meta property="og:title" content="VAA — Vasantha Ads &amp; Arts">
-        <meta property="og:description" content="A full-service advertising agency building brands through identity, digital, media and growth.">
-        <meta property="og:image" content="assets/images/slider/banner1.jpg">
-        <!-- END: Social share -->
+<link rel="stylesheet" href="assets/css/preset.css">
+<link rel="stylesheet" href="assets/css/theme.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
 
-        <title>VAA — Vasantha Ads &amp; Arts | Branding, Digital &amp; Advertising</title>
-"https://www.added.digital/"
-        <!-- BEGIN: CSS -->
-        <link rel="stylesheet" href="assets/css/bootstrap.css">
-        <link rel="stylesheet" href="assets/css/animate.css">
-        <link rel="stylesheet" href="assets/css/fontawesome-all.css">
-        <link rel="stylesheet" href="assets/css/boozy-icons.css">
-        <link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
-        <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-        <link rel="stylesheet" href="assets/css/lightslider.css">
-        <link rel="stylesheet" href="assets/css/lightcase.css">
-        <link rel="stylesheet" href="assets/css/nice-select.css">
-        <link rel="stylesheet" href="assets/css/slick.css">
-        <link rel="stylesheet" href="assets/css/aos.css">
+<!-- General Sans is var(--primary-font) in vaa-custom.css's theme tokens —
+     every font-family on this page comes from that stack, nothing custom. -->
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@300,400,500,600&amp;display=swap">
 
-        <link rel="stylesheet" href="assets/css/ignore_for_wp.css">
-        <link rel="stylesheet" href="assets/css/preset.css">
-        <link rel="stylesheet" href="assets/css/theme.css">
-        <link rel="stylesheet" href="assets/css/responsive.css">
+<!-- VAA custom layer — must load last -->
+<link rel="stylesheet" href="assets/css/vaa-custom.css">
+<!-- END: CSS for <vaa-site-header> -->
 
-        <!-- BEGIN: Type — the RNO1 pairing.
-             General Sans is the closest freely-licensed cut to Saans, the
-             grotesque RNO1 sets every piece of UI and body copy in; Anton
-             carries the giant uppercase display titles. -->
-        <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@300,400,500,600&amp;display=swap">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&amp;display=swap">
-        <!-- END: Type -->
+<script src="assets/js/components/vaa-site-header.js"></script>
 
-        <!-- VAA custom layer — must load last -->
-        <link rel="stylesheet" href="assets/css/vaa-custom.css">
-        <!-- END: CSS -->
+</head>
+<body class="vaaPage">
 
-        <!-- BEGIN: Favicon Icon -->
-        <link rel="icon"  type="image/png" href="assets/images/favicon.png">
-        <!-- END: Favicon Icon -->
-    </head>
-    <body id="magicCursor" class="page">
+<!-- Preloader Start -->
+<div class="preloader-wrap">
+  <div class="vaaPreloadWord" aria-hidden="true">
+    <span class="vaaPreloadWord-black">VAA</span>
+    <span class="vaaPreloadWord-orange">VAA</span>
+  </div>
+  <div id="precent"></div>
+</div>
+<script>
+(function () {
+  var wrap   = document.querySelector('.preloader-wrap');
+  var pct    = document.getElementById('precent');
+  var orange = document.querySelector('.vaaPreloadWord-orange');
+  if (!wrap) return;
 
-        <!-- Preloader Start -->
-        <div class="preloader-wrap">
-            <div class="loader_bar"></div>
-            <div id="precent"></div>
+  function finish() {
+    wrap.style.transition = 'opacity 0.4s ease';
+    wrap.style.opacity = '0';
+    setTimeout(function () {
+      wrap.style.display = 'none';
+      window.__vaaPreloaderDone = true;
+      document.dispatchEvent(new CustomEvent('vaa:preloaderDone'));
+    }, 400);
+  }
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    wrap.style.display = 'none';
+    window.__vaaPreloaderDone = true;
+    document.dispatchEvent(new CustomEvent('vaa:preloaderDone'));
+    return;
+  }
+
+  var duration = 1200;
+  var start = null;
+
+  function step(ts) {
+    if (start === null) start = ts;
+    var current = Math.min(100, Math.round(((ts - start) / duration) * 100));
+    pct.textContent = current + '%';
+    orange.style.clipPath = 'inset(0 ' + (100 - current) + '% 0 0)';
+    if (current < 100) {
+      requestAnimationFrame(step);
+    } else {
+      finish();
+    }
+  }
+  requestAnimationFrame(step);
+})();
+</script>
+<!-- Preloader End -->
+
+<!-- BEGIN: Header -->
+<!-- .vaaPage is what pins the header: this page loads no theme.js, and
+     vaa-custom.css already fixes the header itself for exactly that case
+     (see ".vaaPage .header02" there) — the same rule case-studies.html uses. -->
+<vaa-site-header></vaa-site-header>
+<!-- END: Header -->
+
+<div class="scene" id="scene">
+
+  <div class="logoGroup" id="logoGroup">
+    <svg class="vaaLogoSvg" id="vaaLogoSvg" viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <defs>
+        <filter id="vaaGlowBlur" x="-300%" y="-300%" width="700%" height="700%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      <path id="vaaLogoPath" d="M18,28 L84,132 L150,28 L216,132 L282,28"/>
+      <circle id="vaaGlow" cx="18" cy="28" r="9"/>
+    </svg>
+    <div class="wordmark" id="wordmark">Vasantha Ads &amp; Arts</div>
+  </div>
+
+  <div class="headlineWrap">
+    <h1 id="headline">
+      <span class="hl-white">We build brands that&nbsp;</span><span class="hl-gold">Grow</span>
+    </h1>
+  </div>
+
+  <p class="description" id="description">
+    Design, Development and Growth.<br>
+    Added to create something Greater.
+  </p>
+
+  <div class="cursorTrail" id="cursorTrail" aria-hidden="true"></div>
+
+</div>
+
+<!-- Fixed .scene takes up no document space — this holds its place so
+     #work starts one viewport down, below the fold. -->
+<div class="heroSpacer" aria-hidden="true"></div>
+
+<!-- BEGIN: Selected work — a pinned stack of case studies.
+     Populated from data/works.json by vaa-work-stack.js: each frame rises
+     from the bottom and pins center-screen as the next rises over it, the
+     one behind settling back with a scale-down and fade. Click any frame
+     to open its case study. Sits above the fixed hero (z-index) so it
+     visibly scrolls up and over it. -->
+<section class="vaaStackWork" id="work">
+  <div class="vaaStackIntro">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="vaaEyebrow">Selected work</h2>
         </div>
-        <!-- Preloader End -->
+      </div>
+    </div>
+  </div>
+  <div class="vaaStackTrack" data-stack-track>
+    <div class="vaaStackViewport" data-stack-viewport></div>
+  </div>
+</section>
+<!-- END: Selected work -->
 
-        <!-- BEGIN: Scrollbar content -->
-        <div class="main myScroller">
-
-            <!-- BEGIN: Header -->
-            <header class="header02 isSticky bg-dark">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="headerInner02">
-                                <div class="logo">
-                                    <a href="VAA_Index.html" class="dfCursor vaaLogo" aria-label="VAA — Vasantha Ads &amp; Arts, home">
-                                       <img src="assets/images/VAA/Logo_White.png" style="width:100px; margin-left: 30px;">
-                                    </a>
-                                </div>
-                                <nav class="mainMenu">
-                                    <ul>
-                                        <li>
-                                            <a data-title="Hero" href="#heroTop"><span>Hero</span></a>
-                                        </li>
-                                        <li>
-                                            <a data-title="About" href="#about"><span>About</span></a>
-                                        </li>
-                                        <li>
-                                            <a data-title="Services" href="#services"><span>Services</span></a>
-                                        </li>
-                                        <li>
-                                            <a data-title="Contact Us" href="#contact"><span>Contact Us</span></a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                                <div class="headerOniAccess02">
-                                    <a class="hdSupportBtn" href="#contact"><i class="boozy-chat"></i> Start a project</a>
-                                    <a href="javascript:void(0)" class="menu_btn menuBTN02" aria-label="Open menu"><i class="fa-solid fa-bars"></i></a>
-                                    <div class="boozyGridMenu">
-                                        <a href="javascript:void(0);" aria-label="Open studio panel">
-                                            <span></span>
-                                            <span></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
-            <!-- END: Header -->
-
-            <!-- BEGIN: Hero
-                 added.digital's pattern: a centered display headline with a
-                 handful of work-sample thumbnails scattered around it. The
-                 whole thing plays once on load (assets/js/vaa-hero.js) — the
-                 headline lines rise out of a mask, the cards settle in from a
-                 tilt, then idle-float gently forever after. Vertical and
-                 self-contained; the horizontal stage only begins at the
-                 capability bar below. -->
-            <section class="vaaHero" id="heroTop">
-                <div class="vaaHeroInner">
-
-                    <div class="vaaHeroCopy">
-                        <h1 class="vaaHeroHeadline">
-                            <span class="vaaHeroLine"><span class="vaaHeroLineIn">We build brands</span></span>
-                            <span class="vaaHeroLine"><span class="vaaHeroLineIn">that <span class="vaaHeroAccent">grow</span></span></span>
-                        </h1>
-                        <p class="vaaHeroSub">Branding, digital, media and growth — one team, one idea, shipped.</p>
-                    </div>
-
-                    <div class="vaaHeroCards">
-                        <a class="vaaHeroCard" data-card="0" href="case-studies.html?id=outdoor-identity">
-                            <span class="vaaHeroCardFrame">
-                                <img src="assets/images/WORKS/web/01.jpg" alt="Outdoor Identity — billboard and out-of-home campaign" loading="eager">
-                            </span>
-                            <span class="vaaHeroCardLabel">Outdoor Identity</span>
-                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
-                        </a>
-                        <a class="vaaHeroCard" data-card="1" href="case-studies.html?id=compensation-platform">
-                            <span class="vaaHeroCardFrame">
-                                <img src="assets/images/WORKS/web/02.jpg" alt="Compensation Platform — UI/UX design for a payroll product" loading="eager">
-                            </span>
-                            <span class="vaaHeroCardLabel">Compensation Platform</span>
-                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
-                        </a>
-                        <a class="vaaHeroCard" data-card="2" href="case-studies.html?id=product-campaign">
-                            <span class="vaaHeroCardFrame">
-                                <img src="assets/images/WORKS/web/04.jpg" alt="Product Campaign — brand photography and art direction" loading="eager">
-                            </span>
-                            <span class="vaaHeroCardLabel">Product Campaign</span>
-                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
-                        </a>
-                        <a class="vaaHeroCard" data-card="3" href="case-studies.html?id=crypto-dashboard">
-                            <span class="vaaHeroCardFrame">
-                                <img src="assets/images/WORKS/web/06.jpg" alt="Crypto Dashboard — web design for a trading product" loading="lazy">
-                            </span>
-                            <span class="vaaHeroCardLabel">Crypto Dashboard</span>
-                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
-                        </a>
-                        <a class="vaaHeroCard" data-card="4" href="case-studies.html?id=storefront-identity">
-                            <span class="vaaHeroCardFrame">
-                                <img src="assets/images/WORKS/web/13.jpg" alt="Storefront Identity — retail branding and signage" loading="lazy">
-                            </span>
-                            <span class="vaaHeroCardLabel">Storefront Identity</span>
-                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
-                        </a>
-                        <a class="vaaHeroCard" data-card="8" href="case-studies.html?id=subscriptions-platform">
-                            <span class="vaaHeroCardFrame">
-                                <img src="assets/images/WORKS/web/09.jpg" alt="Subscriptions Platform — web design and marketing site" loading="lazy">
-                            </span>
-                            <span class="vaaHeroCardLabel">Subscriptions Platform</span>
-                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
-                        </a>
-                        <a class="vaaHeroCard" data-card="9" href="case-studies.html?id=service-app">
-                            <span class="vaaHeroCardFrame">
-                                <img src="assets/images/WORKS/web/17.jpg" alt="Service App — app experience design" loading="lazy">
-                            </span>
-                            <span class="vaaHeroCardLabel">Service App</span>
-                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
-                        </a>
-
-                        <!-- Ghost cards — tucked in close around the headline itself,
-                             invisible until the cursor happens to pass over them.
-                             Desktop only: a hover secret needs a hover to find it. -->
-                        <a class="vaaHeroCard vaaHeroCardGhost" data-card="5" href="case-studies.html?id=retail-experience">
-                            <span class="vaaHeroCardFrame">
-                                <img src="assets/images/WORKS/web/08.jpg" alt="Retail Experience — multi-device UI design" loading="lazy">
-                            </span>
-                            <span class="vaaHeroCardLabel">Retail Experience</span>
-                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
-                        </a>
-                        <a class="vaaHeroCard vaaHeroCardGhost" data-card="6" href="case-studies.html?id=consensus-website">
-                            <span class="vaaHeroCardFrame">
-                                <img src="assets/images/WORKS/web/16.jpg" alt="Consensus Website — web design and motion" loading="lazy">
-                            </span>
-                            <span class="vaaHeroCardLabel">Consensus Website</span>
-                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
-                        </a>
-                        <a class="vaaHeroCard vaaHeroCardGhost" data-card="7" href="case-studies.html?id=bottle-campaign">
-                            <span class="vaaHeroCardFrame">
-                                <img src="assets/images/WORKS/web/21.jpg" alt="Bottle Campaign — product photography" loading="lazy">
-                            </span>
-                            <span class="vaaHeroCardLabel">Bottle Campaign</span>
-                            <span class="vaaHeroCardView">View project <i class="boozy-long-r-arrow"></i></span>
-                        </a>
-                    </div>
-
-                </div>
-            </section>
-            <!-- END: Hero  -->
-
-            <!-- BEGIN: Hero Service Bar -->
-                <div class="vaaHeroBar">
-                    <div class="container">
-                        
-                        <ul class="vaaHeroBarGrid">
-                            <li class="vaaHeroBarItem">
-                                <span class="vhbLabel">Brand</span>
-                                <h4 class="vhbTitle"><a href="service.html">Identity systems that make a brand impossible to mistake</a></h4>
-                            </li>
-                            <li class="vaaHeroBarItem">
-                                <span class="vhbLabel">Digital</span>
-                                <h4 class="vhbTitle"><a href="service.html">Websites and journeys built to convert, not just impress</a></h4>
-                            </li>
-                            <li class="vaaHeroBarItem">
-                                <span class="vhbLabel">Media</span>
-                                <h4 class="vhbTitle"><a href="service.html">Campaigns that earn attention on every screen and street</a></h4>
-                            </li>
-                            <li class="vaaHeroBarItem">
-                                <span class="vhbLabel">Growth</span>
-                                <h4 class="vhbTitle"><a href="service.html">Media strategy that turns spend into measurable growth</a></h4>
-                            </li>
-                        </ul>
-
-                       
-                    </div>
-                     
-                </div>
-                <!-- END: Hero Service Bar -->
-
-            
-
-            <!-- BEGIN: Stage — one pin, two movements.
-                 Movement 1 slides About off to the left and brings Services in
-                 from the right. Movement 2 keeps Services on screen while its
-                 three rows stack. Both live on one timeline so nothing has to
-                 pin inside a transformed ancestor, which position:fixed cannot
-                 survive. -->
-            <div class="vaaStage">
-              <div class="vaaStageTrack">
-
-            <!-- BEGIN: About Section  -->
-            <section class="aboutSection vaaAbout vaaStagePanel" id="about" data-nav="#about">
-                <div class="container">
-
-                   <div class="secHeading" style="margin-left: 25px">
-                                <h3 class="me-2">Who we are</h3>
-                                <div class="button-wrap right">
-                                    
-                                </div>
-                            </div>
-
-                    <div class="vaaAboutGrid">
-
-                        <div class="vaaAboutMedia">
-                            <!-- Placeholders, per the brief — the RNO1 grid
-                                 reads as flat colour blocks until its media
-                                 loads, and that state is kept deliberately. -->
-                            <figure class="vaaAboutImg vaaAboutImg--tall vaaPh" data-ph="Studio">
-                                <img src="assets/images/about/2.jpg" alt="The VAA team working through a campaign">
-                            </figure>
-                            <figure class="vaaAboutImg vaaAboutImg--inset vaaPh" data-ph="In progress">
-                                <img src="assets/images/about/1.jpg" alt="Design work in progress at VAA">
-                            </figure>
-                        </div>
-
-                        <div class="vaaAboutBody">
-                            <h2>A full-service <span class="abMark">ad</span> agency built for <span class="abMark">modern</span> brands</h2>
-                            <p>VAA brings strategy, design, media and technology into one team, so the idea that wins the pitch is the same idea that ships. We measure the work by what it moves, not by how it looks in a deck.</p>
-
-                            <ul class="vaaAboutPillars">
-                                <li><span class="vapNum">01</span> Brand</li>
-                                <li><span class="vapNum">02</span> Digital</li>
-                                <li><span class="vapNum">03</span> Media</li>
-                                <li><span class="vapNum">04</span> Growth</li>
-                            </ul>
-
-                            <a href="about.html" class="vaaTextLink d-none">
-                                <span>More about VAA</span>
-                                <i class="boozy-long-r-arrow"></i>
-                            </a>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
-            <!-- END: About Section  -->
-
-            <!-- BEGIN: Services — twelve cards as three stacking rows of four.
-                 The section pins and each row slides up over the one before it;
-                 the horizontal track picks up once the stack has finished. -->
-            <section class="serviceSection02 vaaServices vaaStack vaaStagePanel" id="services" data-nav="#services">
-                <div class="container">
-
-                    <div class="secHeading">
-                        <h3>What we do</h3>
-                        <div class="button-wrap right"></div>
-                    </div>
-
-                    <div class="vaaStackViewport">
-                        <div class="vaaStackRow" data-stack-row="0">
-                            <article class="vaaServiceCard">
-                                <div class="vaaServiceCardTop">
-                                    <span class="vaaServiceIcon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M24 4 42 14v20L24 44 6 34V14L24 4Z"/><path d="M24 24 42 14M24 24 6 14M24 24v20" stroke-dasharray="3 3"/></svg></span>
-                                    <span class="vaaServiceNum">01</span>
-                                </div>
-                                <h3><a href="service-single.html">Branding &amp; Identity</a></h3>
-                                <p>Positioning, naming, logo systems, tone of voice and brand guidelines that hold up everywhere the brand appears.</p>
-                            </article>
-
-                            <article class="vaaServiceCard">
-                                <div class="vaaServiceCardTop">
-                                    <span class="vaaServiceIcon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="9" width="38" height="30" rx="2"/><path d="M5 18h38M18 18v21"/><path d="M9.5 13.5h1M13.5 13.5h1"/></svg></span>
-                                    <span class="vaaServiceNum">02</span>
-                                </div>
-                                <h3><a href="service-single.html">UI/UX &amp; Website Design</a></h3>
-                                <p>Research, wireframes, design systems and responsive builds — interfaces that are quick to use and quick to load.</p>
-                            </article>
-
-                            <article class="vaaServiceCard">
-                                <div class="vaaServiceCardTop">
-                                    <span class="vaaServiceIcon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8 19v10h6l16 9V10L14 19H8Z"/><path d="M34 19c2.6 1.7 2.6 8.3 0 10"/><path d="M39 15c4.4 3 4.4 15 0 18"/></svg></span>
-                                    <span class="vaaServiceNum">03</span>
-                                </div>
-                                <h3><a href="service-single.html">Digital Marketing</a></h3>
-                                <p>Search, display, email and marketplace marketing planned around the funnel rather than around the channel.</p>
-                            </article>
-
-                            <article class="vaaServiceCard">
-                                <div class="vaaServiceCardTop">
-                                    <span class="vaaServiceIcon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="24" cy="10" r="4"/><circle cx="11" cy="34" r="4"/><circle cx="37" cy="34" r="4"/><path d="M21.4 13.2 13.6 30.4M26.6 13.2l7.8 17.2M15 34h18"/></svg></span>
-                                    <span class="vaaServiceNum">04</span>
-                                </div>
-                                <h3><a href="service-single.html">Social Media</a></h3>
-                                <p>Always-on content calendars, community management and platform-native creative for Instagram, LinkedIn and YouTube.</p>
-                            </article>
-                        </div>
-
-                        <div class="vaaStackRow" data-stack-row="1">
-                            <article class="vaaServiceCard">
-                                <div class="vaaServiceCardTop">
-                                    <span class="vaaServiceIcon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="7" y="7" width="22" height="22"/><circle cx="30" cy="30" r="11"/></svg></span>
-                                    <span class="vaaServiceNum">05</span>
-                                </div>
-                                <h3><a href="service-single.html">Creative Design</a></h3>
-                                <p>Key visuals, campaign toolkits, packaging and collateral — one creative idea, extended cleanly across every format.</p>
-                            </article>
-
-                            <article class="vaaServiceCard">
-                                <div class="vaaServiceCardTop">
-                                    <span class="vaaServiceIcon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M17 29.5a10 10 0 1 1 14 0c-1.7 1.6-2.5 3.2-2.5 5.5h-9c0-2.3-.8-3.9-2.5-5.5Z"/><path d="M20 39h8M21.5 43h5"/></svg></span>
-                                    <span class="vaaServiceNum">06</span>
-                                </div>
-                                <h3><a href="service-single.html">Advertising Campaigns</a></h3>
-                                <p>Insight-led campaign platforms with the media plan, production and rollout handled end to end.</p>
-                            </article>
-
-                            <article class="vaaServiceCard">
-                                <div class="vaaServiceCardTop">
-                                    <span class="vaaServiceIcon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="14" width="36" height="25" rx="2"/><circle cx="24" cy="26.5" r="7.5"/><path d="M17 14l3-4.5h8L31 14"/></svg></span>
-                                    <span class="vaaServiceNum">07</span>
-                                </div>
-                                <h3><a href="service-single.html">Video &amp; Photography</a></h3>
-                                <p>Brand films, product shoots, reels and post-production — from storyboard through to final grade.</p>
-                            </article>
-
-                            <article class="vaaServiceCard">
-                                <div class="vaaServiceCardTop">
-                                    <span class="vaaServiceIcon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 39 13 23 29 7l12 12-16 16-16 4Z"/><path d="M13 23l12 12"/><circle cx="27.5" cy="20.5" r="3"/></svg></span>
-                                    <span class="vaaServiceNum">08</span>
-                                </div>
-                                <h3><a href="service-single.html">Content Creation</a></h3>
-                                <p>Copywriting, scripts, articles and motion graphics written for the audience first and the algorithm second.</p>
-                            </article>
-                        </div>
-
-                        <div class="vaaStackRow" data-stack-row="2">
-                            <article class="vaaServiceCard">
-                                <div class="vaaServiceCardTop">
-                                    <span class="vaaServiceIcon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="7" width="36" height="23"/><path d="M16 30v12M32 30v12M11 42h10M27 42h10"/></svg></span>
-                                    <span class="vaaServiceNum">09</span>
-                                </div>
-                                <h3><a href="service-single.html">Print &amp; Outdoor Advertising</a></h3>
-                                <p>Press, hoardings, transit and retail branding — production-ready artwork and vendor coordination included.</p>
-                            </article>
-
-                            <article class="vaaServiceCard">
-                                <div class="vaaServiceCardTop">
-                                    <span class="vaaServiceIcon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="24" cy="24" r="16"/><circle cx="24" cy="24" r="9"/><circle cx="24" cy="24" r="2.5"/></svg></span>
-                                    <span class="vaaServiceNum">10</span>
-                                </div>
-                                <h3><a href="service-single.html">Marketing Strategy</a></h3>
-                                <p>Category and audience research, positioning, messaging architecture and annual plans with clear success measures.</p>
-                            </article>
-
-                            <article class="vaaServiceCard">
-                                <div class="vaaServiceCardTop">
-                                    <span class="vaaServiceIcon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 17a4 4 0 0 1 0 14v6h36v-6a4 4 0 0 1 0-14v-6H6v6Z"/><path d="M24 13v22" stroke-dasharray="3 3"/></svg></span>
-                                    <span class="vaaServiceNum">11</span>
-                                </div>
-                                <h3><a href="service-single.html">Events &amp; Promotions</a></h3>
-                                <p>Launches, activations, exhibition stands and on-ground promotions, with the brand system intact from invite to stall.</p>
-                            </article>
-
-                            <article class="vaaServiceCard">
-                                <div class="vaaServiceCardTop">
-                                    <span class="vaaServiceIcon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 8v32h34"/><path d="M13 32l8-9 7 6 11-14"/><path d="M33 15h6v6"/></svg></span>
-                                    <span class="vaaServiceNum">12</span>
-                                </div>
-                                <h3><a href="service-single.html">Performance Marketing</a></h3>
-                                <p>Paid media, landing-page testing, tracking and attribution — optimised against pipeline, not vanity metrics.</p>
-                            </article>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-            <!-- END: Services  -->
-
-            <!-- BEGIN: Work Section — the tile grid from rno1.com/work.
-                 Each card is a 3:2 media tile with an 8px radius over a
-                 one-line caption: project name in white, discipline in the
-                 secondary grey. The tiles fade and zoom in as the panel
-                 arrives, and the media crops in a step further on hover. -->
-            <section class="projectSection02 vaaStagePanel vaaWorkPanel" id="work" data-nav="#services">
-                <div class="container">
-                    <div class="secHeading" id="projectHeading">
-                        <h3>Selected work</h3>
-                    </div>
-
-                    <!-- The lede and the category filter, as on rno1.com/work.
-                         They share a row rather than stacking, because every
-                         pixel spent here comes off the tiles below. -->
-                    <div class="vaaWorkIntro">
-                        <p class="vaaWorkLede">
-                            <span class="vaaWorkLedeLead">Brand. Digital. Media.</span>
-                            A selection of recent work across the practice.
-                        </p>
-
-                        <div class="vaaWorkFilter">
-                            <button class="vaaFilterBtn" type="button" aria-expanded="false" aria-haspopup="listbox">
-                                <span class="vaaFilterLabel">All Work</span>
-                                <svg class="vaaFilterChev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10l4-4 4 4"/></svg>
-                            </button>
-                            <ul class="vaaFilterMenu" role="listbox" hidden></ul>
-                        </div>
-                    </div>
-
-                    <!-- Two columns at RNO1's 3:2, which runs taller than the
-                         frame. The viewport clips it and the stage timeline
-                         translates the scroller through the overflow, so the
-                         sideways travel pauses and the grid scrolls until it
-                         reaches the end. -->
-                    <div class="vaaWorkViewport">
-                      <div class="vaaWorkScroll">
-                        <!-- Rendered from data/works.json by vaa-works.js —
-                             the projects live in that file, not in this markup. -->
-                        <div class="vaaWorkGrid" data-works-grid></div>
-                      </div>
-                    </div>
-                </div>
-            </section>
-            <!-- END: Work Section  -->
-
-            
-
-           
-
-            <!-- BEGIN: Contact panel (footer + site info)  -->
-            <!-- BEGIN: Contact panel — info left, map right, so the panel's
-                 height is bounded by the viewport instead of stacking. -->
-            <div class="vaaStagePanel vaaStageContact" id="contact" data-nav="#contact">
-                <div class="container">
-
-                    <div class="secHeading">
-                        <h3>Get in touch</h3>
-                        <span class="secHeadingAside">Hyderabad</span>
-                    </div>
-
-                    <div class="vaaContactGrid">
-
-                        <div class="vaaContactCol">
-                            <dl class="vaaContactList">
-                                <div class="vaaContactRow">
-                                    <dt>For inquiries</dt>
-                                    <dd>
-                                        <a href="tel:+918977366999">+91 89773 66999</a>
-                                        <a href="mailto:info@vaidads.com">info@vaidads.com</a>
-                                    </dd>
-                                </div>
-                                <div class="vaaContactRow">
-                                    <dt>Office hours</dt>
-                                    <dd>
-                                        <span>Monday - Saturday</span>
-                                        <span>10:00 AM &ndash; 7:00 PM</span>
-                                    </dd>
-                                </div>
-                                <div class="vaaContactRow">
-                                    <dt>Post address</dt>
-                                    <dd>
-                                        <span>555A, Road No. 28,</span>
-                                        <span>Jubilee Hills, Hyderabad, Telangana, India</span>
-                                    </dd>
-                                </div>
-                            </dl>
-
-                            <a class="vaaTextLink vaaContactCta" href="mailto:info@vaidads.com">
-                                <span>Send us a brief</span>
-                                <i class="boozy-long-r-arrow"></i>
-                            </a>
-                        </div>
-
-                        <div class="vaaContactMap">
-                            <div class="contact-googleMap blackAndWhite">
-                                <iframe src="https://maps.google.com/maps?q=Road+No+28+Jubilee+Hills+Hyderabad+Telangana+500033&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed" title="VAA studio location" loading="lazy" allowfullscreen></iframe>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <!-- END: Contact panel  -->
-
-              </div><!-- /.vaaStageTrack -->
-            </div><!-- /.vaaStage -->
-
+<!-- BEGIN: About — a large paragraph that lights up letter by letter as it
+     is pinned and scrolled through. vaa-text-reveal.js splits the text with
+     SplitText and scrubs the reveal to scroll via ScrollTrigger. -->
+<section class="vaaAbout" id="about">
+  <div class="vaaAboutTrack" data-reveal-track>
+    <div class="vaaAboutViewport">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-xl-10">
+            <h2 class="vaaEyebrow">About us</h2>
+            <p class="vaaAboutText" data-reveal-text data-reveal-keywords="vasantha,ads,arts,branding,advertising,creative,real,estate,architecture,construction,marketing,digital,brand,identity,visibility">Vasantha Ads &amp; Arts is a professional branding, advertising and creative solutions company specializing in real estate, architecture and construction marketing. We provide branding and promotional solutions for open plots, gated community villas, Manduva houses, farmhouses, residential projects and real estate ventures. Our services include brand identity, project branding, graphic design, digital marketing, social media marketing, brochures, flyers, hoardings, signage, video promotions and creative advertising. We help builders, developers, architects and property businesses strengthen their brand visibility, reach the right audience and effectively promote their projects through creative digital and offline advertising.</p>
+          </div>
         </div>
-        <!-- END: Scrollbar content -->
+      </div>
+    </div>
+  </div>
+</section>
+<!-- END: About -->
 
-        <!-- BEGIN: Right Sidebar -->
-        <section class="rightsidebar">
-            <div class="rightsidebarOverlay"></div>
-            <div class="rightsidebarContent">
-                <a href="javascript:void(0);" class="rightsidebarCloser magic-hover" data-radius="50%" data-border-color="#FF5100" aria-label="Close panel"><span></span></a>
-                <div class="widget_area">
-                    <a href="javascript:void(0);" class="widget_closer"><i class="la la-times"></i></a>
-                    <div class="center_align">
-                        <div class="about_widget_area">
-                            <div class="wd_logo">
-                                <a href="VAA_Index.html" class="dfCursor vaaLogo">
-                                    <span class="vaaLogoMark">VAA</span>
-                                    <span class="vaaLogoSub">Vasantha Ads &amp; Arts</span>
-                                </a>
-                            </div>
-                            <p>
-                            A full-service advertising agency working across brand, digital, media and growth — one team, one idea, carried through every touchpoint.
-                            </p>
-                            <div class="icon_box_2">
-                                <img src="assets/images/icon/phone-call.png" alt="Call">
-                                <h4>Call us</h4>
-                                <p>+91 89773 66999</p>
-                            </div>
-                            <div class="icon_box_2">
-                                <img src="assets/images/icon/email2.png" alt="Email">
-                                <h4>Write to us</h4>
-                                <p>info@vaidads.com</p>
-                            </div>
-                            <div class="icon_box_2">
-                                <img src="assets/images/icon/address.png" alt="Address">
-                                <h4>555A, Road No. 28,</h4>
-                                <p>Jubilee Hills, Hyderabad, Telangana,<br> India</p>
-                            </div>
-                            <ul class="social_item">
-                                <li class="bzCursroHv"><a href="javascript:void(0);" class="fac"><i class="fab fa-instagram"></i> Instagram</a></li>
-                                <li class="bzCursroHv"><a href="javascript:void(0);" class="twi"><i class="fab fa-linkedin-in"></i>LinkedIn</a></li>
-                                <li class="bzCursroHv"><a href="javascript:void(0);" class="goo"><i class="fab fa-behance"></i>Behance</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- END: Right Sidebar -->
+<!-- BEGIN: Services intro — one viewport, a big three-line statement that
+     lights up the same way About's paragraph does (vaa-text-reveal.js).
+     No pin here: the track is exactly 100vh, so the whole reveal is scrubbed
+     across just this one screen's worth of scroll instead of a held range. -->
+<section class="vaaServicesStatement" id="services" data-reveal-track>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-xl-10">
+        <span class="vaaEyebrow">Services</span>
+        <h2 class="vaaServicesTitle" data-reveal-text data-reveal-keywords="help,you">Here's How<br>We Can<br>Help You</h2>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- END: Services intro -->
 
-        <!-- BEGIN: Fixed legal rail — pinned to the bottom of the viewport,
-             the counterpart to the sticky header  -->
-        <section class="siteInfoSection02 vaaFootRail">
-            <div class="container">
-                <div class="vaaFootRailInner">
-                    <p class="siteInfo">&copy; 2026 <a href="VAA_Index.html">Vasantha Ads &amp; Arts</a>. All rights reserved.</p>
-                    <div class="footerInfoNav">
-                        <ul>
-                            <li><a href="javascript:void(0);">Instagram</a></li>
-                            <li><a href="javascript:void(0);">LinkedIn</a></li>
-                            <li><a href="javascript:void(0);">Behance</a></li>
-                            <li><a href="javascript:void(0);">YouTube</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- END: Fixed legal rail  -->
+<!-- GSAP core + SplitText + ScrollTrigger (free, bundled since GSAP 3.13) -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="assets/js/vaa-work-stack.js"></script>
+<script src="assets/js/vaa-text-reveal.js"></script>
+<script src="assets/js/vaa-img-reveal.js"></script>
 
-        <!-- BEGIN: Scroll progress — the native scrollbar reads as one long
-             page, which says nothing useful once the sections travel sideways -->
-        <div class="vaaProgress" role="presentation"><span class="vaaProgressBar"></span></div>
-        <!-- END: Scroll progress -->
+<script>
+(function(){
+  gsap.registerPlugin(SplitText);
 
-        <!-- BEGIN: Back To Top -->
-        <a class="magic-hover" data-radius="50%" data-border-color="#FF5100" href="javascript:void(0);" id="backtotop" aria-label="Back to top"><i class="boozy-long-up-arrow"></i></a>
-        <!-- END: Back To Top -->
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        <!-- BEGIN: magicMouse -->
-        <div id="magic-mouse"><div id="ball"></div></div>
-        <!-- END: magicMouse -->
+  var logoGroup   = document.getElementById('logoGroup');
+  var path        = document.getElementById('vaaLogoPath');
+  var glow        = document.getElementById('vaaGlow');
+  var wordmarkEl  = document.getElementById('wordmark');
+  var headlineEl  = document.getElementById('headline');
+  var descriptionEl = document.getElementById('description');
 
-        <!-- BEGIN: JS -->
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/popper.min.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-        <script src="assets/js/shuffle.min.js"></script>
-        <script src="assets/js/owl.carousel.min.js"></script>
-        <script src="assets/js/owl.carousel.filter.js"></script>
-        <script src="assets/js/jquery.appear.js"></script>
-        <script src="assets/js/jquery.nice-select.js"></script>
-        <script src="assets/js/lightcase.js"></script>
-        <script src="assets/js/lightslider.min.js"></script>
-        <script src="assets/js/parallax.js"></script>
-        <script src="assets/js/slick.js"></script>
+  var pathLength = path.getTotalLength();
+  path.style.strokeDasharray = pathLength;
+  path.style.strokeDashoffset = pathLength;
 
-        <script src="assets/js/gsap.min.js"></script>
-        <script src="assets/js/ScrollTrigger.min.js"></script>
-        <script src="assets/js/TweenMax.min.js"></script>
-        <script src="assets/js/aos.js"></script>
-        <script src="assets/js/core.js"></script>
+  // ---------- Hero fade-out as Selected work scrolls over it ----------
+  // .scene is fixed — it never moves. #work scrolls up over it instead, and
+  // stays fully visible until #work has entered 20% of the viewport from the
+  // bottom (its top reaches the 80% line) — only then does the hero start to
+  // dissolve, finishing by the time #work covers 80% of the viewport (its
+  // top reaches the 20% line).
+  (function heroFade(){
+    var scene = document.getElementById('scene');
+    var work = document.getElementById('work');
+    if (!scene || !work || !window.ScrollTrigger) return;
 
-        <script src="assets/js/common.js"></script>
-        <script src="assets/js/theme.js"></script>
+    gsap.to(scene, {
+      opacity: 0,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: work,
+        start: 'top 80%',
+        end: 'top 20%',
+        scrub: 0.5
+      }
+    });
+  }());
 
-        <!-- Work data layer — builds the grid from data/works.json. Loads
-             first: the stage below waits on it before laying out. -->
-        <script src="assets/js/vaa-works.js"></script>
-        <!-- VAA horizontal scroll + scrollspy (GSAP ScrollTrigger) -->
-        <script src="assets/js/vaa-horizontal.js"></script>
-        <!-- VAA hero — page-load reveal for the headline + scattered work
-             cards, plus their idle float and hover/parallax interactions.
-             Runs once, independently of the horizontal stage above. -->
-        <script src="assets/js/vaa-hero.js"></script>
-        <!-- VAA split-text motion — masked line reveals + the 3D character
-             rotation on the display titles. Uses GSAP SplitText if the
-             licensed plugin is present, and its own splitter if not. -->
-        <script src="assets/js/vaa-split.js"></script>
-        <!-- Work grid category filter -->
-        <script src="assets/js/vaa-work.js"></script>
-        <!-- END: JS -->
-    </body>
+  var wordmarkSplit = new SplitText(wordmarkEl, { type: 'chars', charsClass: 'char' });
+  var headWhiteSplit = new SplitText(headlineEl.querySelector('.hl-white'), { type: 'chars', charsClass: 'char' });
+  var headGoldSplit  = new SplitText(headlineEl.querySelector('.hl-gold'),  { type: 'chars', charsClass: 'char' });
+  var headlineChars  = headWhiteSplit.chars.concat(headGoldSplit.chars);
+
+  // FLIP-style move: measure -> apply final class -> measure -> invert -> animate to identity.
+  function flipDock(el, applyFinal, duration, ease){
+    var first = el.getBoundingClientRect();
+    applyFinal();
+    var last = el.getBoundingClientRect();
+    var dx = (first.left + first.width / 2) - (last.left + last.width / 2);
+    var dy = (first.top + first.height / 2) - (last.top + last.height / 2);
+    var scale = last.width === 0 ? 1 : first.width / last.width;
+    return gsap.fromTo(el,
+      { x: dx, y: dy, scale: scale, transformOrigin: '50% 50%' },
+      { x: 0, y: 0, scale: 1, duration: duration, ease: ease || 'power3.inOut' }
+    );
+  }
+
+  if (reduceMotion) {
+    path.style.strokeDashoffset = 0;
+    logoGroup.classList.add('isFinal');
+    gsap.set(wordmarkSplit.chars, { opacity: 1, rotationX: 0, y: 0 });
+    gsap.set(headlineChars, { opacity: 1, rotationX: 0, y: 0 });
+    gsap.set(descriptionEl, { opacity: 1, y: 0 });
+    return;
+  }
+
+  // ---------- Mouse-trail gallery thumbnails ----------
+  // Spawns a random work thumbnail near the cursor as it moves, at a random
+  // size, fading in and back out ~3s later. Fine-pointer only, and only once
+  // the intro sequence has finished so it doesn't compete with it.
+  var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var trailEnabled = false;
+  var trailScrollActive = true; // false once #work has started rising into view
+  if (canHover) {
+    var trailContainer = document.getElementById('cursorTrail');
+
+    // The trail belongs to the hero only. As #work rises up from the bottom
+    // of the viewport, fade the whole trail out — finished by the time #work
+    // has entered the last 20% of the viewport (its top hits the 80% line) —
+    // and stop spawning new thumbnails as soon as that scroll begins.
+    var workSection = document.getElementById('work');
+    if (workSection && window.ScrollTrigger) {
+      gsap.to(trailContainer, {
+        opacity: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: workSection,
+          start: 'top bottom',
+          end: 'top 80%',
+          scrub: 0.5,
+          onUpdate: function (self) { trailScrollActive = self.progress <= 0; }
+        }
+      });
+    }
+
+    // Maps each work image to the project id case-studies.html reads via
+    // ?id=, straight from data/works.json's "image" field.
+    var workIdByImage = {
+      '01.jpg': 'outdoor-identity',
+      '02.jpg': 'compensation-platform',
+      '03.jpg': 'screen-campaign',
+      '04.jpg': 'product-campaign',
+      '05.jpg': 'room-pricing-launch',
+      '06.jpg': 'crypto-dashboard',
+      '07.jpg': 'payments-wrap',
+      '08.jpg': 'retail-experience',
+      '09.jpg': 'subscriptions-platform',
+      '10.jpg': 'cannabis-data-board',
+      '11.jpg': 'transit-campaign',
+      '12.jpg': 'marketing-site',
+      '13.jpg': 'storefront-identity',
+      '14.jpg': 'investor-campaign',
+      '15.jpg': 'highway-board',
+      '16.jpg': 'consensus-website',
+      '17.jpg': 'service-app',
+      '18.jpg': 'logistics-livery',
+      '19.jpg': 'data-illustration',
+      '20.jpg': 'property-app',
+      '21.jpg': 'bottle-campaign',
+      '22.jpg': 'analytics-platform',
+      '23.jpg': 'talent-signage'
+    };
+
+    var trailImages = [];
+    for (var i = 1; i <= 23; i++) {
+      trailImages.push('assets/images/WORKS/web/' + (i < 10 ? '0' + i : i) + '.jpg');
+    }
+
+    var minSpawnDistance = 320; // px the cursor must travel before the next thumbnail appears
+    var lastSpawnX = null;
+    var lastSpawnY = null;
+    var lastImageSrc = null;
+
+    function pickImage(){
+      var src;
+      do {
+        src = trailImages[Math.floor(Math.random() * trailImages.length)];
+      } while (src === lastImageSrc && trailImages.length > 1);
+      lastImageSrc = src;
+      return src;
+    }
+
+    function spawnThumb(x, y){
+      var thumb = document.createElement('a');
+      thumb.className = 'trailThumb';
+
+      var w = gsap.utils.random(180, 320);
+      var h = gsap.utils.random(130, 230);
+      var jitterX = gsap.utils.random(-30, 30);
+      var jitterY = gsap.utils.random(-30, 30);
+      var src = pickImage();
+      var fileName = src.substring(src.lastIndexOf('/') + 1);
+      var workId = workIdByImage[fileName];
+      var startRotation = gsap.utils.random(-16, 16);
+      var settleRotation = gsap.utils.random(-4, 4);
+
+      thumb.href = workId ? 'case-studies.html?id=' + workId : 'case-studies.html';
+      thumb.setAttribute('aria-label', 'View case study');
+      thumb.style.width = w + 'px';
+      thumb.style.height = h + 'px';
+      thumb.style.left = (x + jitterX - w / 2) + 'px';
+      thumb.style.top = (y + jitterY - h / 2) + 'px';
+      thumb.style.backgroundImage = 'url(' + src + ')';
+
+      trailContainer.appendChild(thumb);
+
+      var tl = gsap.timeline({
+        onComplete: function(){ thumb.remove(); }
+      });
+      tl.fromTo(thumb,
+          { opacity: 0, scale: 0.25, rotation: startRotation },
+          { opacity: 1, scale: 1, rotation: settleRotation, duration: 0.5, ease: 'power3.out' }
+        )
+        .to(thumb, {
+          opacity: 0,
+          y: '+=' + gsap.utils.random(60, 120),
+          rotation: '+=' + gsap.utils.random(-10, 10),
+          scale: 0.9,
+          duration: 0.7,
+          ease: 'power2.in'
+        }, '+=2');
+    }
+
+    function onMouseMove(e){
+      if (!trailEnabled || !trailScrollActive) return;
+
+      if (lastSpawnX === null) {
+        lastSpawnX = e.clientX;
+        lastSpawnY = e.clientY;
+        spawnThumb(e.clientX, e.clientY);
+        return;
+      }
+
+      var dx = e.clientX - lastSpawnX;
+      var dy = e.clientY - lastSpawnY;
+      if (Math.sqrt(dx * dx + dy * dy) < minSpawnDistance) return;
+
+      lastSpawnX = e.clientX;
+      lastSpawnY = e.clientY;
+      spawnThumb(e.clientX, e.clientY);
+    }
+
+    window.addEventListener('mousemove', onMouseMove);
+  }
+
+  gsap.set(wordmarkSplit.chars, { opacity: 0, rotationX: -90, y: 16, transformOrigin: '50% 100%' });
+  gsap.set(headlineChars, { opacity: 0, rotationX: 90, y: 40, transformOrigin: '50% 100%' });
+  gsap.set(descriptionEl, { y: 24 });
+
+  // Held back until the preloader (see top of <body>) has faded out, so the
+  // logo-draw/headline reveal below always starts from scratch once the
+  // curtain lifts instead of racing it and finishing underneath.
+  function startIntro(){
+
+  var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+  // 1) Logo draws via stroke-dashoffset, with a glowing point traveling the path.
+  tl.set(glow, { opacity: 1 })
+    .to(path, {
+      strokeDashoffset: 0,
+      duration: 1.7,
+      ease: 'power2.inOut',
+      onUpdate: function(){
+        var progress = this.progress();
+        var pt = path.getPointAtLength(progress * pathLength);
+        glow.setAttribute('cx', pt.x);
+        glow.setAttribute('cy', pt.y);
+      }
+    }, 0)
+    .to(glow, { opacity: 0, duration: 0.4 }, 1.5)
+
+  // 2) Wordmark flips in beneath the logo.
+    .to(wordmarkSplit.chars, {
+      opacity: 1,
+      rotationX: 0,
+      y: 0,
+      duration: 0.7,
+      stagger: 0.025,
+      ease: 'power3.out'
+    }, 1.15)
+
+  // 3) Hold, then dock the whole logo group to the bottom-right.
+    .add('dock', 3.6)
+    .add(function(){
+      flipDock(logoGroup, function(){ logoGroup.classList.add('isFinal'); }, 1.1, 'power3.inOut');
+    }, 'dock')
+
+  // 4) Headline flips upward into view.
+    .to(headlineChars, {
+      opacity: 1,
+      rotationX: 0,
+      y: 0,
+      duration: 0.9,
+      stagger: 0.018,
+      ease: 'power3.out'
+    }, 'dock+=0.25')
+
+  // 5) Description slides/fades up bottom-left.
+    .to(descriptionEl, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power2.out'
+    }, 'dock+=0.6')
+
+    .call(function(){ trailEnabled = true; });
+
+  } // end startIntro
+
+  if (!document.querySelector('.preloader-wrap') || window.__vaaPreloaderDone) {
+    startIntro();
+  } else {
+    document.addEventListener('vaa:preloaderDone', startIntro, { once: true });
+  }
+
+})();
+</script>
+
+</body>
 </html>
