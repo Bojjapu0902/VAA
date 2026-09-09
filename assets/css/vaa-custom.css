@@ -36,6 +36,19 @@
     --vaa-line-soft:  rgba(171, 218, 245, 0.10);
     --vaa-muted:      #A9B8CB;
 
+    /* --vaa-ink doubles as the page canvas AND as the fixed "ink text on a
+       gold/light fill" colour used all over (buttons, hover sweeps) — those
+       two roles can't share one token once the canvas needs to flip for the
+       light theme. --vaa-canvas is the flipping one; --vaa-ink itself never
+       changes between themes. */
+    --vaa-canvas:     var(--vaa-ink);
+
+    /* Primary text/icon colour, on the page's own background (not on a
+       gold/light fill — those stay --vaa-ink, see above). Kept as an RGB
+       triplet too so alpha tiers can reuse it: rgba(var(--vaa-text-rgb), .5) */
+    --vaa-text-rgb:   255, 255, 255;
+    --vaa-text:       #fff;
+
     /* Accent scale. The warm gold adds contrast and character to the
        blue-slate ground while filled states still use ink for readability. */
     --vaa-accent:     #c9a96e;
@@ -52,6 +65,30 @@
     --vaa-gap-l: 40px;
 
     --vaa-ease:  cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/*--------------------------------------------------------------------------
+  01.1  Light theme — toggled via [data-theme="light"] on <html>.
+  Set by vaa-site-header.js and remembered in localStorage; only
+  VAA_Index.html and case-studies.html load that script, so every other
+  page never gets the attribute and always renders the dark theme above.
+  --vaa-accent itself is untouched — same brand gold in both themes — only
+  its lightened hover variant (--vaa-accent-lt) is deepened here so it still
+  reads on a near-white canvas.
+--------------------------------------------------------------------------*/
+:root[data-theme="light"]{
+    --vaa-canvas:     #F6F3EC;
+    --vaa-surface:    #FFFFFF;
+    --vaa-surface-2:  #EFEAE0;
+    --vaa-line:       rgba(11, 18, 32, 0.14);
+    --vaa-line-soft:  rgba(11, 18, 32, 0.08);
+    --vaa-muted:      #5C6B7A;
+    --vaa-ghost:      #8E7A56;
+
+    --vaa-text-rgb:   11, 18, 32;
+    --vaa-text:       #0B1220;
+
+    --vaa-accent-lt:  #8A6A34;
 }
 
 /* Nav and footer links warm to the accent on hover */
@@ -89,7 +126,7 @@
 .vaaLogo{
     display: block;
     line-height: 1;
-    color: #FFFFFF;
+    color: var(--vaa-text);
 }
 .vaaLogo img{
     margin-left: 0 !important;
@@ -112,7 +149,7 @@
     width: 44px;
     height: 44px;
 }
-.vaaLogo:hover{ color: #FFFFFF; opacity: 0.75; }
+.vaaLogo:hover{ color: var(--vaa-text); opacity: 0.75; }
 
 .vaaLogoMark{
     display: block;
@@ -134,6 +171,39 @@
     text-transform: uppercase;
     color: var(--vaa-muted);
 }
+
+/*--------------------------------------------------------------------------
+  02.1  Theme toggle — sun/moon switch in the header, set/read by
+  vaa-site-header.js. Sun shows in dark mode (click to go light), moon
+  shows once [data-theme="light"] is set (click to go back to dark).
+--------------------------------------------------------------------------*/
+.vaaThemeToggle{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-right: 18px;
+    flex: none;
+    border: 1px solid var(--vaa-line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--vaa-text);
+    cursor: pointer;
+    transition: border-color 320ms var(--vaa-ease), color 320ms var(--vaa-ease), background 320ms var(--vaa-ease);
+}
+.vaaThemeToggle:hover{
+    border-color: var(--vaa-accent);
+    color: var(--vaa-accent);
+}
+.vaaThemeToggle svg{
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+.vaaThemeToggle .vaaThemeIcon--moon{ display: none; }
+:root[data-theme="light"] .vaaThemeToggle .vaaThemeIcon--sun{ display: none; }
+:root[data-theme="light"] .vaaThemeToggle .vaaThemeIcon--moon{ display: block; }
 
 /* Sidebar variant sits on the same scale, one step larger */
 .wd_logo .vaaLogoMark{ font-size: 40px; }
@@ -178,7 +248,7 @@
     letter-spacing: 1.8px;
     line-height: 1.2;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(var(--vaa-text-rgb), 0.55);
     transition: color 350ms var(--vaa-ease);
 }
 
@@ -189,7 +259,7 @@
     font-weight: 400;
     line-height: 22px;
     letter-spacing: -0.2px;
-    color: #FFFFFF;
+    color: var(--vaa-text);
 }
 .vaaHeroBarItem .vhbTitle a{
     color: inherit;
@@ -202,7 +272,7 @@
     transition: background-size 500ms var(--vaa-ease);
 }
 .vaaHeroBarItem:hover .vhbTitle a{ background-size: 100% 1px; }
-.vaaHeroBarItem:hover .vhbLabel{ color: #FFFFFF; }
+.vaaHeroBarItem:hover .vhbLabel{ color: var(--vaa-text); }
 
 /* The cue is positioned against the grid, not the viewport edge */
 .vaaHeroBar > .container{ position: relative; }
@@ -221,9 +291,9 @@
     font-weight: 600;
     letter-spacing: 1.8px;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(var(--vaa-text-rgb), 0.6);
 }
-.vaaScrollCue:hover{ color: #FFFFFF; }
+.vaaScrollCue:hover{ color: var(--vaa-text); }
 .vaaScrollCue i{ animation: vaaCue 1.9s var(--vaa-ease) infinite; }
 
 @keyframes vaaCue{
@@ -282,7 +352,7 @@
     width: 54px;
     height: 54px;
     flex: none;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(var(--vaa-text-rgb), 0.5);
     transition: color 450ms var(--vaa-ease), transform 450ms var(--vaa-ease);
 }
 .vaaServiceIcon svg{ display: block; width: 100%; height: 100%; }
@@ -309,7 +379,7 @@
     text-transform: uppercase;
 }
 .vaaServiceCard h3 a{
-    color: #FFFFFF;
+    color: var(--vaa-text);
     transition: color 450ms var(--vaa-ease);
 }
 .vaaServiceCard p{
@@ -367,7 +437,7 @@
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 2.4px;
-    color: rgba(255, 255, 255, 0.45);
+    color: rgba(var(--vaa-text-rgb), 0.45);
 }
 .vaaProcessStep h3{
     margin: 0 0 14px;
@@ -394,7 +464,7 @@
     font-weight: 600;
     letter-spacing: 2.2px;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(var(--vaa-text-rgb), 0.55);
 }
 
 .testimonialAuthor h3 span{
@@ -411,7 +481,7 @@
 /* Keep the focus ring visible now that the accent colour is white */
 a:focus-visible,
 button:focus-visible{
-    outline: 2px solid #FFFFFF;
+    outline: 2px solid var(--vaa-text);
     outline-offset: 3px;
 }
 
@@ -439,7 +509,7 @@ vaa-site-header{
     .vaaHeroBar{
         position: relative;
         bottom: auto;
-        background: var(--vaa-ink);
+        background: var(--vaa-canvas);
         -webkit-backdrop-filter: none;
                 backdrop-filter: none;
         padding: 24px 0 28px;
@@ -498,10 +568,10 @@ vaa-site-header{
 
 /* Work filters — dim the inactive so "active" reads at a glance */
 .projectCat_area ul li{
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(var(--vaa-text-rgb), 0.3);
     transition: color 350ms var(--vaa-ease);
 }
-.projectCat_area ul li:hover{ color: rgba(255, 255, 255, 0.62); }
+.projectCat_area ul li:hover{ color: rgba(var(--vaa-text-rgb), 0.62); }
 .projectCat_area ul li.pjFilterItem.current a,
 .projectCat_area ul li.filterBTN.active a{ color: var(--vaa-accent); }
 
@@ -510,7 +580,7 @@ vaa-site-header{
 .vaaEyebrow,
 .vaaProcessStep .vpsNum,
 .vaaLogoSub{ color: var(--vaa-accent-lt); }
-.vaaHeroBarItem:hover .vhbLabel{ color: #FFFFFF; }
+.vaaHeroBarItem:hover .vhbLabel{ color: var(--vaa-text); }
 .vaaScrollCue:hover{ color: var(--vaa-accent-lt); }
 
 /* Tighten the gap the intro paragraph inherits from .serviceHd02Row */
@@ -573,7 +643,7 @@ h1, h2, h3, h4, h5, h6{
     font-weight: 600;
     letter-spacing: 2.2px;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.38);
+    color: rgba(var(--vaa-text-rgb), 0.38);
     white-space: nowrap;
 }
 .secHeading .button-text span{ letter-spacing: 1.6px; }
@@ -640,7 +710,7 @@ h1, h2, h3, h4, h5, h6{
     display: flex;
     align-items: center;
     padding: 0;
-    background: var(--vaa-ink);
+    background: var(--vaa-canvas);
     border-top: 1px solid var(--vaa-line-soft);
 }
 .vaaFootRail > .container{ width: 100%; }
@@ -659,7 +729,7 @@ h1, h2, h3, h4, h5, h6{
     color: var(--vaa-muted);
     white-space: nowrap;
 }
-.vaaFootRail .siteInfo a{ color: #FFFFFF; font-weight: 500; }
+.vaaFootRail .siteInfo a{ color: var(--vaa-text); font-weight: 500; }
 .vaaFootRail .siteInfo a:hover{ color: var(--vaa-accent-lt); }
 
 .vaaFootRail .footerInfoNav ul{
@@ -724,7 +794,7 @@ h1, h2, h3, h4, h5, h6{
     font-weight: 600;
     letter-spacing: 2.2px;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(var(--vaa-text-rgb), 0.4);
 }
 
 .vaaAboutGrid{
@@ -808,7 +878,7 @@ h1, h2, h3, h4, h5, h6{
     font-weight: 300;
     letter-spacing: 1.6px;
     text-transform: uppercase;
-    color: #FFFFFF;
+    color: var(--vaa-text);
 }
 .vaaAboutPillars li + li{
     padding-left: 20px;
@@ -834,7 +904,7 @@ h1, h2, h3, h4, h5, h6{
     font-weight: 400;
     letter-spacing: 2.4px;
     text-transform: uppercase;
-    color: #FFFFFF;
+    color: var(--vaa-text);
     border-bottom: 1px solid var(--vaa-line);
     transition: color 350ms var(--vaa-ease), border-color 350ms var(--vaa-ease);
 }
@@ -951,7 +1021,7 @@ h1, h2, h3, h4, h5, h6{
         left: 0;
         right: 0;
         margin-top: 0;
-        background: var(--vaa-ink);
+        background: var(--vaa-canvas);
     }
     .is-stack .vaaStackRow[data-stack-row="0"]{ z-index: 1; }
     .is-stack .vaaStackRow[data-stack-row="1"]{ z-index: 2; }
@@ -1133,7 +1203,7 @@ h1, h2, h3, h4, h5, h6{
     font-weight: 300;
     line-height: 1.15;
     letter-spacing: 0.5px;
-    color: rgba(255, 255, 255, 0.62);
+    color: rgba(var(--vaa-text-rgb), 0.62);
     transition: color 400ms var(--vaa-ease);
 }
 .vaaWorkMeta{
@@ -1143,7 +1213,7 @@ h1, h2, h3, h4, h5, h6{
     letter-spacing: 2px;
     text-transform: uppercase;
     white-space: nowrap;
-    color: rgba(255, 255, 255, 0.34);
+    color: rgba(var(--vaa-text-rgb), 0.34);
     transition: color 400ms var(--vaa-ease);
 }
 
@@ -1154,7 +1224,7 @@ h1, h2, h3, h4, h5, h6{
     width: clamp(38px, 5vh, 52px);
     height: clamp(38px, 5vh, 52px);
     flex: none;
-    color: rgba(255, 255, 255, 0.42);
+    color: rgba(var(--vaa-text-rgb), 0.42);
     background: transparent;
     transition: background 400ms var(--vaa-ease), color 400ms var(--vaa-ease);
 }
@@ -1296,7 +1366,7 @@ h1, h2, h3, h4, h5, h6{
     margin: 0;
     font-size: clamp(14px, 1.95vh, 17px);
     line-height: 1.55;
-    color: #FFFFFF;
+    color: var(--vaa-text);
 }
 .vaaContactRow dd a,
 .vaaContactRow dd span{ display: block; color: inherit; font-weight: 400; }
@@ -1386,7 +1456,7 @@ h1, h2, h3, h4, h5, h6{
     align-items: center;
     padding-top: var(--vaa-header-h, 0px);
     min-height: 100vh;
-    background: var(--vaa-ink);
+    background: var(--vaa-canvas);
 }
 
 .vaaHeroInner{
@@ -1415,7 +1485,7 @@ h1, h2, h3, h4, h5, h6{
     line-height: 1.04;
     letter-spacing: 0.01em;
     text-transform: uppercase;
-    color: #FFFFFF;
+    color: var(--vaa-text);
 }
 /* The clipping box the line rises out of, and the span GSAP actually moves */
 .vaaHeroLine{ display: block; overflow: hidden; }
@@ -1635,12 +1705,12 @@ h1, h2, h3, h4, h5, h6{
 
 body,
 body.page{
-    background: var(--vaa-ink);
+    background: var(--vaa-canvas);
     font-family: var(--primary-font);
     font-size: var(--vaa-body-size);
     line-height: var(--vaa-body-lh);
     letter-spacing: var(--vaa-body-ls);
-    color: #FFFFFF;
+    color: var(--vaa-text);
     -webkit-font-smoothing: antialiased;
 }
 p{ color: var(--vaa-muted); letter-spacing: var(--vaa-body-ls); }
@@ -1649,7 +1719,7 @@ h1, h2, h3, h4, h5, h6{
     font-family: var(--primary-font);
     font-weight: 500;
     letter-spacing: -0.02em;
-    color: #FFFFFF;
+    color: var(--vaa-text);
 }
 
 /* Nav sits at body size on RNO1, not at label size */
@@ -1660,7 +1730,7 @@ h1, h2, h3, h4, h5, h6{
     letter-spacing: 0.32px;
     font-weight: 400;
     text-transform: none;
-    color: #FFFFFF;
+    color: var(--vaa-text);
 }
 .mainMenu > ul > li.current-menu-item > a{ color: var(--vaa-accent); }
 
@@ -1724,7 +1794,7 @@ h1, h2, h3, h4, h5, h6{
     letter-spacing: 0.32px;
     color: var(--vaa-muted);
 }
-.vaaHeroBarItem:hover .vhbTitle a{ color: #FFFFFF; }
+.vaaHeroBarItem:hover .vhbTitle a{ color: var(--vaa-text); }
 
 
 /*--------------------------------------------------------------------------
@@ -1733,7 +1803,7 @@ h1, h2, h3, h4, h5, h6{
 --------------------------------------------------------------------------*/
 .hdSupportBtn,
 .vaaBtn{
-    display: none;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 10px 24px;
@@ -1755,12 +1825,12 @@ h1, h2, h3, h4, h5, h6{
 .vaaBtn--ghost{
     background: transparent;
     border-color: var(--vaa-line);
-    color: #FFFFFF;
+    color: var(--vaa-text);
 }
 .vaaBtn--ghost:hover{
     background: transparent;
-    border-color: #FFFFFF;
-    color: #FFFFFF;
+    border-color: var(--vaa-text);
+    color: var(--vaa-text);
 }
 
 
@@ -1834,7 +1904,7 @@ h1, h2, h3, h4, h5, h6{
     font-size: clamp(20px, 3.2vh, 34px);
     font-weight: 500;
     letter-spacing: -0.02em;
-    color: #FFFFFF;
+    color: var(--vaa-text);
 }
 .vaaWorkMeta{
     font-family: var(--primary-font);
@@ -1852,13 +1922,13 @@ h1, h2, h3, h4, h5, h6{
   20.6  Cards, contact and rail on the new neutrals
 --------------------------------------------------------------------------*/
 .vaaAbout{ background: var(--vaa-surface); }
-.vaaServices{ background: var(--vaa-ink); }
+.vaaServices{ background: var(--vaa-canvas); }
 .vaaWorkPanel{ background: var(--vaa-surface); }
-.vaaStageContact{ background: var(--vaa-ink); }
+.vaaStageContact{ background: var(--vaa-canvas); }
 
 .vaaStackRow{ background: var(--vaa-line-soft); border-color: var(--vaa-line); }
-.vaaServiceCard{ background: var(--vaa-ink); }
-.vaaServiceCard h3 a{ color: #FFFFFF; font-weight: 500; letter-spacing: -0.02em; }
+.vaaServiceCard{ background: var(--vaa-canvas); }
+.vaaServiceCard h3 a{ color: var(--vaa-text); font-weight: 500; letter-spacing: -0.02em; }
 .vaaServiceCard p{ color: var(--vaa-muted); }
 .vaaServiceNum{ color: var(--vaa-ghost); font-family: var(--vaa-display); }
 .vaaServiceIcon{ color: var(--vaa-muted); }
@@ -1868,15 +1938,15 @@ h1, h2, h3, h4, h5, h6{
     font-family: var(--primary-font);
     font-weight: 500;
     letter-spacing: -0.02em;
-    color: #FFFFFF;
+    color: var(--vaa-text);
 }
 .vaaAboutBody p{ color: var(--vaa-muted); }
 .vapNum{ color: var(--vaa-ghost); font-family: var(--vaa-display); }
 
 .vaaContactList dt{ color: var(--vaa-muted); letter-spacing: 0.32px; text-transform: none; font-size: 16px; }
 .vaaContactList dd,
-.vaaContactList dd a{ color: #FFFFFF; }
-.vaaFootRail{ background: var(--vaa-ink); border-top: 1px solid var(--vaa-line); }
+.vaaContactList dd a{ color: var(--vaa-text); }
+.vaaFootRail{ background: var(--vaa-canvas); border-top: 1px solid var(--vaa-line); }
 .vaaFootRail .siteInfo,
 .footerInfoNav a{ color: var(--vaa-muted); letter-spacing: 0.32px; text-transform: none; font-size: 15px; }
 
@@ -2008,7 +2078,7 @@ h1, h2, h3, h4, h5, h6{
   Unlike the index this is an ordinary vertical page, so nothing here has to
   survive a pinned, transformed ancestor — position:sticky works normally.
 ==========================================================================*/
-.vaaPage{ background: var(--vaa-ink); }
+.vaaPage{ background: var(--vaa-canvas); }
 .vaaMain{ padding-bottom: calc(40px + var(--vaa-rail-h)); }
 
 
@@ -2081,7 +2151,7 @@ h1, h2, h3, h4, h5, h6{
     font-weight: 500;
     line-height: 1.6;
     letter-spacing: -0.01em;
-    color: #FFFFFF;
+    color: var(--vaa-text);
 }
 .vaaPkgCardMeta{
     display: block;
@@ -2117,7 +2187,7 @@ h1, h2, h3, h4, h5, h6{
     font-weight: 500;
     line-height: 1.5;
     letter-spacing: -0.02em;
-    color: #FFFFFF;
+    color: var(--vaa-text);
 }
 .vaaSvcCaps{
     margin: 0;
@@ -2134,7 +2204,7 @@ h1, h2, h3, h4, h5, h6{
 }
 /* A quiet hover: the line you are on comes up to white, the rest stay put */
 .vaaSvcGroup:hover .vaaSvcCaps li{ color: var(--vaa-ghost); }
-.vaaSvcCaps li:hover{ color: #FFFFFF; }
+.vaaSvcCaps li:hover{ color: var(--vaa-text); }
 
 
 /*--------------------------------------------------------------------------
@@ -2168,7 +2238,7 @@ h1, h2, h3, h4, h5, h6{
     font-size: clamp(20px, 1.9vw, 24px);
     font-weight: 500;
     letter-spacing: -0.02em;
-    color: #FFFFFF;
+    color: var(--vaa-text);
 }
 .vaaProcStep p{
     margin: 0;
@@ -2212,7 +2282,7 @@ h1, h2, h3, h4, h5, h6{
     border-top: 1px solid var(--vaa-line);
 }
 .vaaOutroFoot p{ margin: 0; color: var(--vaa-muted); }
-.vaaOutroFoot a[href^="tel"]{ color: #FFFFFF; }
+.vaaOutroFoot a[href^="tel"]{ color: var(--vaa-text); }
 .vaaOutroFoot a[href^="tel"]:hover{ color: var(--vaa-accent); }
 
 /* Back-to-top only once there is something to go back to */
@@ -2265,7 +2335,7 @@ h1, h2, h3, h4, h5, h6{
     left: 0;
     width: 100%;
     z-index: 999;
-    background: var(--vaa-ink);
+    background: var(--vaa-canvas);
     border-bottom: 1px solid var(--vaa-line);
 }
 
@@ -2277,7 +2347,7 @@ h1, h2, h3, h4, h5, h6{
     left: 0;
     width: 100%;
     z-index: 9999;
-    background: var(--vaa-ink);
+    background: var(--vaa-canvas);
 }
 
 
@@ -2366,7 +2436,7 @@ h1, h2, h3, h4, h5, h6{
     font-weight: 500;
     line-height: 1.64;
     letter-spacing: -0.01em;
-    color: #FFFFFF;
+    color: var(--vaa-text);
     transition: color 320ms var(--vaa-ease);
 }
 .vaaWorkCardMeta{
@@ -2437,7 +2507,7 @@ h1, h2, h3, h4, h5, h6{
 }
 /* RNO1's lede leads with a short set of full-stopped words in white, then
    drops to the secondary grey for the sentence that follows. */
-.vaaWorkLedeLead{ color: #FFFFFF; font-weight: 500; }
+.vaaWorkLedeLead{ color: var(--vaa-text); font-weight: 500; }
 
 /*--- the pill ------------------------------------------------------------*/
 .vaaWorkFilter{ position: relative; flex: none; }
@@ -2452,7 +2522,7 @@ h1, h2, h3, h4, h5, h6{
     border: 1px solid var(--vaa-line);
     border-radius: var(--vaa-radius);
     background: var(--vaa-surface-2);
-    color: #FFFFFF;
+    color: var(--vaa-text);
     font-family: var(--primary-font);
     font-size: clamp(14px, 1.2vw, 16px);
     line-height: 1.6;
@@ -2460,7 +2530,7 @@ h1, h2, h3, h4, h5, h6{
     cursor: pointer;
     transition: border-color 260ms var(--vaa-ease), background 260ms var(--vaa-ease);
 }
-.vaaFilterBtn:hover{ border-color: rgba(255, 255, 255, 0.26); }
+.vaaFilterBtn:hover{ border-color: rgba(var(--vaa-text-rgb), 0.26); }
 .vaaWorkFilter.is-open .vaaFilterBtn{ border-color: var(--vaa-accent); }
 
 .vaaFilterChev{
@@ -2502,7 +2572,7 @@ h1, h2, h3, h4, h5, h6{
     cursor: pointer;
     transition: background 200ms var(--vaa-ease), color 200ms var(--vaa-ease);
 }
-.vaaFilterMenu button:hover{ background: rgba(255, 255, 255, 0.06); color: #FFFFFF; }
+.vaaFilterMenu button:hover{ background: rgba(var(--vaa-text-rgb), 0.06); color: var(--vaa-text); }
 .vaaFilterMenu button[aria-selected="true"]{ color: var(--vaa-accent); }
 
 @media (max-width: 767px){
@@ -2583,9 +2653,9 @@ h1, h2, h3, h4, h5, h6{
     color: var(--vaa-muted);
 }
 .vaaCrumb a{ color: var(--vaa-muted); }
-.vaaCrumb a:hover{ color: #FFFFFF; }
+.vaaCrumb a:hover{ color: var(--vaa-text); }
 .vaaCrumb span[aria-hidden]{ color: var(--vaa-ghost); }
-.vaaCrumb [data-case="crumb"]{ color: #FFFFFF; }
+.vaaCrumb [data-case="crumb"]{ color: var(--vaa-text); }
 
 /*--------------------------------------------------------------------------
   23.1  The four-up fact row
@@ -2615,7 +2685,7 @@ h1, h2, h3, h4, h5, h6{
     font-weight: 500;
     line-height: 1.45;
     letter-spacing: -0.02em;
-    color: #FFFFFF;
+    color: var(--vaa-text);
 }
 
 /*--------------------------------------------------------------------------
@@ -2679,7 +2749,7 @@ h1, h2, h3, h4, h5, h6{
     color: var(--vaa-muted) !important;
 }
 .vaaCaseRole span{ color: var(--vaa-muted); }
-.vaaCaseRole em{ font-style: normal; color: #FFFFFF; }
+.vaaCaseRole em{ font-style: normal; color: var(--vaa-text); }
 
 /*--------------------------------------------------------------------------
   23.4  Next project
@@ -2705,7 +2775,7 @@ h1, h2, h3, h4, h5, h6{
     font-weight: 500;
     line-height: 1.15;
     letter-spacing: -0.02em;
-    color: #FFFFFF;
+    color: var(--vaa-text);
     transition: color 320ms var(--vaa-ease);
 }
 .vaaCaseNextMeta{
@@ -2751,7 +2821,7 @@ h1, h2, h3, h4, h5, h6{
 
 body.vaaPage{
     width: 100%;
-    background: var(--vaa-ink); /* beats .vaaPage's own theme background rule (this wins on specificity) */
+    background: var(--vaa-canvas); /* beats .vaaPage's own theme background rule (this wins on specificity) */
     font-family: var(--primary-font);
     -webkit-font-smoothing: antialiased;
 }
@@ -2767,7 +2837,7 @@ body.vaaPage{
     position: fixed;
     inset: 0;
     z-index: 1;
-    background: var(--vaa-ink);
+    background: var(--vaa-canvas);
     overflow: hidden;
 }
 
@@ -2812,14 +2882,14 @@ body.vaaPage{
 
 .vaaPage #vaaLogoPath{
     fill: none;
-    stroke: #fff;
+    stroke: var(--vaa-text);
     stroke-width: 5;
     stroke-linecap: round;
     stroke-linejoin: round;
 }
 
 .vaaPage #vaaGlow{
-    fill: #fff;
+    fill: var(--vaa-text);
     opacity: 0;
     filter: url(#vaaGlowBlur);
 }
@@ -2863,7 +2933,7 @@ body.vaaPage{
     letter-spacing: -0.01em;
 }
 
-.vaaPage #headline .hl-white{ color: #fff; }
+.vaaPage #headline .hl-white{ color: var(--vaa-text); }
 .vaaPage #headline .hl-gold{ color: var(--vaa-accent); }
 
 .vaaPage #headline .char{
@@ -2938,7 +3008,7 @@ body.vaaPage{
 .vaaPage .vaaStackHeading{
     margin-top: 14px;
     max-width: 14ch;
-    color: #fff;
+    color: var(--vaa-text);
     font-weight: 400;
     line-height: 1.15;
     font-size: clamp(26px, 4.4vw, 48px);
@@ -3040,7 +3110,7 @@ body.vaaPage{
 .vaaPage .vaaAbout{
     position: relative;
     z-index: 2; /* same level as #work — the fixed hero is long gone by here */
-    background: var(--vaa-ink);
+    background: var(--vaa-canvas);
 }
 
 .vaaPage .vaaAboutTrack{
@@ -3082,16 +3152,32 @@ body.vaaPage{
     color: var(--vaa-muted); /* the dim state a word settles at once it's in; vaa-text-reveal.js then lights it white (or accent) per letter */
 }
 
-/* ---------- Services intro — one viewport, big three-line statement ---------- */
+/* ---------- Services intro — pinned viewport, big three-line statement ----------
+   Same track/viewport shape as About: the track carries extra scroll height
+   beyond 100vh, the viewport sticks and holds it in frame. The extra runway
+   here is spent on a third act vaa-text-reveal.js adds when
+   data-reveal-zoom-out is present — after every letter lights up white, the
+   title scales up and fades as if pushed toward the screen. */
 .vaaPage .vaaServicesStatement{
     position: relative;
     z-index: 2; /* same level as #about/#work — the fixed hero is long gone by here */
+    background: var(--vaa-canvas);
+}
+
+.vaaPage .vaaServicesTrack{
+    position: relative;
+    height: 240vh; /* scroll runway: letter reveal, then the zoom-out/fade */
+}
+
+.vaaPage .vaaServicesViewport{
+    position: sticky;
+    top: 0;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: var(--vaa-ink);
+    overflow: hidden; /* clips the title as it scales past frame during the zoom-out */
 }
 
 .vaaPage .vaaServicesStatement .vaaEyebrow{
@@ -3104,6 +3190,110 @@ body.vaaPage{
     line-height: 1.15;
     font-size: clamp(34px, 6.4vw, 92px);
     letter-spacing: -0.01em;
+    transform-origin: 50% 50%;
+    will-change: transform, opacity;
+}
+
+/* "You" — same font, set in italic so it reads as the one handwritten
+   flourish in an otherwise geometric line, matching the page-head treatment
+   without adding a second typeface. */
+.vaaPage .vaaServicesAccent{
+    font-style: italic;
+}
+
+/* ---------- Services grid — three package tiles ---------- */
+.vaaPage .vaaServicesGrid{
+    position: relative;
+    z-index: 2;
+    background: var(--vaa-canvas);
+    padding: clamp(20px, 4vh, 40px) 0 clamp(60px, 10vh, 120px);
+}
+
+.vaaPage .vaaServicesPillars{
+    border-top: 1px solid var(--vaa-line);
+}
+
+.vaaPage .vaaServicePillar{
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(20px, 4vw, 48px);
+    padding: clamp(26px, 4.5vh, 48px) 0;
+    border-bottom: 1px solid var(--vaa-line);
+    transition: padding-left 350ms var(--vaa-ease);
+}
+
+.vaaPage .vaaServicePillarNum{
+    font-family: var(--vaa-display);
+    font-size: clamp(28px, 3vw, 44px);
+    color: var(--vaa-ghost);
+}
+
+.vaaPage .vaaServicePillarBody{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.vaaPage .vaaServicePillarName{
+    font-size: clamp(28px, 3.6vw, 48px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--vaa-text);
+    transition: color 350ms var(--vaa-ease);
+}
+
+.vaaPage .vaaServicePillarDesc{
+    max-width: 56ch;
+    font-size: clamp(15px, 1.3vw, 18px);
+    line-height: 1.55;
+    color: var(--vaa-soft);
+}
+
+.vaaPage .vaaServicePillarCaps{
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--vaa-muted);
+}
+
+.vaaPage .vaaServicePillarArrow{
+    display: inline-flex;
+    color: var(--vaa-muted);
+    font-size: 22px;
+    transition: color 350ms var(--vaa-ease), transform 350ms var(--vaa-ease);
+}
+
+.vaaPage .vaaServicePillar:hover{ padding-left: 14px; }
+.vaaPage .vaaServicePillar:hover .vaaServicePillarName{ color: var(--vaa-accent-lt); }
+.vaaPage .vaaServicePillar:hover .vaaServicePillarArrow{ color: var(--vaa-accent); transform: translateX(6px); }
+
+.vaaPage .vaaServicesFoot{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: clamp(30px, 5vh, 52px);
+}
+
+.vaaPage .vaaServicesFoot p{
+    max-width: 40ch;
+    margin: 0;
+    color: var(--vaa-muted);
+}
+
+.vaaPage .vaaServicesFootBtns{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+@media (max-width: 767px){
+    .vaaPage .vaaServicePillar{
+        grid-template-columns: auto 1fr;
+    }
+    .vaaPage .vaaServicePillarArrow{ display: none; }
 }
 
 /* ---------- Preloader ---------- */

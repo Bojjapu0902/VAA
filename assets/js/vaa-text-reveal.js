@@ -15,12 +15,17 @@
        which light up in the brand accent instead, so those terms stand out.
 
   Both phases are scrubbed to the same scroll distance: the track's own top
-  to bottom against the viewport. A track exactly one viewport tall (see
-  the Services section) compresses the whole reveal into that one screen's
-  worth of scroll; a taller track held pinned via position:sticky (as the
-  About section does) stretches it into a slower, held reveal. Same script,
-  same effect — the pacing comes from the track's own height/CSS, not this
-  file, so any section can opt in just by using the same markup pattern.
+  to bottom against the viewport. A taller track held pinned via
+  position:sticky (both About and Services use this) stretches the reveal
+  into a slower, held pass — the pacing comes from the track's own
+  height/CSS, not this file, so any section can opt in just by using the
+  same markup pattern.
+
+  A track carrying data-reveal-zoom-out gets a third phase appended once the
+  two above finish: the whole text element scales up and fades out, as if
+  pushed toward the screen. It runs against the same scrubbed timeline, so it
+  only plays once the track has scroll room left over after the letters
+  finish lighting up (see .vaaServicesTrack's extra height).
 ==========================================================================*/
 (function () {
     'use strict';
@@ -28,8 +33,9 @@
     if (!window.gsap || !window.SplitText || !window.ScrollTrigger) return;
     gsap.registerPlugin(SplitText, ScrollTrigger);
 
-    var accentColor = getComputedStyle(document.documentElement)
-        .getPropertyValue('--vaa-accent').trim() || '#c9a96e';
+    var rootStyle = getComputedStyle(document.documentElement);
+    var accentColor = rootStyle.getPropertyValue('--vaa-accent').trim() || '#c9a96e';
+    var textColor = rootStyle.getPropertyValue('--vaa-text').trim() || '#fff';
 
     var tracks = document.querySelectorAll('[data-reveal-track]');
 
@@ -79,11 +85,24 @@
            reading-order sweep */
         tl.to(split.chars, {
             color: function (i, target) {
-                return target.closest('.vaaRevealImportant') ? accentColor : '#fff';
+                return target.closest('.vaaRevealImportant') ? accentColor : textColor;
             },
             duration: 0.4,
             stagger: 0.03,
             ease: 'none'
         }, '>');
+
+        /* Phase 3 (opt-in) — once every letter is lit, the whole line scales
+           up and fades, reading as if it were pushed toward the screen and
+           past it. Runs on the text element itself rather than the split
+           parts, so it moves as one piece instead of drifting apart. */
+        if (track.hasAttribute('data-reveal-zoom-out')) {
+            tl.to(text, {
+                scale: 2.4,
+                opacity: 0,
+                duration: 0.6,
+                ease: 'power1.in'
+            }, '>0.1');
+        }
     });
 }());

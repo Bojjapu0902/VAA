@@ -25,6 +25,20 @@
 <link rel="stylesheet" href="assets/css/vaa-custom.css">
 <!-- END: CSS for <vaa-site-header> -->
 
+<!-- vaa-custom.css turns on native smooth-scroll site-wide for in-page nav
+     (see "html{ scroll-behavior: smooth; }" there). On this page a same-page
+     scroll — clicking a header link to #about, a script-driven scrollTo,
+     even certain gestures some browsers smooth automatically — takes the
+     browser roughly a second to animate scrollY to its target. Every
+     scrub-linked ScrollTrigger effect below (the hero fade, the Selected
+     work stack, the About/Services text reveals) correctly tracks scrollY
+     frame by frame throughout that animation — which means it also visibly
+     lags behind for that whole second, looking exactly like a stuck fade or
+     a frozen stack until the native scroll finally catches up. Turning it
+     off here makes every scroll on this page instant, so ScrollTrigger's own
+     scrub is the only thing ever animating these effects. -->
+<style>:root{ scroll-behavior: auto; }</style>
+
 <script src="assets/js/components/vaa-site-header.js"></script>
 
 </head>
@@ -168,21 +182,83 @@
 </section>
 <!-- END: About -->
 
-<!-- BEGIN: Services intro — one viewport, a big three-line statement that
-     lights up the same way About's paragraph does (vaa-text-reveal.js).
-     No pin here: the track is exactly 100vh, so the whole reveal is scrubbed
-     across just this one screen's worth of scroll instead of a held range. -->
-<section class="vaaServicesStatement" id="services" data-reveal-track>
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12 col-xl-10">
-        <span class="vaaEyebrow">Services</span>
-        <h2 class="vaaServicesTitle" data-reveal-text data-reveal-keywords="help,you">Here's How<br>We Can<br>Help You</h2>
+<!-- BEGIN: Services intro — pinned like About, but with a third act: once
+     every letter has lit up white, data-reveal-zoom-out (read by
+     vaa-text-reveal.js) sends the whole title toward the screen — scaling up
+     and fading — so the extra track height beyond 100vh is scroll runway for
+     that zoom, not just the letter reveal. -->
+<section class="vaaServicesStatement" id="services">
+  <div class="vaaServicesTrack" data-reveal-track data-reveal-zoom-out>
+    <div class="vaaServicesViewport">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-xl-10">
+            <span class="vaaEyebrow">Services</span>
+            <h2 class="vaaServicesTitle" data-reveal-text>Here's How<br>We Can<br>Help <span class="vaaServicesAccent">You</span></h2>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 <!-- END: Services intro -->
+
+<!-- BEGIN: Services grid — three pillars, each the same package copy
+     services.html breaks the full twelve capabilities into. A teaser, not
+     the deep dive: each tile links straight to its package on the services
+     page rather than repeating every capability line here. -->
+<section class="vaaServicesGrid" id="servicesGrid">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-xl-10">
+
+        <div class="vaaServicesPillars">
+
+          <a class="vaaServicePillar" href="services.html#brand">
+            <span class="vaaServicePillarNum">01</span>
+            <span class="vaaServicePillarBody">
+              <span class="vaaServicePillarName">Brand</span>
+              <span class="vaaServicePillarDesc">Identity systems that hold up everywhere — positioning, naming, logo systems and brand guidelines.</span>
+              <span class="vaaServicePillarCaps">Branding &amp; Identity &middot; Creative Design &middot; Content Creation &middot; Print &amp; Outdoor</span>
+            </span>
+            <span class="vaaServicePillarArrow" aria-hidden="true"><i class="boozy-long-r-arrow"></i></span>
+          </a>
+
+          <a class="vaaServicePillar" href="services.html#digital">
+            <span class="vaaServicePillarNum">02</span>
+            <span class="vaaServicePillarBody">
+              <span class="vaaServicePillarName">Digital</span>
+              <span class="vaaServicePillarDesc">Interfaces built to convert, not just impress — research, design systems and responsive builds.</span>
+              <span class="vaaServicePillarCaps">UI/UX &amp; Website Design &middot; Digital Marketing &middot; Social Media &middot; Performance Marketing</span>
+            </span>
+            <span class="vaaServicePillarArrow" aria-hidden="true"><i class="boozy-long-r-arrow"></i></span>
+          </a>
+
+          <a class="vaaServicePillar" href="services.html#media">
+            <span class="vaaServicePillarNum">03</span>
+            <span class="vaaServicePillarBody">
+              <span class="vaaServicePillarName">Media</span>
+              <span class="vaaServicePillarDesc">Attention on every screen and street — campaign platforms, film and on-ground promotions.</span>
+              <span class="vaaServicePillarCaps">Advertising Campaigns &middot; Video &amp; Photography &middot; Events &amp; Promotions &middot; Marketing Strategy</span>
+            </span>
+            <span class="vaaServicePillarArrow" aria-hidden="true"><i class="boozy-long-r-arrow"></i></span>
+          </a>
+
+        </div>
+
+        <div class="vaaServicesFoot">
+          <p>Not sure which of these you need? Tell us the problem and we'll scope it.</p>
+          <div class="vaaServicesFootBtns">
+            <a class="vaaBtn vaaBtn--ghost" href="services.html">View all services</a>
+            <a class="vaaBtn" href="mailto:info@vaidads.com">Start a project</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+<!-- END: Services grid -->
 
 <!-- GSAP core + SplitText + ScrollTrigger (free, bundled since GSAP 3.13) -->
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
